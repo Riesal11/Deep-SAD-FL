@@ -45,6 +45,7 @@ class DeepSAD(object):
             'test_auc': None,
             'test_time': None,
             'test_scores': None,
+            'test_loss':None
         }
 
         self.ae_results = {
@@ -84,6 +85,7 @@ class DeepSAD(object):
         self.results['test_auc'] = self.trainer.test_auc
         self.results['test_time'] = self.trainer.test_time
         self.results['test_scores'] = self.trainer.test_scores
+        self.results['test_loss'] = self.trainer.test_loss
 
     def pretrain(self, dataset: BaseADDataset, optimizer_name: str = 'adam', lr: float = 0.001, n_epochs: int = 100,
                  lr_milestones: tuple = (), batch_size: int = 128, weight_decay: float = 1e-6, device: str = 'cuda',
