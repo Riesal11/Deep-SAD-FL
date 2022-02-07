@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import logging
 
 from base.base_net import BaseNet
 
@@ -8,6 +9,9 @@ class MLP(BaseNet):
 
     def __init__(self, x_dim, h_dims=[128, 64], rep_dim=32, bias=False):
         super().__init__()
+
+        logger = logging.getLogger()
+        logger.info(f'''MLP Settings h_dims = {h_dims}, rep_dim = {rep_dim}''')
 
         self.rep_dim = rep_dim
 
