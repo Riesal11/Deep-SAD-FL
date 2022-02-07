@@ -31,6 +31,7 @@ class DeepSADTrainer(BaseTrainer):
         self.test_auc = None
         self.test_time = None
         self.test_scores = None
+        self.test_loss = None
 
     def train(self, dataset: BaseADDataset, net: BaseNet):
         logger = logging.getLogger()
@@ -142,6 +143,7 @@ class DeepSADTrainer(BaseTrainer):
         labels = np.array(labels)
         scores = np.array(scores)
         self.test_auc = roc_auc_score(labels, scores)
+        self.test_loss = epoch_loss / n_batches
 
         # Log results
         logger.info('Test Loss: {:.6f}'.format(epoch_loss / n_batches))
