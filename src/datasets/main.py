@@ -2,6 +2,8 @@ from .mnist import MNIST_Dataset
 from .fmnist import FashionMNIST_Dataset
 from .cifar10 import CIFAR10_Dataset
 from .odds import ODDSADDataset
+from .iiot import IIOTADDataset
+
 
 
 def load_dataset(dataset_name, data_path, normal_class, known_outlier_class, n_known_outlier_classes: int = 0,
@@ -10,7 +12,7 @@ def load_dataset(dataset_name, data_path, normal_class, known_outlier_class, n_k
     """Loads the dataset."""
 
     implemented_datasets = ('mnist', 'fmnist', 'cifar10',
-                            'arrhythmia', 'cardio', 'satellite', 'satimage-2', 'shuttle', 'thyroid')
+                            'arrhythmia', 'cardio', 'satellite', 'satimage-2', 'shuttle', 'thyroid', 'iiot')
     assert dataset_name in implemented_datasets
 
     dataset = None
@@ -50,5 +52,14 @@ def load_dataset(dataset_name, data_path, normal_class, known_outlier_class, n_k
                                 ratio_known_outlier=ratio_known_outlier,
                                 ratio_pollution=ratio_pollution,
                                 random_state=random_state)
+
+    if dataset_name == 'iiot':
+        dataset = IIOTADDataset(root=data_path,
+                            dataset_name=dataset_name,
+                            n_known_outlier_classes=n_known_outlier_classes,
+                            ratio_known_normal=ratio_known_normal,
+                            ratio_known_outlier=ratio_known_outlier,
+                            ratio_pollution=ratio_pollution,
+                            random_state=random_state)
 
     return dataset

@@ -1,11 +1,12 @@
 import torch
 import numpy as np
+import logging
 
 
 def create_semisupervised_setting(labels, normal_classes, outlier_classes, known_outlier_classes,
                                   ratio_known_normal, ratio_known_outlier, ratio_pollution):
     """
-    Create a semi-supervised data setting. 
+    Create a semi-supervised data setting.
     :param labels: np.array with labels of all dataset samples
     :param normal_classes: tuple with normal class labels
     :param outlier_classes: tuple with anomaly class labels
@@ -15,6 +16,9 @@ def create_semisupervised_setting(labels, normal_classes, outlier_classes, known
     :param ratio_pollution: the desired pollution ratio of the unlabeled data with unknown (unlabeled) anomalies.
     :return: tuple with list of sample indices, list of original labels, and list of semi-supervised labels
     """
+    logger = logging.getLogger()
+    logger.info(f'{len(labels)} samples')
+
     idx_normal = np.argwhere(np.isin(labels, normal_classes)).flatten()
     idx_outlier = np.argwhere(np.isin(labels, outlier_classes)).flatten()
     idx_known_outlier_candidates = np.argwhere(np.isin(labels, known_outlier_classes)).flatten()
@@ -31,9 +35,16 @@ def create_semisupervised_setting(labels, normal_classes, outlier_classes, known
 
     # Get number of samples
     n_known_normal = int(x[0])
+    logger.info(f'{n_known_normal} labeled normal samples')
+
     n_unlabeled_normal = int(x[1])
+    logger.info(f'{n_unlabeled_normal} unlabeled normal samples')
+
     n_unlabeled_outlier = int(x[2])
+    logger.info(f'{n_unlabeled_outlier} unlabeled outlier samples')
+
     n_known_outlier = int(x[3])
+    logger.info(f'{n_known_outlier} labeled outlier samples')
 
     # Sample indices
     perm_normal = np.random.permutation(n_normal)
