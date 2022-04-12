@@ -2,18 +2,23 @@ from .mnist_LeNet import MNIST_LeNet, MNIST_LeNet_Autoencoder
 from .fmnist_LeNet import FashionMNIST_LeNet, FashionMNIST_LeNet_Autoencoder
 from .cifar10_LeNet import CIFAR10_LeNet, CIFAR10_LeNet_Autoencoder
 from .mlp import MLP, MLP_Autoencoder
+from .mlp_emb import MLP_emb
 from .vae import VariationalAutoencoder
 from .dgm import DeepGenerativeModel, StackedDeepGenerativeModel
 
+import logging
 
-def build_network(net_name, ae_net=None):
+
+def build_network(net_name, h1, ae_net=None):
     """Builds the neural network."""
+
+    logger = logging.getLogger()
 
     implemented_networks = ('mnist_LeNet', 'mnist_DGM_M2', 'mnist_DGM_M1M2',
                             'fmnist_LeNet', 'fmnist_DGM_M2', 'fmnist_DGM_M1M2',
                             'cifar10_LeNet', 'cifar10_DGM_M2', 'cifar10_DGM_M1M2',
                             'arrhythmia_mlp', 'cardio_mlp', 'satellite_mlp', 'satimage-2_mlp', 'shuttle_mlp',
-                            'thyroid_mlp','iiot_mlp',
+                            'thyroid_mlp','iiot_no_cat', 'iiot_emb','iiot_no_emb',
                             'arrhythmia_DGM_M2', 'cardio_DGM_M2', 'satellite_DGM_M2', 'satimage-2_DGM_M2',
                             'shuttle_DGM_M2', 'thyroid_DGM_M2')
     assert net_name in implemented_networks
@@ -65,9 +70,20 @@ def build_network(net_name, ae_net=None):
     if net_name == 'thyroid_mlp':
         net = MLP(x_dim=6, h_dims=[32, 16], rep_dim=4, bias=False)
 
-    if net_name == 'iiot_mlp':
-        net = MLP(x_dim=41, h_dims=[32, 16], rep_dim=4, bias=False)
+    if net_name == 'iiot_no_cat':
+        logger.info(f'''Network architecture: [38, {h1}, {h1/2}, {h1/4}]''')
+        net = MLP(x_dim=38, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
 
+    if net_name == 'iiot_emb':
+        logger.info(f'''Network architecture: [38 cont + 44 cat, {h1}, {h1/2}, {h1/4}]''')
+        net = MLP_emb(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), emb_dims=[(51057, 30), (7781, 10), (8, 4)], cont_dims = 38, bias=False)
+        #dim for the cat features are difined as: 
+        #[(x, min(50, (x + 1) // 2)) for x in cat_dims]
+
+    if net_name == 'iiot_no_emb':
+        logger.info(f'''Network architecture: [41, {h1}, {h1/2}, {h1/4}]''')
+        net = MLP(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
+    
     if net_name == 'arrhythmia_DGM_M2':
         net = DeepGenerativeModel([274, 2, 32, [128, 64]])
 
@@ -89,14 +105,14 @@ def build_network(net_name, ae_net=None):
     return net
 
 
-def build_autoencoder(net_name):
+def build_autoencoder(net_name, h1):
     """Builds the corresponding autoencoder network."""
 
     implemented_networks = ('mnist_LeNet', 'mnist_DGM_M1M2',
                             'fmnist_LeNet', 'fmnist_DGM_M1M2',
                             'cifar10_LeNet', 'cifar10_DGM_M1M2',
                             'arrhythmia_mlp', 'cardio_mlp', 'satellite_mlp', 'satimage-2_mlp', 'shuttle_mlp',
-                            'thyroid_mlp', 'iiot_mlp')
+                            'thyroid_mlp', 'iiot_no_cat','iiot_no_emb')
 
     assert net_name in implemented_networks
 
@@ -138,7 +154,10 @@ def build_autoencoder(net_name):
     if net_name == 'thyroid_mlp':
         ae_net = MLP_Autoencoder(x_dim=6, h_dims=[32, 16], rep_dim=4, bias=False)
 
-    if net_name == 'iiot_mlp':
-        ae_net = MLP_Autoencoder(x_dim=41, h_dims=[32, 16], rep_dim=4, bias=False)
+    if net_name == 'iiot_no_emb':
+        ae_net = MLP_Autoencoder(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
+
+    if net_name == 'iiot_no_cat':
+        ae_net = MLP_Autoencoder(x_dim=38, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
 
     return ae_net

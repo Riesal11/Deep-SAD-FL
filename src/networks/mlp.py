@@ -7,11 +7,8 @@ from base.base_net import BaseNet
 
 class MLP(BaseNet):
 
-    def __init__(self, x_dim, h_dims=[128, 64], rep_dim=32, bias=False):
+    def __init__(self, x_dim, h_dims=[32, 16], rep_dim=8, bias=False):
         super().__init__()
-
-        logger = logging.getLogger()
-        logger.info(f'''MLP Settings h_dims = {h_dims}, rep_dim = {rep_dim}''')
 
         self.rep_dim = rep_dim
 
@@ -26,7 +23,6 @@ class MLP(BaseNet):
         for layer in self.hidden:
             x = layer(x)
         return self.code(x)
-
 
 class MLP_Decoder(BaseNet):
 
