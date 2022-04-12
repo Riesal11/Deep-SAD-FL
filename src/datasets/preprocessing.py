@@ -17,7 +17,6 @@ def create_semisupervised_setting(labels, normal_classes, outlier_classes, known
     :return: tuple with list of sample indices, list of original labels, and list of semi-supervised labels
     """
     logger = logging.getLogger()
-    logger.info(f'{len(labels)} samples')
 
     idx_normal = np.argwhere(np.isin(labels, normal_classes)).flatten()
     idx_outlier = np.argwhere(np.isin(labels, outlier_classes)).flatten()
@@ -35,16 +34,16 @@ def create_semisupervised_setting(labels, normal_classes, outlier_classes, known
 
     # Get number of samples
     n_known_normal = int(x[0])
-    logger.info(f'{n_known_normal} labeled normal samples')
+    logger.info(f'{n_known_normal} labeled normal samples in the trainset')
 
     n_unlabeled_normal = int(x[1])
-    logger.info(f'{n_unlabeled_normal} unlabeled normal samples')
+    logger.info(f'{n_unlabeled_normal} unlabeled normal samples in the trainset')
 
     n_unlabeled_outlier = int(x[2])
-    logger.info(f'{n_unlabeled_outlier} unlabeled outlier samples')
+    logger.info(f'{n_unlabeled_outlier} unlabeled outlier samples in the trainset')
 
     n_known_outlier = int(x[3])
-    logger.info(f'{n_known_outlier} labeled outlier samples')
+    logger.info(f'{n_known_outlier} labeled outlier samples in the trainset')
 
     # Sample indices
     perm_normal = np.random.permutation(n_normal)

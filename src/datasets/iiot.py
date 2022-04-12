@@ -3,12 +3,14 @@ from base.base_dataset import BaseADDataset
 from base.iiot_dataset import IIoTDataset
 from .preprocessing import create_semisupervised_setting
 
+
+
 import torch
 
 
 class IIOTADDataset(BaseADDataset):
 
-    def __init__(self, root: str, dataset_name: str, n_known_outlier_classes: int = 0, ratio_known_normal: float = 0.0,
+    def __init__(self, root: str, dataset_name: str,fl_dataset_index:int = -1, dataset_size: int = -1,net_name: str = 'iiot_no_cat', n_known_outlier_classes: int = 0, ratio_known_normal: float = 0.0,
                  ratio_known_outlier: float = 0.0, ratio_pollution: float = 0.0, random_state=None):
         super().__init__(root)
 
@@ -23,7 +25,7 @@ class IIOTADDataset(BaseADDataset):
             self.known_outlier_classes = (1,)
 
         # Get train set
-        train_set = IIoTDataset(root=self.root, dataset_name=dataset_name, train=True, random_state=random_state)
+        train_set = IIoTDataset(root=self.root, dataset_name=dataset_name,fl_dataset_index=fl_dataset_index,dataset_size=dataset_size,net_name=net_name,train=True, random_state=random_state)
 
         # Create semi-supervised setting
         idx, _, semi_targets = create_semisupervised_setting(train_set.targets.cpu().data.numpy(), self.normal_classes,
@@ -35,7 +37,7 @@ class IIOTADDataset(BaseADDataset):
         self.train_set = Subset(train_set, idx)
 
         # Get test set
-        self.test_set = IIoTDataset(root=self.root, dataset_name=dataset_name, train=False, random_state=random_state)
+        self.test_set = IIoTDataset(root=self.root, dataset_name=dataset_name,fl_dataset_index=fl_dataset_index,dataset_size=dataset_size,net_name=net_name, train=False, random_state=random_state)
 
     def loaders(self, batch_size: int, shuffle_train=True, shuffle_test=False, num_workers: int = 0) -> (
             DataLoader, DataLoader):

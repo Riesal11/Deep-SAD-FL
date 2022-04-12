@@ -5,8 +5,7 @@ from .odds import ODDSADDataset
 from .iiot import IIOTADDataset
 
 
-
-def load_dataset(dataset_name, data_path, normal_class, known_outlier_class, n_known_outlier_classes: int = 0,
+def load_dataset(dataset_name, data_path,fl_dataset_index,dataset_size,net_name,normal_class, known_outlier_class, n_known_outlier_classes: int = 0,
                  ratio_known_normal: float = 0.0, ratio_known_outlier: float = 0.0, ratio_pollution: float = 0.0,
                  random_state=None):
     """Loads the dataset."""
@@ -56,6 +55,9 @@ def load_dataset(dataset_name, data_path, normal_class, known_outlier_class, n_k
     if dataset_name == 'iiot':
         dataset = IIOTADDataset(root=data_path,
                             dataset_name=dataset_name,
+                            fl_dataset_index=fl_dataset_index,
+                            dataset_size=dataset_size,
+                            net_name=net_name,
                             n_known_outlier_classes=n_known_outlier_classes,
                             ratio_known_normal=ratio_known_normal,
                             ratio_known_outlier=ratio_known_outlier,
