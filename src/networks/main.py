@@ -71,17 +71,17 @@ def build_network(net_name, h1, ae_net=None):
         net = MLP(x_dim=6, h_dims=[32, 16], rep_dim=4, bias=False)
 
     if net_name == 'iiot_no_cat':
-        logger.info(f'''Network architecture: [38, {h1}, {h1/2}, {h1/4}]''')
+        logger.info(f'''Network architecture: [38, {int(h1)}, {int(h1/2)}, {int(h1/4)}]''')
         net = MLP(x_dim=38, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
 
     if net_name == 'iiot_emb':
-        logger.info(f'''Network architecture: [38 cont + 44 cat, {h1}, {h1/2}, {h1/4}]''')
+        logger.info(f'''Network architecture: [38 cont + 44 cat, {int(h1)}, {int(h1/2)}, {int(h1/4)}]''')
         net = MLP_emb(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), emb_dims=[(51057, 30), (7781, 10), (8, 4)], cont_dims = 38, bias=False)
         #dim for the cat features are difined as: 
         #[(x, min(50, (x + 1) // 2)) for x in cat_dims]
 
     if net_name == 'iiot_no_emb':
-        logger.info(f'''Network architecture: [41, {h1}, {h1/2}, {h1/4}]''')
+        logger.info(f'''Network architecture: [41, {int(h1)}, {int(h1/2)}, {int(h1/4)}]''')
         net = MLP(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
     
     if net_name == 'arrhythmia_DGM_M2':
