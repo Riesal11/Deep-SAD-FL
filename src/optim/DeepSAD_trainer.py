@@ -3,6 +3,10 @@ from base.base_dataset import BaseADDataset
 from base.base_net import BaseNet
 from torch.utils.data.dataloader import DataLoader
 from sklearn.metrics import roc_auc_score
+from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import auc
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
 
 import logging
 import time
@@ -32,6 +36,7 @@ class DeepSADTrainer(BaseTrainer):
         self.test_time = None
         self.test_scores = None
         self.test_loss = None
+        self.test_f1 = None
 
     def train(self, dataset: BaseADDataset, net: BaseNet):
         logger = logging.getLogger()
@@ -142,12 +147,23 @@ class DeepSADTrainer(BaseTrainer):
         _, labels, scores = zip(*idx_label_score)
         labels = np.array(labels)
         scores = np.array(scores)
+        
         self.test_auc = roc_auc_score(labels, scores)
+        precision, recall, thresholds = precision_recall_curve(labels, scores)
+
+        np.seterr(invalid='ignore')
+        fscore = (2 * precision * recall) / (precision + recall)
+        ix = np.nanargmax(fscore)
+
+        self.test_f1 = fscore[ix]
         self.test_loss = epoch_loss / n_batches
 
         # Log results
         logger.info('Test Loss: {:.6f}'.format(epoch_loss / n_batches))
-        logger.info('Test AUC: {:.2f}%'.format(100. * self.test_auc))
+        logger.info(f'Anomaly scores ranges from {min(scores)} to {max(scores)}')
+        logger.info(f'Best Threshold {thresholds[ix]} with the F1-score {fscore[ix]}')
+        logger.info('Test PR-AUC: {:.2f}%'.format(100. * auc(recall,precision)))
+        logger.info('Test ROC-AUC: {:.2f}%'.format(100. * self.test_auc))
         logger.info('Test Time: {:.3f}s'.format(self.test_time))
         logger.info('Finished testing.')
 
