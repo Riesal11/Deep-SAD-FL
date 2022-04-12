@@ -3,6 +3,7 @@ import torch
 
 from base.base_dataset import BaseADDataset
 from networks.main import build_network, build_autoencoder
+from networks.mlp import MLP
 from optim.DeepSAD_trainer import DeepSADTrainer
 from optim.ae_trainer import AETrainer
 
@@ -45,7 +46,8 @@ class DeepSAD(object):
             'test_auc': None,
             'test_time': None,
             'test_scores': None,
-            'test_loss':None
+            'test_loss':None,
+            'test_f1':None
         }
 
         self.ae_results = {
@@ -54,10 +56,10 @@ class DeepSAD(object):
             'test_time': None
         }
 
-    def set_network(self, net_name):
+    def set_network(self, net_name, h1: int = 32):
         """Builds the neural network phi."""
         self.net_name = net_name
-        self.net = build_network(net_name)
+        self.net = build_network(net_name, h1)
 
     def train(self, dataset: BaseADDataset, optimizer_name: str = 'adam', lr: float = 0.001, n_epochs: int = 50,
               lr_milestones: tuple = (), batch_size: int = 128, weight_decay: float = 1e-6, device: str = 'cuda',
@@ -86,15 +88,16 @@ class DeepSAD(object):
         self.results['test_time'] = self.trainer.test_time
         self.results['test_scores'] = self.trainer.test_scores
         self.results['test_loss'] = self.trainer.test_loss
+        self.results['test_f1'] = self.trainer.test_f1
 
-    def pretrain(self, dataset: BaseADDataset, optimizer_name: str = 'adam', lr: float = 0.001, n_epochs: int = 100,
+
+    def pretrain(self, dataset: BaseADDataset, optimizer_name: str = 'adam', h1: int = 32, lr: float = 0.001, n_epochs: int = 100,
                  lr_milestones: tuple = (), batch_size: int = 128, weight_decay: float = 1e-6, device: str = 'cuda',
                  n_jobs_dataloader: int = 0):
         """Pretrains the weights for the Deep SAD network phi via autoencoder."""
 
         # Set autoencoder network
-        self.ae_net = build_autoencoder(self.net_name)
-
+        self.ae_net = build_autoencoder(self.net_name, h1)
         # Train
         self.ae_optimizer_name = optimizer_name
         self.ae_trainer = AETrainer(optimizer_name, lr=lr, n_epochs=n_epochs, lr_milestones=lr_milestones,
@@ -147,10 +150,10 @@ class DeepSAD(object):
         self.net.load_state_dict(model_dict['net_dict'])
 
         # load autoencoder parameters if specified
-        if load_ae:
-            if self.ae_net is None:
-                self.ae_net = build_autoencoder(self.net_name)
-            self.ae_net.load_state_dict(model_dict['ae_net_dict'])
+        #if load_ae:
+        #    if self.ae_net is None:
+        #        self.ae_net = build_autoencoder(self.net_name)
+        #    self.ae_net.load_state_dict(model_dict['ae_net_dict'])
 
     def save_results(self, export_json):
         """Save results dict to a JSON-file."""
