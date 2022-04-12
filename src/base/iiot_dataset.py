@@ -18,7 +18,7 @@ class IIoTDataset(Dataset):
 
     url = 'https://www.cse.wustl.edu/~jain/iiot2/ftp/wustl_iiot_2021.zip'
 
-    def __init__(self, root: str, dataset_name: str,fl_dataset_index=-1, dataset_size=-1,net_name='iiot_no_cat',train=True, random_state=None, download=False):
+    def __init__(self, root: str, dataset_name: str,fl_dataset_index=-1, dataset_size=-1,net_name='iiot_no_cat',train=True, random_state=None, download=True):
         super(Dataset, self).__init__()
 
         self.classes = [0, 1]
