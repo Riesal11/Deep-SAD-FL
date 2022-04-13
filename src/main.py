@@ -38,7 +38,7 @@ from datasets.main import load_dataset
                                                    'satimage-2', 'shuttle', 'thyroid', 'iiot']),default='iiot')
 @click.option('--dataset_size', type=int, default=-1,
               help='Defines the size of dataset (only for the iiot dataset). Default -1 = full dataset')
-@click.option('--net_name', type=click.Choice(['mnist_LeNet', 'fmnist_LeNet', 'cifar10_LeNet', 'arrhythmia_mlp',
+@click.option('--net_name', type=click.Choice   (['mnist_LeNet', 'fmnist_LeNet', 'cifar10_LeNet', 'arrhythmia_mlp',
                                                'cardio_mlp', 'satellite_mlp', 'satimage-2_mlp', 'shuttle_mlp',
                                                'thyroid_mlp', 'iiot_no_cat', 'iiot_emb', 'iiot_no_emb']),default='iiot_no_cat',
               help='''For the iiot dataset,the MLP network has different modes for categorical features are available: 
@@ -54,7 +54,7 @@ from datasets.main import load_dataset
               help='Config JSON-file path (default: None).')
 @click.option('--load_model', type=click.Path(exists=True), default=None,
               help='Model file path (default: None).')
-@click.option('--eta', type=float, default=1.0, help='Deep SAD hyperparameter eta (must be 0 < eta).')
+@click.option('--eta', type=float, default=1.0, help='Deep  SAD hyperparameter eta (must be 0 < eta).')
 @click.option('--ratio_known_normal', type=float, default=0.0,
               help='Ratio of known (labeled) normal training examples.')
 @click.option('--ratio_known_outlier', type=float, default=0.01,
@@ -187,8 +187,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                 'fl_dataset_index':fl_dataset_index,
                 'dataset_size': dataset_size,
                 'net_name': net_name,
-                #'random_state': np.random.RandomState(cfg.settings['seed']),
-                'random_state': cfg.settings['seed'],
+                'random_state': np.random.RandomState(cfg.settings['seed']),
                 'device': device,
                 'normal_class': normal_class,
                 'known_outlier_class': known_outlier_class, 
@@ -205,7 +204,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         searcher = HyperOptSearch()
         scheduler = ASHAScheduler()
         ray.init()
-        analysis = tune.run(train_tune,config=tune_config, resources_per_trial={"gpu": 0.4}, 
+        analysis = tune.run(train_tune,config=tune_config, 
                             metric="f_score", mode="max", num_samples=12,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="f_score", mode="max")}')
         return
@@ -225,7 +224,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         deepSAD.set_network(net_name = net_name,h1=net_h1)
         net = deepSAD.net
         client = FL_Client(deepSAD,dataset,net,cfg.settings, device,n_jobs_dataloader)
-        fl.client.start_numpy_client("localhost:8080", client)
+        fl.client.start_numpy_client("localhost:24338", client)
         return
 
     if fl_mode == 'server':
@@ -233,15 +232,15 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: server')
-        fl.server.start_server(config={"num_rounds": fl_num_rounds})
+        fl.server.start_server(server_address = 'localhost:24338',config={"num_rounds": fl_num_rounds})
         return
 
 
     # Load data
     dataset = load_dataset(dataset_name, data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
                            ratio_known_normal, ratio_known_outlier, ratio_pollution,
-                           #random_state=np.random.RandomState(cfg.settings['seed']))
-                           random_state=cfg.settings['seed'])
+                           random_state=np.random.RandomState(cfg.settings['seed']))
+
     # Log random sample of known anomaly classes if more than 1 class
     if n_known_outlier_classes > 1:
         logger.info('Known anomaly classes: %s' % (dataset.known_outlier_classes,))
