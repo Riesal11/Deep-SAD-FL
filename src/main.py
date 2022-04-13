@@ -204,7 +204,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         searcher = HyperOptSearch()
         scheduler = ASHAScheduler()
         ray.init()
-        analysis = tune.run(train_tune,config=tune_config, 
+        analysis = tune.run(train_tune,config=tune_config, resources_per_trial={"gpu": 1, "cpu":2},
                             metric="f_score", mode="max", num_samples=12,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="f_score", mode="max")}')
         return
