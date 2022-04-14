@@ -181,7 +181,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         logger.info('Hyperparameter search space: batch size [64, 128 , 256]')
 
         tune_config = {"lr" : tune.choice([0.0001, 0.001, 0.01, 0.1]),
-                'h1' : tune.choice([16,32,64,128]),
+                'h1' : tune.choice([16,32,64]),
                 'bs': tune.choice([64, 128 , 256]),
                 #'data_path': data_path,
                 #'fl_dataset_index':fl_dataset_index,
@@ -205,7 +205,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         scheduler = ASHAScheduler()
         ray.init()
         analysis = tune.run(train_tune,config=tune_config, resources_per_trial={"gpu": 1, "cpu":2},
-                            metric="f_score", mode="max", num_samples=12,scheduler=scheduler, search_alg=searcher)
+                            metric="f_score", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="f_score", mode="max")}')
         return
 
