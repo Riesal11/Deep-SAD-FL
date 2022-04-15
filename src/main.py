@@ -71,7 +71,7 @@ from datasets.main import load_dataset
 @click.option('--lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--batch_size', type=int, default=128, help='Batch size for mini-batch training.')
-@click.option('--weight_decay', type=float, default=0.5e-6,
+@click.option('--weight_decay', type=float, default=1e-6,
               help='Weight decay (L2 penalty) hyperparameter for Deep SAD objective.')
 @click.option('--pretrain', type=bool, default=False,
               help='Pretrain neural network parameters via autoencoder.')
@@ -83,7 +83,7 @@ from datasets.main import load_dataset
 @click.option('--ae_lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--ae_batch_size', type=int, default=128, help='Batch size for mini-batch autoencoder training.')
-@click.option('--ae_weight_decay', type=float, default=0.5e-6,
+@click.option('--ae_weight_decay', type=float, default=1e-6,
               help='Weight decay (L2 penalty) hyperparameter for autoencoder objective.')
 @click.option('--num_threads', type=int, default=0,
               help='Number of threads used for parallelizing CPU operations. 0 means that all resources are used.')
@@ -182,7 +182,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
         tune_config = {"lr" : tune.choice([0.0001, 0.001, 0.01, 0.1]),
                 'h1' : tune.choice([16,32,64]),
-                'bs': tune.choice([64, 128 , 256]),
+                'bs': tune.choice([64,128,256]),
                 #'data_path': data_path,
                 #'fl_dataset_index':fl_dataset_index,
                 #'dataset_size': dataset_size,
@@ -204,7 +204,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         searcher = HyperOptSearch()
         scheduler = ASHAScheduler()
         ray.init()
-        analysis = tune.run(train_tune,config=tune_config, resources_per_trial={"gpu": 1, "cpu":2},
+        analysis = tune.run(train_tune,config=tune_config,
                             metric="f_score", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="f_score", mode="max")}')
         return
