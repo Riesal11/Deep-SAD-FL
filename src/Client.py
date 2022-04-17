@@ -1,12 +1,16 @@
 import flwr as fl
+import numpy as np
+import torch
+from collections import OrderedDict
+from typing import Dict, List, Tuple
 
 
 class FL_Client(fl.client.NumPyClient):
 
-    def __init__(self,model,dataset,net,config,device,n_jobs_dataloader):
+    def __init__(self,model,dataset,config,device,n_jobs_dataloader):
         self.model = model
         self.dataset = dataset
-        self.net = net
+        self.net = self.model.net
         self.optimizer_name = config['optimizer_name']
         self.lr = config['lr']
         self.device = device
@@ -21,8 +25,17 @@ class FL_Client(fl.client.NumPyClient):
     def get_parameters(self):
         return [val.cpu().numpy() for _, val in self.net.state_dict().items()]
 
-    def fit(self, parameters, config):
+    def set_parameters(self, parameters: List[np.ndarray]):
+        params_dict = zip(self.net.state_dict().keys(), parameters)
+        state_dict = OrderedDict({k: torch.from_numpy(v) for k, v in params_dict})
+        self.net.load_state_dict(state_dict)
+        #print("Model's state_dict:")
+        #for param_tensor in self.model.net.state_dict():
+        #    print(param_tensor, "\t", self.model.net.state_dict()[param_tensor].size())
 
+
+    def fit(self, parameters, config):
+        self.set_parameters(parameters)
         self.model.train(self.dataset,
                         optimizer_name=self.optimizer_name,
                         device=self.device,
@@ -33,9 +46,10 @@ class FL_Client(fl.client.NumPyClient):
                         weight_decay=self.weight_decay,
                         n_jobs_dataloader=self.n_jobs_dataloader)
         parameters = self.get_parameters()
-        return parameters, self.num_examples["trainset"]
+        return parameters, self.num_examples["trainset"], {}
 
     def evaluate(self, parameters, config):
+        self.set_parameters(parameters)
         self.model.test(self.dataset,device=self.device, n_jobs_dataloader=self.n_jobs_dataloader)
         loss = self.model.results['test_loss']
         return float(loss), self.num_examples["testset"], {}
