@@ -127,37 +127,39 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
     logger.addHandler(file_handler)
 
     # Print paths
-    logger.info('Log file is %s' % log_file)
-    logger.info('Data path is %s' % data_path)
-    logger.info('Export path is %s' % xp_path)
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    if num_threads > 0:
-        torch.set_num_threads(num_threads)
+    
+    logger.info('Log file is %s' % log_file)
     logger.info('Computation device: %s' % device)
-    logger.info('Number of threads: %d' % num_threads)
-    logger.info('Number of dataloader workers: %d' % n_jobs_dataloader)
+    
+    if fl_mode != 'server':
+        logger.info('Data path is %s' % data_path)
+        logger.info('Export path is %s' % xp_path)
 
-    # Print experimental setup
-    logger.info('Net: %s' % net_name)
-    logger.info('Dataset: %s' % dataset_name)
-    logger.info('Normal class: %d' % normal_class)
-    logger.info('Ratio of labeled normal train samples: %.2f' % ratio_known_normal)
-    logger.info('Ratio of labeled anomalous samples: %.2f' % ratio_known_outlier)
-    logger.info('Pollution ratio of unlabeled train data: %.2f' % ratio_pollution)
-    if n_known_outlier_classes == 1:
-        logger.info('Known anomaly class: %d' % known_outlier_class)
-    else:
-        logger.info('Number of known anomaly classes: %d' % n_known_outlier_classes)
+        if num_threads > 0:
+            torch.set_num_threads(num_threads)
+        logger.info('Number of threads: %d' % num_threads)
+        logger.info('Number of dataloader workers: %d' % n_jobs_dataloader)
+
+        # Print experimental setup
+        logger.info('Net: %s' % net_name)
+        logger.info('Dataset: %s' % dataset_name)
+        logger.info('Normal class: %d' % normal_class)
+        logger.info('Ratio of labeled normal train samples: %.2f' % ratio_known_normal)
+        logger.info('Ratio of labeled anomalous samples: %.2f' % ratio_known_outlier)
+        logger.info('Pollution ratio of unlabeled train data: %.2f' % ratio_pollution)
+        if n_known_outlier_classes == 1:
+            logger.info('Known anomaly class: %d' % known_outlier_class)
+        else:
+            logger.info('Number of known anomaly classes: %d' % n_known_outlier_classes)
+        # Print model configuration
+        logger.info('Eta-parameter: %.2f' % cfg.settings['eta'])
         
     # If specified, load experiment config from JSON-file
     if load_config:
         cfg.load_config(import_json=load_config)
         logger.info('Loaded configuration from %s.' % load_config)
 
-    # Print model configuration
-    logger.info('Eta-parameter: %.2f' % cfg.settings['eta'])
 
     # Set seed
     if cfg.settings['seed'] != -1:
@@ -222,17 +224,17 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                            
         deepSAD = DeepSAD(cfg.settings['eta'])
         deepSAD.set_network(net_name = net_name,h1=net_h1)
-        net = deepSAD.net
-        client = FL_Client(deepSAD,dataset,net,cfg.settings, device,n_jobs_dataloader)
-        fl.client.start_numpy_client("localhost:24338", client)
+        client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader)
+        fl.client.start_numpy_client("localhost:8080", client)
         return
 
     if fl_mode == 'server':
+        strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_eval_clients=2,min_available_clients=2)
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: server')
-        fl.server.start_server(server_address = 'localhost:24338',config={"num_rounds": fl_num_rounds})
+        fl.server.start_server(server_address = 'localhost:8080',strategy=strategy,config={"num_rounds": fl_num_rounds})
         return
 
 
@@ -336,3 +338,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
 if __name__ == '__main__':
     main()
+
+
+
