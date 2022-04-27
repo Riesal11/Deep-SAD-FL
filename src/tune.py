@@ -13,7 +13,7 @@ def train_tune(config,checkpoint_dir=None):
     #config['ratio_known_outlier'], config['ratio_pollution'], random_state=config['random_state'])
     dataset = load_dataset('iiot', data_path='/content/Deep-SAD-FL/data',
               fl_dataset_index=-1, dataset_size=-1,net_name='iiot_no_cat',normal_class=0, known_outlier_class=1,n_known_outlier_classes=1, 
-              ratio_known_outlier=0.01,ratio_pollution=0.05,random_state=np.random.RandomState(1))
+              ratio_known_outlier=0.01,ratio_pollution=0.05,random_state=1)
     deepSAD = DeepSAD(eta=1)
     deepSAD.set_network('iiot_no_cat',h1=config['h1']) #first hidden layer of the neuronal network
 

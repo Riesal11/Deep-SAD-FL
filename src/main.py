@@ -220,7 +220,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         logger.info('Federated mode: client')
         dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
                            ratio_known_normal, ratio_known_outlier, ratio_pollution,
-                           random_state=np.random.RandomState(cfg.settings['seed']))
+                           random_state=cfg.settings['seed'])
                            
         deepSAD = DeepSAD(cfg.settings['eta'])
         deepSAD.set_network(net_name = net_name,h1=net_h1)
@@ -241,7 +241,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
     # Load data
     dataset = load_dataset(dataset_name, data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
                            ratio_known_normal, ratio_known_outlier, ratio_pollution,
-                           random_state=np.random.RandomState(cfg.settings['seed']))
+                           random_state=cfg.settings['seed'])
 
     # Log random sample of known anomaly classes if more than 1 class
     if n_known_outlier_classes > 1:
