@@ -75,8 +75,13 @@ def build_network(net_name, h1, ae_net=None):
         net = MLP(x_dim=38, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
 
     if net_name == 'iiot_emb':
-        logger.info(f'''Network architecture: [38 cont + 44 cat, {int(h1)}, {int(h1/2)}, {int(h1/4)}]''')
-        net = MLP_emb(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), emb_dims=[(51057, 30), (7781, 10), (8, 4)], cont_dims = 38, bias=False)
+        emb1 = 15
+        emb2 = 5
+        emb3 = 4
+        emb_sum = emb1 + emb2 + emb3
+        logger.info(f'''Network architecture: [38 cont + {emb_sum} cat emb, {int(h1)}, {int(h1/2)}, {int(h1/4)}]''')
+        logger.info(f'''Embedding layer dimension: {emb1}, {emb2}, {emb3}''')
+        net = MLP_emb(x_dim=41, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), emb_dims=[(51057, emb1), (7781, emb2), (8, emb3)], cont_dims = 38, bias=False)
         #dim for the cat features are difined as: 
         #[(x, min(50, (x + 1) // 2)) for x in cat_dims]
 

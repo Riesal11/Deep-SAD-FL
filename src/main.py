@@ -179,7 +179,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         
         logger.info('Hyperparameter tuning runs with HyperOptSearch and ASHAScheduler')
         logger.info('Hyperparameter search space: learning rate [0.0001, 0.001, 0.01, 0.1]')
-        logger.info('Hyperparameter search space: neurons of the 1st hidden layer [16,32,64,128]')
+        logger.info('Hyperparameter search space: neurons of the 1st hidden layer [16,32,64]')
         logger.info('Hyperparameter search space: batch size [64, 128 , 256]')
 
         tune_config = {"lr" : tune.choice([0.0001, 0.001, 0.01, 0.1]),
