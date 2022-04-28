@@ -37,6 +37,11 @@ class DeepSADTrainer(BaseTrainer):
         self.test_scores = None
         self.test_loss = None
         self.test_f1 = None
+        self.test_precision = None
+        self.test_recall = None
+        self.test_precision_norm = None
+        self.test_recall_norm = None
+        self.test_f1_norm = None
 
     def train(self, dataset: BaseADDataset, net: BaseNet):
         logger = logging.getLogger()
@@ -150,18 +155,30 @@ class DeepSADTrainer(BaseTrainer):
         
         self.test_auc = roc_auc_score(labels, scores)
         precision, recall, thresholds = precision_recall_curve(labels, scores)
+        precision_norm, recall_norm, thresholds_norm = precision_recall_curve(labels, scores, pos_label=0)
 
         np.seterr(invalid='ignore')
         fscore = (2 * precision * recall) / (precision + recall)
         ix = np.nanargmax(fscore)
 
         self.test_f1 = fscore[ix]
+        self.test_precision = precision[ix]
+        self.test_recall = recall[ix]
+        self.test_precision_norm = precision_norm[ix]
+        self.test_recall_norm = recall_norm[ix]
+        self.test_f1_norm = (2 * precision_norm[ix] * recall_norm[ix]) / (precision_norm[ix] + recall_norm[ix])
+
         self.test_loss = epoch_loss / n_batches
 
         # Log results
         logger.info('Test Loss: {:.6f}'.format(epoch_loss / n_batches))
         logger.info(f'Anomaly scores ranges from {min(scores)} to {max(scores)}')
         logger.info(f'Best Threshold {thresholds[ix]} with the F1-score {fscore[ix]}')
+        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the precision {precision[ix]}')
+        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the recall {recall[ix]}')
+        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the precision of the normal class {precision_norm[ix]}')
+        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the recall of the normal class {recall_norm[ix]}')
+        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the F1-score of the normal class {self.test_f1_norm}')
         logger.info('Test PR-AUC: {:.2f}%'.format(100. * auc(recall,precision)))
         logger.info('Test ROC-AUC: {:.2f}%'.format(100. * self.test_auc))
         logger.info('Test Time: {:.3f}s'.format(self.test_time))

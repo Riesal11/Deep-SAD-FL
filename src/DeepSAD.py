@@ -47,7 +47,12 @@ class DeepSAD(object):
             'test_time': None,
             'test_scores': None,
             'test_loss':None,
-            'test_f1':None
+            'test_f1':None,
+            'test_precision':None,
+            'test_recall':None,
+            'test_precision_norm':None,
+            'test_recall_norm':None,
+            'test_f1_norm':None
         }
 
         self.ae_results = {
@@ -77,9 +82,13 @@ class DeepSAD(object):
 
     def test(self, dataset: BaseADDataset, device: str = 'cuda', n_jobs_dataloader: int = 0):
         """Tests the Deep SAD model on the test data."""
-
+       
         if self.trainer is None:
             self.trainer = DeepSADTrainer(self.c, self.eta, device=device, n_jobs_dataloader=n_jobs_dataloader)
+
+        #print("Model's state_dict:")
+        #for param_tensor in self.net.state_dict():
+        #    print(param_tensor, "\t", self.net.state_dict()[param_tensor].size())
 
         self.trainer.test(dataset, self.net)
 
@@ -89,6 +98,11 @@ class DeepSAD(object):
         self.results['test_scores'] = self.trainer.test_scores
         self.results['test_loss'] = self.trainer.test_loss
         self.results['test_f1'] = self.trainer.test_f1
+        self.results['test_precision'] = self.trainer.test_precision
+        self.results['test_recall'] = self.trainer.test_recall
+        self.results['test_precision_norm'] = self.trainer.test_precision_norm
+        self.results['test_recall_norm'] = self.trainer.test_recall_norm
+        self.results['test_f1_norm'] = self.trainer.test_f1_norm
 
 
     def pretrain(self, dataset: BaseADDataset, optimizer_name: str = 'adam', h1: int = 32, lr: float = 0.001, n_epochs: int = 100,
