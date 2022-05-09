@@ -2,7 +2,7 @@ from base.base_trainer import BaseTrainer
 from base.base_dataset import BaseADDataset
 from base.base_net import BaseNet
 from torch.utils.data.dataloader import DataLoader
-from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_auc_score, precision_recall_fscore_support
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import auc
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
@@ -154,31 +154,42 @@ class DeepSADTrainer(BaseTrainer):
         scores = np.array(scores)
         
         self.test_auc = roc_auc_score(labels, scores)
-        precision, recall, thresholds = precision_recall_curve(labels, scores)
-        precision_norm, recall_norm, thresholds_norm = precision_recall_curve(labels, scores, pos_label=0)
+        precision, recall, threshold = precision_recall_curve(labels, scores)
 
+        #selecting the threshold that gives the highest f1-score
         np.seterr(invalid='ignore')
         fscore = (2 * precision * recall) / (precision + recall)
         ix = np.nanargmax(fscore)
+        threshold_opt = threshold[ix]
 
-        self.test_f1 = fscore[ix]
-        self.test_precision = precision[ix]
-        self.test_recall = recall[ix]
-        self.test_precision_norm = precision_norm[ix]
-        self.test_recall_norm = recall_norm[ix]
-        self.test_f1_norm = (2 * precision_norm[ix] * recall_norm[ix]) / (precision_norm[ix] + recall_norm[ix])
+        #classifying the anomaly scores based on the selected threshold
+        y_pred = np.where(scores>=threshold_opt, 1, 0)
+
+        #metrics for the anomaly class
+        test_precision, test_recall, test_f1, _ =  precision_recall_fscore_support(labels, y_pred, average='binary')
+        #metrics for the anomaly class
+        test_precision_norm, test_recall_norm, test_f1_norm, _ =  precision_recall_fscore_support(labels, y_pred, pos_label=0, average='binary')
+
+
+        self.test_f1 = test_f1
+        self.test_precision = test_precision
+        self.test_recall = test_recall
+
+        self.test_precision_norm = test_precision_norm
+        self.test_recall_norm = test_recall_norm
+        self.test_f1_norm = test_f1_norm
 
         self.test_loss = epoch_loss / n_batches
 
         # Log results
         logger.info('Test Loss: {:.6f}'.format(epoch_loss / n_batches))
-        logger.info(f'Anomaly scores ranges from {min(scores)} to {max(scores)}')
-        logger.info(f'Best Threshold {thresholds[ix]} with the F1-score {fscore[ix]}')
-        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the precision {precision[ix]}')
-        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the recall {recall[ix]}')
-        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the precision of the normal class {precision_norm[ix]}')
-        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the recall of the normal class {recall_norm[ix]}')
-        logger.info(f'Best Threshold {thresholds[ix]} of the F1-score with the F1-score of the normal class {self.test_f1_norm}')
+        logger.info(f'Anomaly scores range from {min(scores)} to {max(scores)}')
+        logger.info(f'Best Threshold {threshold_opt} with the F1-score {test_f1}')
+        logger.info(f'Precision {test_precision}')
+        logger.info(f'Recall {test_recall}')
+        logger.info(f'Precision of the normal class {test_precision_norm}')
+        logger.info(f'Recall of the normal class {test_recall_norm}')
+        logger.info(f'F1-score of the normal class {test_f1_norm}')
         logger.info('Test PR-AUC: {:.2f}%'.format(100. * auc(recall,precision)))
         logger.info('Test ROC-AUC: {:.2f}%'.format(100. * self.test_auc))
         logger.info('Test Time: {:.3f}s'.format(self.test_time))
