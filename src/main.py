@@ -170,20 +170,19 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         torch.backends.cudnn.deterministic = True
         logger.info('Set seed to %d.' % cfg.settings['seed'])
 
-
-    #Hyperparameter tuning
+        #Hyperparameter tuning
     if hp_tune == True:
         if(dataset_name != 'iiot'):
             logger.info('Hyperparameter tuning is only implemented for the iiot dataset')
             return
         
         logger.info('Hyperparameter tuning runs with HyperOptSearch and ASHAScheduler')
-        logger.info('Hyperparameter search space: learning rate [0.0001, 0.001, 0.01, 0.1]')
-        logger.info('Hyperparameter search space: neurons of the 1st hidden layer [16,32,64]')
-        logger.info('Hyperparameter search space: batch size [64, 128 , 256]')
+        logger.info('Hyperparameter search space: learning rate [0.0001, 0.001, 0.01]')
+        logger.info('Hyperparameter search space: neurons of the 1st hidden layer[32,64,128,256]')
+        logger.info('Hyperparameter search space: batch size [64,128,256]')
 
-        tune_config = {"lr" : tune.choice([0.0001, 0.001, 0.01, 0.1]),
-                'h1' : tune.choice([16,32,64]),
+        tune_config = {"lr" : tune.choice([0.0001, 0.001, 0.01]),
+                'h1' : tune.choice([32,64,128,256]),
                 'bs': tune.choice([64,128,256]),
                 #'data_path': data_path,
                 #'fl_dataset_index':fl_dataset_index,
@@ -205,8 +204,8 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                 }
         searcher = HyperOptSearch()
         scheduler = ASHAScheduler()
-        ray.init()
-        analysis = tune.run(train_tune,config=tune_config,
+        ray.init(num_cpus=2,num_gpus=1)
+        analysis = tune.run(train_tune,config=tune_config,resources_per_trial={'gpu':1,'cpu':2},
                             metric="f_score", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="f_score", mode="max")}')
         return
