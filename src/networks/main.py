@@ -75,9 +75,9 @@ def build_network(net_name, h1, ae_net=None):
         net = MLP(x_dim=38, h_dims=[h1, int(h1/2)], rep_dim=int(h1/4), bias=False)
 
     if net_name == 'iiot_emb':
-        emb1 = 50
-        emb2 = 17
-        emb3 = 4
+        emb1 = 600
+        emb2 = 11
+        emb3 = 5
         emb_sum = emb1 + emb2 + emb3
         logger.info(f'''Network architecture: [38 cont + {emb_sum} cat emb, {int(h1)}, {int(h1/2)}, {int(h1/4)}]''')
         logger.info(f'''Embedding layer dimension: {emb1}, {emb2}, {emb3}''')
