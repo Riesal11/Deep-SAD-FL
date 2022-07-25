@@ -178,11 +178,11 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         
         logger.info('Hyperparameter tuning runs with HyperOptSearch and ASHAScheduler')
         logger.info('Hyperparameter search space: learning rate [0.0001, 0.001, 0.01]')
-        logger.info('Hyperparameter search space: neurons of the 1st hidden layer[32,64,128,256]')
+        logger.info('Hyperparameter search space: neurons of the 1st hidden layer[64,128,256,512]')
         logger.info('Hyperparameter search space: batch size [64,128,256]')
 
         tune_config = {"lr" : tune.choice([0.0001, 0.001, 0.01]),
-                'h1' : tune.choice([32,64,128,256]),
+                'h1' : tune.choice([64,128,256,512]),
                 'bs': tune.choice([64,128,256]),
                 #'data_path': data_path,
                 #'fl_dataset_index':fl_dataset_index,
@@ -206,8 +206,8 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         scheduler = ASHAScheduler()
         ray.init(num_cpus=2,num_gpus=1)
         analysis = tune.run(train_tune,config=tune_config,resources_per_trial={'gpu':1,'cpu':2},
-                            metric="f_score", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
-        logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="f_score", mode="max")}')
+                            metric="roc_auc", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
+        logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="roc_auc", mode="max")}')
         return
 
 
@@ -228,7 +228,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         return
 
     if fl_mode == 'server':
-        strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_eval_clients=2,min_available_clients=2)
+        strategy = fl.server.strategy.FedAvg(min_fit_clients=5,min_eval_clients=5,min_available_clients=5)
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
