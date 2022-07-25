@@ -25,7 +25,7 @@ class DeepSAD(object):
         ae_results: A dictionary to save the autoencoder results.
     """
 
-    def __init__(self, eta: float = 1.0):
+    def __init__(self,log_file: str, eta: float = 1.0):
         """Inits DeepSAD with hyperparameter eta."""
 
         self.eta = eta
@@ -40,6 +40,8 @@ class DeepSAD(object):
         self.ae_net = None  # autoencoder network for pretraining
         self.ae_trainer = None
         self.ae_optimizer_name = None
+
+        self.log_file = log_file
 
         self.results = {
             'train_time': None,
@@ -74,7 +76,7 @@ class DeepSAD(object):
         self.optimizer_name = optimizer_name
         self.trainer = DeepSADTrainer(self.c, self.eta, optimizer_name=optimizer_name, lr=lr, n_epochs=n_epochs,
                                       lr_milestones=lr_milestones, batch_size=batch_size, weight_decay=weight_decay,
-                                      device=device, n_jobs_dataloader=n_jobs_dataloader)
+                                      device=device, n_jobs_dataloader=n_jobs_dataloader,log_file=self.log_file)
         # Get the model
         self.net = self.trainer.train(dataset, self.net)
         self.results['train_time'] = self.trainer.train_time
@@ -84,7 +86,7 @@ class DeepSAD(object):
         """Tests the Deep SAD model on the test data."""
        
         if self.trainer is None:
-            self.trainer = DeepSADTrainer(self.c, self.eta, device=device, n_jobs_dataloader=n_jobs_dataloader)
+            self.trainer = DeepSADTrainer(self.c, self.eta, device=device, n_jobs_dataloader=n_jobs_dataloader,log_file=self.log_file)
 
         #print("Model's state_dict:")
         #for param_tensor in self.net.state_dict():

@@ -3,9 +3,12 @@ from base.base_dataset import BaseADDataset
 from base.base_net import BaseNet
 from torch.utils.data.dataloader import DataLoader
 from sklearn.metrics import roc_auc_score, precision_recall_fscore_support
+from sklearn.metrics import roc_curve
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import auc
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from datetime import datetime
+
 
 
 import logging
@@ -13,15 +16,16 @@ import time
 import torch
 import torch.optim as optim
 import numpy as np
-
+import matplotlib.pyplot as plt
+import tkinter
 
 class DeepSADTrainer(BaseTrainer):
 
-    def __init__(self, c, eta: float, optimizer_name: str = 'adam', lr: float = 0.001, n_epochs: int = 150,
+    def __init__(self, c, eta: float,log_file: str, optimizer_name: str = 'adam', lr: float = 0.001, n_epochs: int = 150,
                  lr_milestones: tuple = (), batch_size: int = 128, weight_decay: float = 1e-6, device: str = 'cuda',
                  n_jobs_dataloader: int = 0):
         super().__init__(optimizer_name, lr, n_epochs, lr_milestones, batch_size, weight_decay, device,
-                         n_jobs_dataloader)
+                         n_jobs_dataloader,log_file)
 
         # Deep SAD parameters
         self.c = torch.tensor(c, device=self.device) if c is not None else None
@@ -42,6 +46,7 @@ class DeepSADTrainer(BaseTrainer):
         self.test_precision_norm = None
         self.test_recall_norm = None
         self.test_f1_norm = None
+        self.log_file = log_file
 
     def train(self, dataset: BaseADDataset, net: BaseNet):
         logger = logging.getLogger()
@@ -151,10 +156,39 @@ class DeepSADTrainer(BaseTrainer):
         # Compute AUC
         _, labels, scores = zip(*idx_label_score)
         labels = np.array(labels)
-        scores = np.array(scores)
-        
+        scores = np.array(scores)      
         self.test_auc = roc_auc_score(labels, scores)
+        fpr, tpr, roc_threshold = roc_curve(labels, scores)
+        plt.figure()
+        plt.title('ROC Curve')
+        plt.plot(fpr, tpr, 'b', label = 'AUC-ROC = {:.2f}%'.format(100. * self.test_auc),linewidth=5)
+        plt.legend(loc = 'lower right')
+        plt.plot([0, 1], [0, 1],'r--')
+        plt.xlim([0, 1])
+        plt.ylim([0, 1])
+        plt.ylabel('True Positive Rate')
+        plt.xlabel('False Positive Rate')
+        today = datetime.now()
+        date_time_1 = today.strftime("%H_%M_%S_%f")
+        print("date and time 1:",date_time_1)
+        plt.savefig(self.log_file + '/auc_roc' + str(date_time_1) + '.png')
+        plt.close()
+
+        plt.figure()
         precision, recall, threshold = precision_recall_curve(labels, scores)
+        plt.title('PR Curve')
+        plt.plot(recall,precision, 'b',label= 'AUC-PR = {:.2f}%'.format(100. * auc(recall,precision)),linewidth=5)
+        plt.legend(loc = 'lower right')
+        plt.plot([0, 1], [0, 1],'r--')
+        plt.xlim([0, 1])
+        plt.ylim([0, 1])
+        plt.ylabel('Precision')
+        plt.xlabel('Recall')
+        date_time_2 = today.strftime("%H_%M_%S_%f")
+        print("date and time 1:",date_time_2)
+        plt.savefig(self.log_file + '/auc_pr' + str(date_time_1) + '.png')
+
+
 
         #selecting the threshold that gives the highest f1-score
         np.seterr(invalid='ignore')
