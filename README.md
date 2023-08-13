@@ -1,5 +1,7 @@
 # Deep SAD: A Method for Deep Semi-Supervised Anomaly Detection
 Original framework: https://github.com/lukasruff/Deep-SAD-PyTorch
+Deep SAD FL: Federated Learning enabled 
+
 
 ## Installation
 This code is written in `Python 3.7` and requires the packages listed in `requirements.txt`.
