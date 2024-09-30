@@ -12,7 +12,7 @@ from Client import FL_Client
 import ray
 from ray import tune
 from ray.tune.schedulers import ASHAScheduler
-from ray.tune.suggest.hyperopt import HyperOptSearch
+from ray.tune.search.hyperopt import HyperOptSearch
 from tune import train_tune
 
 from utils.config import Config
@@ -67,7 +67,7 @@ from datasets.main import load_dataset
               help='Name of the optimizer to use for Deep SAD network training.')
 @click.option('--lr', type=float, default=0.001,
               help='Initial learning rate for Deep SAD network training. Default=0.001')
-@click.option('--n_epochs', type=int, default=50, help='Number of epochs to train.')
+@click.option('--n_epochs', type=int, default=5, help='Number of epochs to train.')     # initial: 50
 @click.option('--lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--batch_size', type=int, default=128, help='Batch size for mini-batch training.')
@@ -79,7 +79,7 @@ from datasets.main import load_dataset
               help='Name of the optimizer to use for autoencoder pretraining.')
 @click.option('--ae_lr', type=float, default=0.001,
               help='Initial learning rate for autoencoder pretraining. Default=0.001')
-@click.option('--ae_n_epochs', type=int, default=50, help='Number of epochs to train autoencoder.')
+@click.option('--ae_n_epochs', type=int, default=5, help='Number of epochs to train autoencoder.') # initial: 50
 @click.option('--ae_lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--ae_batch_size', type=int, default=128, help='Batch size for mini-batch autoencoder training.')
@@ -223,17 +223,18 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                            
         deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
         deepSAD.set_network(net_name = net_name,h1=net_h1)
-        client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader)
-        fl.client.start_numpy_client("localhost:8080", client)
+        client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader)  # .to_client()
+        fl.client.start_client(server_address = "localhost:8080", client = client)
         return
 
     if fl_mode == 'server':
-        strategy = fl.server.strategy.FedAvg(min_fit_clients=5,min_eval_clients=5,min_available_clients=5)
+        strategy = fl.server.strategy.FedAvg(min_fit_clients=5,min_evaluate_clients=5,min_available_clients=5)
+        config = fl.server.ServerConfig(num_rounds=5)
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: server')
-        fl.server.start_server(server_address = 'localhost:8080',strategy=strategy,config={"num_rounds": fl_num_rounds})
+        fl.server.start_server(server_address = 'localhost:8080',strategy=strategy,config=config)
         return
 
 

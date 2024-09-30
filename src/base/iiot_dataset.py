@@ -23,8 +23,9 @@ class IIoTDataset(Dataset):
 
         self.classes = [0, 1]
 
-        if isinstance(root, torch._six.string_classes):
-            root = os.path.expanduser(root)
+        # does not work with newer torch version, maybe fix?
+        # if isinstance(root, torch._six.string_classes):
+        #     root = os.path.expanduser(root)
         self.root = Path(root)
         self.train = train  # training set or test set
         self.zip_file = self.root / 'wustl_iiot_2021.zip'
