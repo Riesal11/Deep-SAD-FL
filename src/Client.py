@@ -22,7 +22,7 @@ class FL_Client(fl.client.NumPyClient):
                             "testset" : len(dataset.test_set)}
         self.n_jobs_dataloader = n_jobs_dataloader
 
-    def get_parameters(self):
+    def get_parameters(self, config):
         return [val.cpu().numpy() for _, val in self.net.state_dict().items()]
 
     def set_parameters(self, parameters: List[np.ndarray]):
@@ -45,7 +45,7 @@ class FL_Client(fl.client.NumPyClient):
                         batch_size=self.batch_size,
                         weight_decay=self.weight_decay,
                         n_jobs_dataloader=self.n_jobs_dataloader)
-        parameters = self.get_parameters()
+        parameters = self.get_parameters(config)
         return parameters, self.num_examples["trainset"], {}
 
     def evaluate(self, parameters, config):
