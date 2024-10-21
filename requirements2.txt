@@ -18,9 +18,10 @@ six
 flwr
 
 # with pip manually
-# torch==2.4.1
-# torchvision==0.19.1
-
+# pip install torch==2.4.1
+# pip install torchvision==0.19.1
+# pip install -U ray
+# pip install -U "ray[data,train,tune,serve]"
 
 # adapted early version, remove later
 # Click==7.0

@@ -98,11 +98,13 @@ from datasets.main import load_dataset
                    'If 0, no anomalies are known.'
                    'If 1, outlier class as specified in --known_outlier_class option.'
                    'If > 1, the specified number of outlier classes will be sampled at random.')
+@click.option('--server_ip_address', type=str, default="127.0.0.1:8080",
+              help='The ip address of the server.')
 def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset_size,net_name,net_h1, xp_path, data_path, load_config, load_model, eta,
          ratio_known_normal, ratio_known_outlier, ratio_pollution, device, seed,
          optimizer_name, lr, n_epochs, lr_milestone, batch_size, weight_decay,
          pretrain, ae_optimizer_name, ae_lr, ae_n_epochs, ae_lr_milestone, ae_batch_size, ae_weight_decay,
-         num_threads, n_jobs_dataloader, normal_class, known_outlier_class, n_known_outlier_classes):
+         num_threads, n_jobs_dataloader, normal_class, known_outlier_class, n_known_outlier_classes, server_ip_address):
     """
     Deep SAD, a method for deep semi-supervised anomaly detection.
 
@@ -212,6 +214,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
 
     #Federated setting
+
     if fl_mode == 'client':
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
@@ -224,7 +227,9 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
         deepSAD.set_network(net_name = net_name,h1=net_h1)
         client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
-        fl.client.start_client(server_address = "localhost:8080", client = client)
+        # 178.191.178.19 public?
+        # 10.0.0.20 local?
+        fl.client.start_client(server_address = server_ip_address, client = client)
         return
 
     if fl_mode == 'server':
@@ -234,7 +239,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: server')
-        fl.server.start_server(server_address = 'localhost:8080',strategy=strategy,config=config)
+        fl.server.start_server(server_address = server_ip_address,strategy=strategy,config=config)
         return
 
 

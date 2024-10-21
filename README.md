@@ -144,8 +144,18 @@ In addtion, for each client you can specify:
 5) Number of the neurons in the first hidden layer (--h1, e.g --h1 16). The second layer will be set to h1/2 and the outputlayer to h1/4
 6) lr, batch_size, n_epochs, lr_milestone, weight_decay, pretrain, optimizer_name
 
+
+
+## Docker
+
+To build the image, in the application root folder, execute
 ```
-
-
+docker build -t deep-sad-fl .
+```
+```
+docker run deep-sad-fl
+```
+docker run -t -d -p 8080:8080 deep-sad-fl
+docker run -t -d -p 3000:3000 deep-sad-fl
 ## License
 MIT
