@@ -150,12 +150,24 @@ In addtion, for each client you can specify:
 
 To build the image, in the application root folder, execute
 ```
-docker build -t deep-sad-fl .
+docker build -t riesal11/deep-sad-fl .
+```
+To run the the container
+```
+docker run -t -d -p 8080:8080 riesal11/deep-sad-fl
+docker run -t -d -p 3000:3000 riesal11/deep-sad-fl
+```
+To connect to the container
 ```
 ```
-docker run deep-sad-fl
+To push the image to the docker hub
 ```
-docker run -t -d -p 8080:8080 deep-sad-fl
-docker run -t -d -p 3000:3000 deep-sad-fl
+docker push riesal11/deep-sad-fl
+```
+
+From the client machines, pull the image
+```
+docker pull riesal11/deep-sad-fl
+```
 ## License
 MIT
