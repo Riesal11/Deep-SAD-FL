@@ -20,6 +20,11 @@ from utils.visualization.plot_images_grid import plot_images_grid
 from DeepSAD import DeepSAD
 from datasets.main import load_dataset
 
+from flower_async.async_server import AsyncServer
+from flower_async.async_strategy import AsynchronousStrategy
+from flower_async.async_client_manager import AsyncClientManager
+
+
 
 ################################################################################
 # Settings
@@ -233,13 +238,27 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         return
 
     if fl_mode == 'server':
-        strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2)
+        # initial sync
+        # strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2)
+        
+        # async test
+        server = AsyncServer(
+            base_conf_dict=dict(),
+            strategy=fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2), 
+            client_manager=AsyncClientManager(), 
+            async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=2, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=2, use_staleness=True, use_sample_weighing=True, send_gradients=True, server_artificial_delay=True))
+        
         config = fl.server.ServerConfig(num_rounds=5)
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: server')
-        fl.server.start_server(server_address = server_ip_address,strategy=strategy,config=config)
+
+        # initial sync
+        # fl.server.start_server(server_address = server_ip_address,strategy=strategy,config=config)
+
+        # async test
+        fl.server.start_server(server=server, server_address = server_ip_address,strategy=server.strategy,config=config)
         return
 
 
