@@ -24,6 +24,7 @@ class AsyncClientManager(SimpleClientManager):
             with self._cv_free:
                 self.free_clients.pop(client_id)
                 self._cv_free.notify_all()
+                log(INFO, "MANAGER: Client set to busy: %s", client_id)
             return True
     
     def set_client_to_free(self, client_id):
@@ -34,13 +35,16 @@ class AsyncClientManager(SimpleClientManager):
             with self._cv_free:
                 self.free_clients[client_id] = self.clients[client_id]
                 self._cv_free.notify_all()
+                log(INFO, "MANAGER: Client set to free: %s", client_id)
             return True
 
     # waits for `num_free_clients` to be free
     def wait_for_free(self, num_free_clients: int, timeout: int = 86400) -> bool:
+        log(INFO, "MANAGER: wait_for_free %s hours", timeout/60/60)
         with self._cv_free:
             return self._cv_free.wait_for(
                 # remove timeout (initial 5)
+                # lambda: len(self.free_clients) >= num_free_clients, timeout=5
                 lambda: len(self.free_clients) >= num_free_clients
             )
     
@@ -61,15 +65,17 @@ class AsyncClientManager(SimpleClientManager):
         
 
     def num_free(self) -> int:
+        log(INFO, "MANAGER : number of free clients: %s", len(self.free_clients))
         return len(self.free_clients)
 
     def all_free(self) -> Dict[str, ClientProxy]:
+        log(INFO, "MANAGER : free clients: %s", list(self.free_clients))
         return list(self.free_clients)
 
     def sample_free(
         self,
         num_free_clients: int,
-        min_num_free_clients: int = 0,
+        min_num_free_clients: int = 2,
         criterion: Criterion = None,
     ) -> List[ClientProxy]:
         log(INFO, "Sampling %s clients, min %s", num_free_clients, min_num_free_clients)
@@ -77,14 +83,17 @@ class AsyncClientManager(SimpleClientManager):
         # Block until at least num_clients are free. # It always samples from all clients.
         if min_num_free_clients is None:
             min_num_free_clients = num_free_clients
+        log(INFO, "MANAGER: Min num free clients: %s", min_num_free_clients)
         self.wait_for_free(min_num_free_clients)
-            
+        
         # Sample clients which meet the criterion
         available_cids = list(self.free_clients)
+        log(INFO, "MANAGER: available cids: %s", available_cids)
         if criterion is not None:
             available_cids = [
                 cid for cid in available_cids if criterion.select(self.free_clients[cid])
             ]
+            log(INFO, "MANAGER: available cids 2: %s", available_cids)
 
         if num_free_clients > len(available_cids):
             log(

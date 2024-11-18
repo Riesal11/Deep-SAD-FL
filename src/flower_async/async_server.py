@@ -70,7 +70,7 @@ class AsyncServer(Server):
     def __init__(
         self,
         strategy: Strategy,
-        client_manager: ClientManager, # AsyncClientManager,
+        client_manager: AsyncClientManager, # ClientManager,
         async_strategy: AsynchronousStrategy,
         base_conf_dict,
         total_train_time: int = 85,
@@ -112,12 +112,17 @@ class AsyncServer(Server):
 
     def busy_wait(self, seconds: float) -> None:
         """Busy wait for a number of seconds."""
+        log(INFO, "SERVER: busy_wait for %s seconds...", seconds)
+
         start_time = time()
         while time() - start_time < seconds:
             pass
 
+    # TODO: num_rounds not used?
     def fit(self, num_rounds: int, timeout: Optional[float]) -> History:
         """Run federated averaging for a number of rounds."""
+        log(INFO, "SERVER: fit...")
+
         history = AsyncHistory()
 
         # Initialize parameters
@@ -134,7 +139,9 @@ class AsyncServer(Server):
             )
             history.add_loss_centralized(timestamp=time(), loss=res[0])
             history.add_metrics_centralized(timestamp=time(), metrics=res[1])
-
+        else:
+            log(INFO, "Evaluation returned no results (`None`)")
+        
         # Run federated learning for num_rounds
         log(INFO, "FL starting")
         executor = ThreadPoolExecutor(max_workers=self.max_workers)
@@ -143,6 +150,8 @@ class AsyncServer(Server):
         self.end_timestamp = end_timestamp
         self.start_timestamp = time()
         counter = 1
+        log(DEBUG, "SERVER: start timestamp: %s", datetime.fromtimestamp(self.start_timestamp / 1e3))
+        log(DEBUG, "SERVER: end timestamp: %s", datetime.fromtimestamp(self.end_timestamp / 1e3))
         self.fit_round(
             server_round=0,
             timeout=timeout,
@@ -154,13 +163,16 @@ class AsyncServer(Server):
         best_loss = float('inf')
         patience_init = 50 # n times the `waiting interval` seconds
         patience = patience_init
-        
+        log(INFO, "SERVER: test")
         while time() - start_time < self.total_train_time:
             # If the clients are to be started periodically, move fit_round here and remove the executor.submit lines from _handle_finished_future_after_fit
             sleep(self.waiting_interval)
+            log(INFO, "SERVER: test1")
             if self.server_artificial_delay:
                 self.busy_wait(10)
+            log(INFO, "SERVER: test2")
             loss = self.evaluate_centralized(counter, history)
+            log(INFO, "SERVER: test3")
             if loss is not None:
                 if loss < best_loss - 1e-4:
                     best_loss = loss
@@ -172,7 +184,9 @@ class AsyncServer(Server):
                     break
             #self.evaluate_decentralized(counter, history, timeout)
             counter += 1
+            log(INFO, "SERVER: test4")
 
+        log(INFO, "SERVER: test5")
         executor.shutdown(wait=True, cancel_futures=True)
         log(INFO, "FL finished")
         end_time = time()
@@ -183,6 +197,8 @@ class AsyncServer(Server):
     
     def save_model(self):
         # Save the model
+        log(INFO, "SERVER: save_model...")
+
         timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         
         model_path = f"models/model_async_{timestamp}.pkl"
@@ -242,6 +258,7 @@ class AsyncServer(Server):
         Tuple[Optional[float], Dict[str, Scalar], EvaluateResultsAndFailures]
     ]:
         """Validate current global model on a number of clients."""
+        log(INFO, "SERVER: evaluate_round...")
         # Get clients and their respective instructions from strategy
         client_instructions = self.strategy.configure_evaluate(
             server_round=server_round,
@@ -292,14 +309,17 @@ class AsyncServer(Server):
         history: AsyncHistory,
     ):  # -> Optional[Tuple[Optional[Parameters], Dict[str, Scalar], FitResultsAndFailures]]:
         """Perform a single round of federated averaging."""
+        log(INFO, "SERVER: fit_round...")
         # Get clients and their respective instructions from strategy
         client_instructions = self.strategy.configure_fit(
             server_round=server_round,
             parameters=self.parameters,
             client_manager=self._client_manager,
         )
+        log(INFO, "SERVER: fit_round...instructions %s", client_instructions)
         for client_proxy, fitins in client_instructions:
             fitins.config = { **fitins.config, **self.get_config_for_client_fit(client_proxy.cid) }
+            log(INFO, "SERVER: fit_round...instructions...fitins.config %s", fitins.config)
 
         if not client_instructions:
             log(INFO, "fit_round %s: no clients selected, cancel", server_round)
@@ -323,6 +343,7 @@ class AsyncServer(Server):
         )
 
     def get_config_for_client_fit(self, client_id, iter=0):
+        log(INFO, "SERVER: get_config_for_client_fit: %s", client_id)
         config = {}
 
         if self.client_local_delay and client_id in self.clients_with_delay:
@@ -330,8 +351,8 @@ class AsyncServer(Server):
             config['cid'] = client_id
             return config
 
-        if not self.is_streaming:
-            return config
+        # if not self.is_streaming:
+        #     return config
         curr_timestamp = time()
         if curr_timestamp > self.end_timestamp:
             return config
@@ -350,6 +371,7 @@ class AsyncServer(Server):
 
     def disconnect_all_clients(self, timeout: Optional[float]) -> None:
         """Send shutdown signal to all clients."""
+        log(INFO, "SERVER: Disconnect all clients...")
         all_clients = self._client_manager.all()
         clients = [all_clients[k] for k in all_clients.keys()]
         instruction = ReconnectIns(seconds=None)
@@ -387,6 +409,7 @@ def reconnect_clients(
     timeout: Optional[float],
 ) -> ReconnectResultsAndFailures:
     """Instruct clients to disconnect and never reconnect."""
+    log(INFO, "SERVER: reconnect_clients...")
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
 
         submitted_fs = {
@@ -418,6 +441,7 @@ def reconnect_client(
     timeout: Optional[float],
 ) -> Tuple[ClientProxy, DisconnectRes]:
     """Instruct client to disconnect and (optionally) reconnect later."""
+    log(INFO, "SERVER: reconnect_client...")
     disconnect = client.reconnect(
         reconnect,
         timeout=timeout,
@@ -441,7 +465,7 @@ def fit_clients(
     history: AsyncHistory,
 ):
     """Refine parameters concurrently on all selected clients."""
-
+    log(INFO, "SERVER: fit_clients...")
     submitted_fs = {
         executor.submit(fit_client, client_proxy, ins, timeout)
         for client_proxy, ins in client_instructions
@@ -456,6 +480,7 @@ def fit_client(
     client: ClientProxy, ins: FitIns, timeout: Optional[float]
 ) -> Tuple[ClientProxy, FitRes]:
     """Refine parameters on a single client."""
+    log(INFO, "SERVER: fit_client...")
     fit_res = client.fit(ins, timeout=timeout)
     return client, fit_res
 

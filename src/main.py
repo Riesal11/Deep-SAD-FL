@@ -232,8 +232,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
         deepSAD.set_network(net_name = net_name,h1=net_h1)
         client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
-        # 178.191.178.19 public?
-        # 10.0.0.20 local?
         fl.client.start_client(server_address = server_ip_address, client = client)
         return
 
