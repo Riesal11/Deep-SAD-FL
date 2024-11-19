@@ -310,6 +310,8 @@ class AsyncServer(Server):
     ):  # -> Optional[Tuple[Optional[Parameters], Dict[str, Scalar], FitResultsAndFailures]]:
         """Perform a single round of federated averaging."""
         log(INFO, "SERVER: fit_round...")
+
+        # info: uses base strategy, not async strategy
         # Get clients and their respective instructions from strategy
         client_instructions = self.strategy.configure_fit(
             server_round=server_round,
