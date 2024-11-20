@@ -6,6 +6,8 @@ import random
 import numpy as np
 
 import flwr as fl
+from flwr.common import Context
+from flwr.client import Client
 from Client import FL_Client
 
 
@@ -105,11 +107,13 @@ from flower_async.async_client_manager import AsyncClientManager
                    'If > 1, the specified number of outlier classes will be sampled at random.')
 @click.option('--server_ip_address', type=str, default="127.0.0.1:8080",
               help='The ip address of the server.')
+@click.option('--download_zip', type=bool, default=False,
+              help='Specify if IIoT Dataset should be downloaded if not present')
 def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset_size,net_name,net_h1, xp_path, data_path, load_config, load_model, eta,
          ratio_known_normal, ratio_known_outlier, ratio_pollution, device, seed,
          optimizer_name, lr, n_epochs, lr_milestone, batch_size, weight_decay,
          pretrain, ae_optimizer_name, ae_lr, ae_n_epochs, ae_lr_milestone, ae_batch_size, ae_weight_decay,
-         num_threads, n_jobs_dataloader, normal_class, known_outlier_class, n_known_outlier_classes, server_ip_address):
+         num_threads, n_jobs_dataloader, normal_class, known_outlier_class, n_known_outlier_classes, server_ip_address, download_zip):
     """
     Deep SAD, a method for deep semi-supervised anomaly detection.
 
@@ -216,7 +220,27 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                             metric="roc_auc", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="roc_auc", mode="max")}')
         return
+    
+    def client_fn(context: Context) -> Client:
+        """Create a Flower client representing a single organization."""
 
+        # Load model
+        deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
+        deepSAD.set_network(net_name = net_name,h1=net_h1)
+
+        # Load data
+        # Note: each client gets a different trainloader/valloader, so each client
+        # will train and evaluate on their own unique data partition
+        # Read the node_config to fetch data partition associated to this node
+        # partition_id = context.node_config["partition-id"]
+        logger.info("loading dataset...")
+        dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
+                           ratio_known_normal, ratio_known_outlier, ratio_pollution,
+                           random_state=cfg.settings['seed'], download_zip=download_zip)
+        # TODO: load data dynamically (portion of whole) + from distributor
+
+        # Create a single Flower client representing a single organization
+        return FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
 
     #Federated setting
 
@@ -225,14 +249,18 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: client')
-        dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
-                           ratio_known_normal, ratio_known_outlier, ratio_pollution,
-                           random_state=cfg.settings['seed'])
+        # with single client
+        # dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
+        #                    ratio_known_normal, ratio_known_outlier, ratio_pollution,
+        #                    random_state=cfg.settings['seed'])
                            
-        deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
-        deepSAD.set_network(net_name = net_name,h1=net_h1)
-        client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
-        fl.client.start_client(server_address = server_ip_address, client = client)
+        # deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
+        # deepSAD.set_network(net_name = net_name,h1=net_h1)
+        # client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
+        # fl.client.start_client(server_address = server_ip_address, client= client)
+
+        # with client_fn
+        fl.client.start_client(server_address = server_ip_address, client_fn= client_fn)
         return
 
     if fl_mode == 'server':
