@@ -1,0 +1,29 @@
+services:
+  server:
+    container_name: deep-sad-fl-server
+    build: .
+    ports:
+      - "8080:8080"
+    tty: true
+    entrypoint:
+      - ../docker-entrypoint-server.sh
+  client_1:
+    container_name: deep-sad-fl-client-1
+    build: .
+    volumes:
+      - ./data/2_client_setup/client_1:/app/data
+    ports:
+      - "3000:3000"
+    tty: true
+    entrypoint:
+      - ../docker-entrypoint-client.sh
+  client_2:
+    container_name: deep-sad-fl-client-2
+    build: .
+    volumes:
+      - ./data/2_client_setup/client_2:/app/data
+    ports:
+      - "4000:4000"
+    tty: true
+    entrypoint:
+      - ../docker-entrypoint-client.sh

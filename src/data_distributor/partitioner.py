@@ -4,7 +4,7 @@ Helper for shuffling and partitioning initial dataset depending on the number of
 
 # Number of clients: 2
 # Row count total: 1194464
-# Using stream split of 0.1% of each clients data
+# Using stream split of 10% of each clients data
 # Generating data for client 0
 # Row count stream: 59723
 # Row count presplit: 537509
@@ -25,7 +25,7 @@ random_state = 1
 stream_split_fraction = 0.1
 print("Number of clients: %s" % num_clients)
 print("Row count total: %s" % row_count)
-print("Using stream split of %s%% of each clients data" % stream_split_fraction)
+print("Using stream split fraction of %s of each clients data" % stream_split_fraction)
 # shuffle dataset
 ds = df.sample(frac=1, random_state = random_state)
 for i, dfsplit in enumerate(np.array_split(ds, num_clients)):
@@ -34,8 +34,8 @@ for i, dfsplit in enumerate(np.array_split(ds, num_clients)):
     print("Row count stream: %s" % len(stream))
     print("Row count presplit: %s" % len(presplit))
 
-    presplit.to_csv(f"data/data{i+1}_presplit.csv", index=False)
-    stream.to_csv(f"data/data{i+1}_stream.csv", index=False)
+    presplit.to_csv(f"data/{num_clients}_client_setup/client_{i+1}/wustl_iiot_2021.csv", index=False)
+    stream.to_csv(f"data/{num_clients}_client_setup/streams/data{i+1}_stream.csv", index=False)
 
 
 

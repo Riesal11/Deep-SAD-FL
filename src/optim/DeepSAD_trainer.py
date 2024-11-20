@@ -67,7 +67,7 @@ class DeepSADTrainer(BaseTrainer):
         if self.c is None:
             logger.info('Initializing center c...')
             self.c = self.init_center_c(train_loader, net)
-            logger.info('Center c initialized.')
+            logger.info('Center c initialized. c = %s' % self.c)
 
         # Training
         logger.info('Starting training...')
@@ -117,6 +117,14 @@ class DeepSADTrainer(BaseTrainer):
         # Get test data loader
         _, test_loader = dataset.loaders(batch_size=self.batch_size, num_workers=self.n_jobs_dataloader)
 
+        # Due to client_fn in main, c is not defined here, so I do the same again
+        # TODO: check if this has any complications
+        # Initialize hypersphere center c (if c not loaded)
+        if self.c is None:
+            logger.info('Initializing center c...')
+            self.c = self.init_center_c(test_loader, net)
+            logger.info('Center c initialized. c = %s' % self.c)
+        
         # Set device for network
         net = net.to(self.device)
 

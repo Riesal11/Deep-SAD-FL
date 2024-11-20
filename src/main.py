@@ -253,7 +253,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
         #                    ratio_known_normal, ratio_known_outlier, ratio_pollution,
         #                    random_state=cfg.settings['seed'])
-                           
         # deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
         # deepSAD.set_network(net_name = net_name,h1=net_h1)
         # client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
