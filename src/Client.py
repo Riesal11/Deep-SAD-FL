@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from collections import OrderedDict
 from typing import Dict, List, Tuple
+from time import time
 
 
 class FL_Client(fl.client.NumPyClient):
@@ -36,6 +37,7 @@ class FL_Client(fl.client.NumPyClient):
 
     def fit(self, parameters, config):
         self.set_parameters(parameters)
+        start = time()
         self.model.train(self.dataset,
                         optimizer_name=self.optimizer_name,
                         device=self.device,
@@ -45,8 +47,12 @@ class FL_Client(fl.client.NumPyClient):
                         batch_size=self.batch_size,
                         weight_decay=self.weight_decay,
                         n_jobs_dataloader=self.n_jobs_dataloader)
+        end = time()
+        local_train_time = end - start
         parameters = self.get_parameters(config)
-        return parameters, self.num_examples["trainset"], {}
+        return parameters, self.num_examples["trainset"], {
+            "t_diff": local_train_time
+        }
 
     def evaluate(self, parameters, config):
         self.set_parameters(parameters)

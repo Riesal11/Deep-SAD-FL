@@ -237,14 +237,15 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
     if fl_mode == 'server':
         # initial sync
-        strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2)
+        # strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2)
         
         # async test
-        # server = AsyncServer(
-        #     base_conf_dict=dict(),
-        #     strategy=fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2), 
-        #     client_manager=AsyncClientManager(), 
-        #     async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=2, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=2, use_staleness=True, use_sample_weighing=True, send_gradients=True, server_artificial_delay=True))
+        server = AsyncServer(
+            base_conf_dict=dict(),
+            strategy=fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2), 
+            # client_manager=fl.server.SimpleClientManager(), 
+            client_manager=AsyncClientManager(),
+            async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=2, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
         
         config = fl.server.ServerConfig(num_rounds=5)
         if(dataset_name != 'iiot'):
@@ -253,10 +254,10 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         logger.info('Federated mode: server')
 
         # initial sync
-        fl.server.start_server(server_address = server_ip_address,strategy=strategy,config=config)
+        # fl.server.start_server(server_address = server_ip_address,strategy=strategy,config=config)
 
         # async test
-        # fl.server.start_server(server=server, server_address = server_ip_address,strategy=server.strategy,config=config)
+        fl.server.start_server(server=server, server_address = server_ip_address,strategy=server.strategy,config=config)
         return
 
 

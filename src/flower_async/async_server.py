@@ -73,7 +73,7 @@ class AsyncServer(Server):
         client_manager: AsyncClientManager, # ClientManager,
         async_strategy: AsynchronousStrategy,
         base_conf_dict,
-        total_train_time: int = 85,
+        total_train_time: int = 180,
         waiting_interval: int = 5,
         max_workers: int = 2,
         server_artificial_delay: bool = False,
@@ -85,7 +85,8 @@ class AsyncServer(Server):
         self.strategy = strategy
         self._client_manager = client_manager
         self.max_workers = max_workers
-        self.client_data_percs: Dict[str, List[float]] = {} # dictionary tracking the data percentages sent to the client
+        # Removed this as server not in charge of data handling here
+        # self.client_data_percs: Dict[str, List[float]] = {} # dictionary tracking the data percentages sent to the client
         for key, value in base_conf_dict.items():
             setattr(self, key, value)
         self.start_timestamp = 0.0
@@ -95,7 +96,7 @@ class AsyncServer(Server):
         # was missing initially
         self.client_local_delay = False
 
-        self.client_iters = np.zeros(60)
+        # self.client_iters = np.zeros(60)
         if self.client_local_delay:
             np.random.seed(self.dataset_seed)
             n_clients_with_delay = 12
@@ -150,8 +151,6 @@ class AsyncServer(Server):
         self.end_timestamp = end_timestamp
         self.start_timestamp = time()
         counter = 1
-        log(DEBUG, "SERVER: start timestamp: %s", datetime.fromtimestamp(self.start_timestamp / 1e3))
-        log(DEBUG, "SERVER: end timestamp: %s", datetime.fromtimestamp(self.end_timestamp / 1e3))
         self.fit_round(
             server_round=0,
             timeout=timeout,
@@ -163,16 +162,12 @@ class AsyncServer(Server):
         best_loss = float('inf')
         patience_init = 50 # n times the `waiting interval` seconds
         patience = patience_init
-        log(INFO, "SERVER: test")
         while time() - start_time < self.total_train_time:
             # If the clients are to be started periodically, move fit_round here and remove the executor.submit lines from _handle_finished_future_after_fit
             sleep(self.waiting_interval)
-            log(INFO, "SERVER: test1")
             if self.server_artificial_delay:
                 self.busy_wait(10)
-            log(INFO, "SERVER: test2")
             loss = self.evaluate_centralized(counter, history)
-            log(INFO, "SERVER: test3")
             if loss is not None:
                 if loss < best_loss - 1e-4:
                     best_loss = loss
@@ -318,10 +313,9 @@ class AsyncServer(Server):
             parameters=self.parameters,
             client_manager=self._client_manager,
         )
-        log(INFO, "SERVER: fit_round...instructions %s", client_instructions)
-        for client_proxy, fitins in client_instructions:
-            fitins.config = { **fitins.config, **self.get_config_for_client_fit(client_proxy.cid) }
-            log(INFO, "SERVER: fit_round...instructions...fitins.config %s", fitins.config)
+        # not used?
+        # for client_proxy, fitins in client_instructions:
+        #     fitins.config = { **fitins.config, **self.get_config_for_client_fit(client_proxy.cid) }
 
         if not client_instructions:
             log(INFO, "fit_round %s: no clients selected, cancel", server_round)
@@ -348,27 +342,28 @@ class AsyncServer(Server):
         log(INFO, "SERVER: get_config_for_client_fit: %s", client_id)
         config = {}
 
-        if self.client_local_delay and client_id in self.clients_with_delay:
-            config['client_delay'] = self.delays_per_iter_per_client[iter, np.where(self.clients_with_delay == client_id)[0][0]]
-            config['cid'] = client_id
-            return config
-
-        # if not self.is_streaming:
+        # TODO: check what this all does and if I need it
+        # if self.client_local_delay and client_id in self.clients_with_delay:
+        #     config['client_delay'] = self.delays_per_iter_per_client[iter, np.where(self.clients_with_delay == client_id)[0][0]]
+        #     config['cid'] = client_id
         #     return config
-        curr_timestamp = time()
-        if curr_timestamp > self.end_timestamp:
-            return config
-        if client_id not in self.client_data_percs:
-            self.client_data_percs[client_id] = [0.0] # Clients start with 10% of the data (otherwise called with 0 samples)
-        prev_data_perc = self.client_data_percs[client_id][-1]
-        start_timestamp = self.end_timestamp - self.total_train_time
-        data_perc = ( (time() - start_timestamp) / self.total_train_time ) * 0.9 + 0.1 # Linearly increase the data percentage from 10% to 100% over the total_train_time
-        config['data_percentage'] = data_perc
-        config['prev_data_percentage'] = prev_data_perc
-        config['data_loading_strategy'] = self.data_loading_strategy
-        if self.data_loading_strategy == 'fixed_nr':
-            config['n_last_samples_for_data_loading_fit'] = self.n_last_samples_for_data_loading_fit
-        self.client_data_percs[client_id].append(data_perc)
+
+        # # if not self.is_streaming:
+        # #     return config
+        # curr_timestamp = time()
+        # if curr_timestamp > self.end_timestamp:
+        #     return config
+        # if client_id not in self.client_data_percs:
+        #     self.client_data_percs[client_id] = [0.0] # Clients start with 10% of the data (otherwise called with 0 samples)
+        # prev_data_perc = self.client_data_percs[client_id][-1]
+        # start_timestamp = self.end_timestamp - self.total_train_time
+        # data_perc = ( (time() - start_timestamp) / self.total_train_time ) * 0.9 + 0.1 # Linearly increase the data percentage from 10% to 100% over the total_train_time
+        # config['data_percentage'] = data_perc
+        # config['prev_data_percentage'] = prev_data_perc
+        # config['data_loading_strategy'] = self.data_loading_strategy
+        # if self.data_loading_strategy == 'fixed_nr':
+        #     config['n_last_samples_for_data_loading_fit'] = self.n_last_samples_for_data_loading_fit
+        # self.client_data_percs[client_id].append(data_perc)
         return config
 
     def disconnect_all_clients(self, timeout: Optional[float]) -> None:
@@ -469,7 +464,7 @@ def fit_clients(
     """Refine parameters concurrently on all selected clients."""
     log(INFO, "SERVER: fit_clients...")
     submitted_fs = {
-        executor.submit(fit_client, client_proxy, ins, timeout)
+        executor.submit(fit_client, client_proxy, ins, timeout, group_id=0)
         for client_proxy, ins in client_instructions
     }
     for f in submitted_fs:
@@ -479,11 +474,11 @@ def fit_clients(
 
 
 def fit_client(
-    client: ClientProxy, ins: FitIns, timeout: Optional[float]
+    client: ClientProxy, ins: FitIns, timeout: Optional[float], group_id: int
 ) -> Tuple[ClientProxy, FitRes]:
     """Refine parameters on a single client."""
     log(INFO, "SERVER: fit_client...")
-    fit_res = client.fit(ins, timeout=timeout)
+    fit_res = client.fit(ins, timeout=timeout, group_id=group_id)
     return client, fit_res
 
 
@@ -495,11 +490,11 @@ def _handle_finished_future_after_fit(
     history: AsyncHistory,
 ) -> None:
     """Update the server parameters, restart the client."""
-    
+    log(DEBUG, "SERVER: handle finished future after fit")
     # Check if there was an exception
     failure = future.exception()
     if failure is not None:
-        log(WARNING, "Got a failure :(")
+        log(WARNING, "Failure: %s", failure)
         return
 
     # print("Got a result :)")
@@ -516,11 +511,12 @@ def _handle_finished_future_after_fit(
         )
 
     if time() < end_timestamp:
-        # log(DEBUG, f"Yippie! Starting the client {clientProxy.cid} again \U0001f973")
-        iter = server.client_iters[int(clientProxy.cid)] + 1
-        server.client_iters[int(clientProxy.cid)] = iter
-        new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid, iter=iter))
-        ftr = executor.submit(fit_client, client=clientProxy, ins=new_ins, timeout=None)
+        log(DEBUG, f"Yippie! Starting the client {clientProxy.cid} again \U0001f973")
+        # iter = server.client_iters[int(clientProxy.cid)] + 1
+        # server.client_iters[int(clientProxy.cid)] = iter
+        # new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid, iter=iter))
+        new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid))
+        ftr = executor.submit(fit_client, client=clientProxy, ins=new_ins, timeout=None, group_id=0)
         ftr.add_done_callback(lambda ftr: _handle_finished_future_after_fit(ftr, server, executor, end_timestamp, history))
 
 
