@@ -7,7 +7,7 @@ from .iiot import IIOTADDataset
 
 def load_dataset(dataset_name, data_path,fl_dataset_index,dataset_size,net_name,normal_class, known_outlier_class, n_known_outlier_classes: int = 0,
                  ratio_known_normal: float = 0.0, ratio_known_outlier: float = 0.0, ratio_pollution: float = 0.0,
-                 random_state=None):
+                 random_state=None, download_zip=False):
     """Loads the dataset."""
 
     implemented_datasets = ('mnist', 'fmnist', 'cifar10',
@@ -62,6 +62,7 @@ def load_dataset(dataset_name, data_path,fl_dataset_index,dataset_size,net_name,
                             ratio_known_normal=ratio_known_normal,
                             ratio_known_outlier=ratio_known_outlier,
                             ratio_pollution=ratio_pollution,
-                            random_state=random_state)
+                            random_state=random_state,
+                            download_zip=download_zip)
 
     return dataset

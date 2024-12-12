@@ -157,9 +157,8 @@ To run the the container
 docker run -t -d -p 8080:8080 riesal11/deep-sad-fl
 docker run -t -d -p 3000:3000 riesal11/deep-sad-fl
 ```
-To connect to the container
-```
-```
+
+
 To push the image to the docker hub
 ```
 docker push riesal11/deep-sad-fl
@@ -169,5 +168,24 @@ From the client machines, pull the image
 ```
 docker pull riesal11/deep-sad-fl
 ```
+
+### docker-compose
+
+Using virtual setup (server + 2 clients on same machine)
+```
+docker-compose up -d --build
+```
+Starting a client
+```
+docker-compose -f .\docker-compose-client.yaml up -d
+```
+needs .env file with CLIENTS and CLIENT_ID -> e.g CLIENTS=2, CLIENT_ID=1
+due to the different initial datasets
+
+Starting a server
+```
+docker-compose -f .\docker-compose-server.yaml up -d
+```
+
 ## License
 MIT

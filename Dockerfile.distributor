@@ -1,0 +1,8 @@
+# syntax=docker/dockerfile:1
+
+FROM python
+WORKDIR /app
+RUN pip install kafka-python-ng
+RUN pip install pandas
+COPY src/data_distributor .
+EXPOSE 4000

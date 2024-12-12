@@ -1,0 +1,9 @@
+services:
+  server:
+    container_name: deep-sad-fl-server
+    build: .
+    ports:
+      - "8080:8080"
+    tty: true
+    entrypoint:
+      - ../docker-entrypoint-server.sh

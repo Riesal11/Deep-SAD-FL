@@ -16,5 +16,5 @@ WORKDIR /app/src
 # CMD ["ls"]
 # CMD ["python", "src/main.py --fl_mode client --seed 1"]
 EXPOSE 3000
-EXPOSE 4000
+EXPOSE 3001
 EXPOSE 8080
