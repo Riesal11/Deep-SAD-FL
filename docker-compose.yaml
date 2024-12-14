@@ -5,8 +5,8 @@ services:
     ports:
       - "8080:8080"
     tty: true
-    entrypoint:
-      - ../docker-entrypoint-server.sh
+    # entrypoint:
+    #   - ../docker-entrypoint-server.sh
   client_1:
     container_name: deep-sad-fl-client-1
     build: .
@@ -15,8 +15,8 @@ services:
     ports:
       - "3000:3000"
     tty: true
-    entrypoint:
-      - ../docker-entrypoint-client.sh
+    # entrypoint:
+    #   - ../docker-entrypoint-client.sh
   client_2:
     container_name: deep-sad-fl-client-2
     build: .
@@ -25,8 +25,8 @@ services:
     ports:
       - "3001:3001"
     tty: true
-    entrypoint:
-      - ../docker-entrypoint-client.sh
+    # entrypoint:
+    #   - ../docker-entrypoint-client.sh
 
   zookeeper:
     container_name: deep-sad-fl-zookeeper

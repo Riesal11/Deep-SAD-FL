@@ -50,6 +50,7 @@ class FL_Client(fl.client.NumPyClient):
         end = time()
         local_train_time = end - start
         parameters = self.get_parameters(config)
+        self.model.test(self.dataset,device=self.device, n_jobs_dataloader=self.n_jobs_dataloader)
         return parameters, self.num_examples["trainset"], {
             "t_diff": local_train_time
         }
@@ -59,3 +60,5 @@ class FL_Client(fl.client.NumPyClient):
         self.model.test(self.dataset,device=self.device, n_jobs_dataloader=self.n_jobs_dataloader)
         loss = self.model.results['test_loss']
         return float(loss), self.num_examples["testset"], {}
+        # TODO: for history?
+        # return float(loss), self.num_examples["testset"], {self.model.results}

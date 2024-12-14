@@ -83,7 +83,7 @@ class AsyncServer(Server):
         # number of seconds waited to start a new set of clients (and evaluate the previous ones)
         self.waiting_interval = waiting_interval
         self.strategy = strategy
-        self._client_manager = client_manager
+        self._client_manager: AsyncClientManager = client_manager
         self.max_workers = max_workers
         # Removed this as server not in charge of data handling here
         # self.client_data_percs: Dict[str, List[float]] = {} # dictionary tracking the data percentages sent to the client
@@ -177,7 +177,7 @@ class AsyncServer(Server):
                 if patience == 0:
                     log(INFO, "Early stopping")
                     break
-            #self.evaluate_decentralized(counter, history, timeout)
+            # self.evaluate_decentralized(counter, history, timeout)
             counter += 1
             log(INFO, "SERVER: test4")
 
@@ -207,8 +207,10 @@ class AsyncServer(Server):
 
 
     def evaluate_centralized(self, current_round: int, history: History):
+        log(DEBUG, "SERVER: evaluate_centralized... ")
         res_cen = self.strategy.evaluate(
             current_round, parameters=self.parameters)
+        log(DEBUG, "SERVER: evaluate result: %s", res_cen)
         if res_cen is not None:
             loss_cen, metrics_cen = res_cen
             metrics_cen['end_timestamp'] = self.end_timestamp
@@ -397,6 +399,7 @@ class AsyncServer(Server):
         get_parameters_res = random_client.get_parameters(
             ins=ins, timeout=timeout, group_id=1)
         log(INFO, "Received initial parameters from one random client")
+        self._client_manager.set_client_to_free(random_client.cid)
         return get_parameters_res.parameters
 
 
