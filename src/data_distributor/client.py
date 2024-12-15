@@ -18,15 +18,16 @@ import csv
 from threading import Timer
 from kafka import KafkaConsumer
 
-
-consumer = KafkaConsumer(bootstrap_servers='localhost:29092',
+topic_name = 'my-topic'
+# use kafka:9092 in container or localhost:29092 on host
+consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
                             value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
                             # auto_offset_reset='earliest',
                             group_id='my_favorite_group',
                             client_id=1,
                             consumer_timeout_ms=1000)
 consumer.subscribe(['my-topic'])
-
+print("Client subscribed to " + topic_name)
 def autoclose():
     consumer.close()
 
@@ -36,6 +37,14 @@ t.start()
 with open('fileName.csv', 'w') as f:
     writer = csv.writer(f)
     while True:
+        counter = 0
+        batch = []
         for message in consumer:
-            f.write(message.value+"\n")
+            batch.append(message.value+"\n")
+            counter += 1
+            if counter >= 1000:
+                f.writelines(batch)
+                batch = []
+                counter = 0
+                print("new batch added")
 

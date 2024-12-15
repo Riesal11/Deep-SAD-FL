@@ -18,8 +18,8 @@ from kafka.admin import NewTopic
 def autoclose():
     producer.close()
 
-# use kafka:9092 in container
-admin = KafkaAdminClient(bootstrap_servers='localhost:29092')
+# use kafka:9092 in container or localhost:29092 on host
+admin = KafkaAdminClient(bootstrap_servers='kafka:9092')
 print(admin.list_consumer_groups())
 server_topic = NewTopic(name='server',
                     num_partitions=1,
@@ -34,9 +34,9 @@ except errors.TopicAlreadyExistsError:
 finally:
     admin.close()
 
-# use kafka:9092 in container
+# use kafka:9092 in container or localhost:29092 on host
 # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
-producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), bootstrap_servers='localhost:29092')
+producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), bootstrap_servers='kafka:9092')
 
 t = Timer(15.0, autoclose)
 t.start()

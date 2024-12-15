@@ -26,7 +26,10 @@ from flower_async.async_server import AsyncServer
 from flower_async.async_strategy import AsynchronousStrategy
 from flower_async.async_client_manager import AsyncClientManager
 
-
+import binascii
+import csv
+from threading import Event, Thread, Timer
+from kafka import KafkaConsumer
 
 ################################################################################
 # Settings
@@ -221,9 +224,28 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="roc_auc", mode="max")}')
         return
     
+
+    # TODO
+    class PollingThread(Thread):
+        def __init__(self, event):
+            Thread.__init__(self)
+            self.stopped = event
+            self.consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
+                                    value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
+                                    # auto_offset_reset='earliest',
+                                    group_id='my_favorite_group',
+                                    client_id=1,
+                                    consumer_timeout_ms=1000)
+            self.consumer.subscribe(['my-topic'])
+
+        def run(self):
+            while not self.stopped.wait(0.5):
+                print("my thread")
+                poll_distributor(self.consumer)
+
     def client_fn(context: Context) -> Client:
         """Create a Flower client representing a single organization."""
-
+        
         # Load model
         deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
         deepSAD.set_network(net_name = net_name,h1=net_h1)
@@ -242,6 +264,50 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # Create a single Flower client representing a single organization
         return FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
 
+    # TODO 
+    def poll_distributor(consumer: KafkaConsumer):
+        batch_size = 500
+        records = consumer.poll(10.0)
+        for topic_data, consumer_records in records.items():
+                    for consumer_record in consumer_records:
+                        print("Received message: " + consumer_record.value + "\n")
+               
+
+
+    # def connect_to_distributor():
+    #     topic_name = 'my-topic'
+    #     batch_size = 1000
+    #     # use kafka:9092 in container or localhost:29092 on host
+    #     consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
+    #                                 value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
+    #                                 # auto_offset_reset='earliest',
+    #                                 group_id='my_favorite_group',
+    #                                 client_id=1,
+    #                                 consumer_timeout_ms=1000)
+    #     consumer.subscribe(['my-topic'])
+        
+    #     logger.info("Client subscribed to %s", topic_name)
+
+    #     stopFlag = Event()
+    #     thread = PollingThread(stopFlag)
+    #     thread.start()
+    #     # this will stop the timer
+    #     # stopFlag.set()
+
+    #     with open('fileName.csv', 'w') as f:
+    #         # writer = csv.writer(f)
+    #         while True:
+    #             counter = 0
+    #             batch = []
+    #             for message in consumer:
+    #                 batch.append(message.value+"\n")
+    #                 counter += 1
+    #                 if counter >= batch_size:
+    #                     f.writelines(batch)
+    #                     batch = []
+    #                     counter = 0
+    #                     logger.info("new batch of size %s added", batch_size)
+
     #Federated setting
 
     if fl_mode == 'client':
@@ -257,6 +323,12 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # deepSAD.set_network(net_name = net_name,h1=net_h1)
         # client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
         # fl.client.start_client(server_address = server_ip_address, client= client)
+
+        stopFlag = Event()
+        thread = PollingThread(stopFlag)
+        thread.start()
+        # this will stop the timer
+        # stopFlag.set()
 
         # with client_fn
         fl.client.start_client(server_address = server_ip_address, client_fn= client_fn)
