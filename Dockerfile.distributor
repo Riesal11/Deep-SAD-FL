@@ -5,4 +5,7 @@ WORKDIR /app
 RUN pip install kafka-python-ng
 RUN pip install pandas
 COPY src/data_distributor .
+COPY docker-entrypoint-distributor.sh .
+RUN chmod +x docker-entrypoint-distributor.sh
 EXPOSE 4000
+ENTRYPOINT ["./docker-entrypoint-distributor.sh"]

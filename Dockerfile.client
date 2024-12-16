@@ -15,6 +15,9 @@ WORKDIR /app/src
 # CMD ["python", "main.py --fl_mode server"]
 # CMD ["ls"]
 # CMD ["python", "src/main.py --fl_mode client --seed 1"]
-EXPOSE 3000
-EXPOSE 3001
-EXPOSE 8080
+ARG SEED
+ENV SEED=${SEED}
+ARG PORT
+ENV PORT=${PORT}
+ENTRYPOINT ../docker-entrypoint-client.sh ${SEED}
+EXPOSE ${PORT}

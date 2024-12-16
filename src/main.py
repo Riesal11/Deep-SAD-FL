@@ -232,14 +232,14 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             self.stopped = event
             self.consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
                                     value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
-                                    # auto_offset_reset='earliest',
+                                    auto_offset_reset='earliest',
                                     group_id='my_favorite_group',
                                     client_id=1,
                                     consumer_timeout_ms=1000)
             self.consumer.subscribe(['my-topic'])
 
         def run(self):
-            while not self.stopped.wait(0.5):
+            while not self.stopped.wait(5.0):
                 print("my thread")
                 poll_distributor(self.consumer)
 
@@ -268,6 +268,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
     def poll_distributor(consumer: KafkaConsumer):
         batch_size = 500
         records = consumer.poll(10.0)
+        print(records)
         for topic_data, consumer_records in records.items():
                     for consumer_record in consumer_records:
                         print("Received message: " + consumer_record.value + "\n")

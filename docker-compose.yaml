@@ -6,7 +6,9 @@
 services:
   server:
     container_name: deep-sad-fl-server
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile.server
     ports:
       - "8080:8080"
     tty: true
@@ -14,7 +16,12 @@ services:
     #   - ../docker-entrypoint-server.sh
   client_1:
     container_name: deep-sad-fl-client-1
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile.client
+      args:
+        SEED: 1
+        PORT: 3000
     volumes:
       - ./data/2_client_setup/client_1:/app/data
     ports:
@@ -24,7 +31,12 @@ services:
     #   - ../docker-entrypoint-client.sh
   client_2:
     container_name: deep-sad-fl-client-2
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile.client
+      args:
+        SEED: 2
+        PORT: 3001
     volumes:
       - ./data/2_client_setup/client_2:/app/data
     ports:
