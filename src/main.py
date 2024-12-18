@@ -29,7 +29,7 @@ from flower_async.async_client_manager import AsyncClientManager
 import binascii
 import csv
 from threading import Event, Thread, Timer
-from kafka import KafkaConsumer
+from kafka import KafkaConsumer, KafkaProducer
 
 ################################################################################
 # Settings
@@ -112,11 +112,13 @@ from kafka import KafkaConsumer
               help='The ip address of the server.')
 @click.option('--download_zip', type=bool, default=False,
               help='Specify if IIoT Dataset should be downloaded if not present')
+@click.option('--client_id', type=int, default=1,
+              help='Specify the ID of the client')
 def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset_size,net_name,net_h1, xp_path, data_path, load_config, load_model, eta,
          ratio_known_normal, ratio_known_outlier, ratio_pollution, device, seed,
          optimizer_name, lr, n_epochs, lr_milestone, batch_size, weight_decay,
          pretrain, ae_optimizer_name, ae_lr, ae_n_epochs, ae_lr_milestone, ae_batch_size, ae_weight_decay,
-         num_threads, n_jobs_dataloader, normal_class, known_outlier_class, n_known_outlier_classes, server_ip_address, download_zip):
+         num_threads, n_jobs_dataloader, normal_class, known_outlier_class, n_known_outlier_classes, server_ip_address, download_zip, client_id):
     """
     Deep SAD, a method for deep semi-supervised anomaly detection.
 
@@ -233,10 +235,11 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             self.consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
                                     value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
                                     auto_offset_reset='earliest',
-                                    group_id='my_favorite_group',
-                                    client_id=1,
+                                    client_id=client_id,
                                     consumer_timeout_ms=1000)
-            self.consumer.subscribe(['my-topic'])
+            topic_name = 'client-'+str(client_id)
+            self.consumer.subscribe([topic_name])
+            logger.info("Subscribed to topic %s", topic_name)
 
         def run(self):
             while not self.stopped.wait(5.0):
@@ -316,6 +319,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
         logger.info('Federated mode: client')
+        logger.info('Client id %s', client_id)
         # with single client
         # dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
         #                    ratio_known_normal, ratio_known_outlier, ratio_pollution,
@@ -325,9 +329,27 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # client = FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
         # fl.client.start_client(server_address = server_ip_address, client= client)
 
-        stopFlag = Event()
-        thread = PollingThread(stopFlag)
-        thread.start()
+
+        # use kafka:9092 in container or localhost:29092 on host
+        # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
+        producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), bootstrap_servers='kafka:9092')
+        producer.send('distributor', str(client_id))
+
+        consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
+            value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
+            client_id=client_id,
+            consumer_timeout_ms=1000)
+        consumer.subscribe(['distributor'])
+        message_client_key = "client-"+ str(client_id)
+        for msg in consumer:
+            if msg.key == message_client_key:
+                if msg.value == "CREATED":
+                    logger.info("new client topic ready to go!")
+                    stopFlag = Event()
+                    thread = PollingThread(stopFlag)
+                    thread.start()
+
+
         # this will stop the timer
         # stopFlag.set()
 
