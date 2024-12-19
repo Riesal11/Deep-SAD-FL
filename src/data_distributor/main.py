@@ -10,6 +10,7 @@
 import time
 import csv
 import binascii
+import pandas as pd
 from threading import Timer, Event
 from kafka import errors, KafkaProducer, KafkaAdminClient, KafkaConsumer
 from kafka.admin import NewTopic
@@ -19,6 +20,7 @@ from threading import Thread
 def create_topic(topic: NewTopic):
     try:
         admin.create_topics([topic])
+        print("Created topic " + topic.name)
     except errors.TopicAlreadyExistsError:
         print("Topic " + topic.name +  " already exists")
 
@@ -42,7 +44,9 @@ connected_client_ids = []
 
 # use kafka:9092 in container or localhost:29092 on host
 # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
-producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), bootstrap_servers='kafka:9092')
+producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
+                         key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
+                         bootstrap_servers='kafka:9092')
 
 class DistributorPollingThread(Thread):
     def __init__(self, event):
@@ -50,8 +54,8 @@ class DistributorPollingThread(Thread):
         self.stopped = event
         self.consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
                                 value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
-                                # auto_offset_reset='earliest',
-                                group_id='my_favorite_group',
+                                key_deserializer=lambda k: binascii.unhexlify(k).decode('utf-8'),
+                                auto_offset_reset='earliest',
                                 client_id="distributor",
                                 consumer_timeout_ms=1000)
         self.consumer.subscribe([distributor_topic.name])
@@ -62,51 +66,67 @@ class DistributorPollingThread(Thread):
             poll_distributor_topic(self.consumer)
 
 def poll_distributor_topic(consumer: KafkaConsumer):
-    batch_size = 500
     records = consumer.poll(10.0)
-    print(records)
     for topic_data, consumer_records in records.items():
                 for consumer_record in consumer_records:
                     print("Received message: " + consumer_record.value + "\n")
-                    print("TODO: spawn data thread")
+                    if consumer_record.key == 'new-client':
+                        client_id = int(consumer_record.value)
+                        new_client_topic_name = "client-"+ str(client_id)
+                        new_client_topic = NewTopic(name=new_client_topic_name,
+                            num_partitions=1,
+                            replication_factor=1)
+                        create_topic(new_client_topic)
+                        stopFlag = Event()
+                        data_thread = DataThread(stopFlag, client_id)
+                        data_thread.start()
+                        thread_dict[client_id] = stopFlag
+                    elif consumer_record.key == 'health':
+                        print("TODO: handle health msg")
+                    else:
+                        print("unrecognized key")
 
 class DataThread(Thread):
     def __init__(self, event, *args):
         Thread.__init__(self)
         self.stopped = event
-        self.client_id = args[0]
-        self.topic_name = "topic-client-" + self.client_id
+        self.client_id = str(args[0])
+        self.topic_name = "client-" + self.client_id
         self.current_index = 0
+        print ("Created data thread for client " + self.client_id)
     
     def run(self):
         while not self.stopped.wait(5.0):
             print("data thread " + self.client_id)
             filename = "data/data"+self.client_id+"_stream.csv"
-            with open(filename, "r") as f:
-                reader = csv.reader(f, delimiter="\t")
-                for i, line in enumerate(reader, self.current_index):
-                    delimiter = ","
-                    msg = delimiter.join(line)
-                    producer.send(self.topic_name, msg)
-                self.current_index = i+1
+
+            # TODO: send slowly, e.g every 30 seconds 500 entries
+            # test setup -> different intervals?
+
+            df = pd.read_csv(filename, skiprows=self.current_index, delimiter="\t")
+            for index, row in df.iterrows():
+                delimiter = ","
+                msg = delimiter.join(row)
+                producer.send(self.topic_name, key="data", value=msg)
+            if len(df.index) > 0:
+                self.current_index = len(df.index)
+                print ("current index = " + str(self.current_index))
+
+            # with open(filename, "r") as f:
+            #     reader = csv.reader(f, delimiter="\t")
+            #     for i, line in enumerate(reader, -self.current_index):
+            #         delimiter = ","
+            #         msg = delimiter.join(line)
+            #         producer.send(self.topic_name, key="data", value=msg)
+            #     self.current_index = i+1
+            #     print ("current index = " + str(self.current_index))
 
 stopFlag_distributor = Event()
 distributor_polling_thread = DistributorPollingThread(stopFlag_distributor)
 distributor_polling_thread.start()
 
-
-
-# t = Timer(15.0, autoclose)
-# t.start()
-
-# num_clients = 2
-
-# with open("data/data1_stream.csv", "r") as f:
-#     reader = csv.reader(f, delimiter="\t")
-#     for i, line in enumerate(reader):
-#         delimiter = ","
-#         msg = delimiter.join(line)
-#         producer.send('my-topic', msg)
+thread_dict = {}
+thread_dict[0] = stopFlag_distributor
 
 
 

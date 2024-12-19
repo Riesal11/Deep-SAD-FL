@@ -9,6 +9,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.server
+    depends_on:
+      - kafka
     ports:
       - "8080:8080"
     tty: true
@@ -22,6 +24,8 @@ services:
       args:
         SEED: 1
         PORT: 3000
+    depends_on:
+      - kafka
     volumes:
       - ./data/2_client_setup/client_1:/app/data
     ports:
@@ -37,6 +41,8 @@ services:
       args:
         SEED: 2
         PORT: 3001
+    depends_on:
+      - kafka
     volumes:
       - ./data/2_client_setup/client_2:/app/data
     ports:

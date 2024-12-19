@@ -1,4 +1,5 @@
 from email.policy import default
+import time
 import click
 import torch
 import logging
@@ -229,22 +230,34 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
     # TODO
     class PollingThread(Thread):
-        def __init__(self, event):
+        def __init__(self, event, *args):
             Thread.__init__(self)
             self.stopped = event
-            self.consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
-                                    value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
-                                    auto_offset_reset='earliest',
-                                    client_id=client_id,
-                                    consumer_timeout_ms=1000)
-            topic_name = 'client-'+str(client_id)
-            self.consumer.subscribe([topic_name])
-            logger.info("Subscribed to topic %s", topic_name)
+            self.consumer: KafkaConsumer = args[0]
+            self.client_id = str(args[1])
 
         def run(self):
             while not self.stopped.wait(5.0):
                 print("my thread")
-                poll_distributor(self.consumer)
+                self.poll_distributor()
+
+        def poll_distributor(self):
+            batch_size = 500
+            records = self.consumer.poll(10.0)
+            filename = "../data/wustl_iiot_2021.csv"
+
+            # TODO:
+            with open(filename, "a") as f:
+                writer = csv.writer(f, delimiter=",")
+                for topic_data, consumer_records in records.items():
+                    if topic_data.topic == "client-"+self.client_id:
+                        for consumer_record in consumer_records:
+                            print("Received message: \nkey: " + consumer_record.key + " | value: " + consumer_record.value + "\n")
+                            writer.writerow(consumer_record.value)
+                # for i, line in enumerate(reader, self.current_index):
+                #     delimiter = ","
+                #     msg = delimiter.join(line)
+                #     producer.send(self.topic_name, key="data", value=msg)
 
     def client_fn(context: Context) -> Client:
         """Create a Flower client representing a single organization."""
@@ -267,50 +280,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # Create a single Flower client representing a single organization
         return FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
 
-    # TODO 
-    def poll_distributor(consumer: KafkaConsumer):
-        batch_size = 500
-        records = consumer.poll(10.0)
-        print(records)
-        for topic_data, consumer_records in records.items():
-                    for consumer_record in consumer_records:
-                        print("Received message: " + consumer_record.value + "\n")
                
-
-
-    # def connect_to_distributor():
-    #     topic_name = 'my-topic'
-    #     batch_size = 1000
-    #     # use kafka:9092 in container or localhost:29092 on host
-    #     consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
-    #                                 value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
-    #                                 # auto_offset_reset='earliest',
-    #                                 group_id='my_favorite_group',
-    #                                 client_id=1,
-    #                                 consumer_timeout_ms=1000)
-    #     consumer.subscribe(['my-topic'])
-        
-    #     logger.info("Client subscribed to %s", topic_name)
-
-    #     stopFlag = Event()
-    #     thread = PollingThread(stopFlag)
-    #     thread.start()
-    #     # this will stop the timer
-    #     # stopFlag.set()
-
-    #     with open('fileName.csv', 'w') as f:
-    #         # writer = csv.writer(f)
-    #         while True:
-    #             counter = 0
-    #             batch = []
-    #             for message in consumer:
-    #                 batch.append(message.value+"\n")
-    #                 counter += 1
-    #                 if counter >= batch_size:
-    #                     f.writelines(batch)
-    #                     batch = []
-    #                     counter = 0
-    #                     logger.info("new batch of size %s added", batch_size)
 
     #Federated setting
 
@@ -332,29 +302,33 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
         # use kafka:9092 in container or localhost:29092 on host
         # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
-        producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), bootstrap_servers='kafka:9092')
-        producer.send('distributor', str(client_id))
+        producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')),
+                                 key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
+                                 bootstrap_servers='kafka:9092')
+        producer.send('distributor', key="new-client", value=str(client_id))
+
 
         consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
             value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
+            key_deserializer=lambda k: binascii.unhexlify(k).decode('utf-8'),
             client_id=client_id,
             consumer_timeout_ms=1000)
-        consumer.subscribe(['distributor'])
-        message_client_key = "client-"+ str(client_id)
-        for msg in consumer:
-            if msg.key == message_client_key:
-                if msg.value == "CREATED":
-                    logger.info("new client topic ready to go!")
-                    stopFlag = Event()
-                    thread = PollingThread(stopFlag)
-                    thread.start()
+        client_topic = "client-"+ str(client_id)
+        while client_topic not in consumer.topics():
+            logger.info(consumer.topics())
+            time.sleep(1)
+        logger.info("new client topic ready to go!")
+        consumer.subscribe([client_topic])
+        stopFlag = Event()
+        thread = PollingThread(stopFlag, consumer, client_id)
+        thread.start()
 
 
         # this will stop the timer
         # stopFlag.set()
 
         # with client_fn
-        fl.client.start_client(server_address = server_ip_address, client_fn= client_fn)
+        # fl.client.start_client(server_address = server_ip_address, client_fn= client_fn)
         return
 
     if fl_mode == 'server':
