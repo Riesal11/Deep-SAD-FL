@@ -228,13 +228,13 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         return
     
 
-    # TODO
     class PollingThread(Thread):
         def __init__(self, event, *args):
             Thread.__init__(self)
             self.stopped = event
             self.consumer: KafkaConsumer = args[0]
             self.client_id = str(args[1])
+            print("client id: " + self.client_id)
 
         def run(self):
             while not self.stopped.wait(5.0):
@@ -242,22 +242,16 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                 self.poll_distributor()
 
         def poll_distributor(self):
-            batch_size = 500
             records = self.consumer.poll(10.0)
             filename = "../data/wustl_iiot_2021.csv"
 
-            # TODO:
             with open(filename, "a") as f:
-                writer = csv.writer(f, delimiter=",")
+                writer = csv.writer(f, delimiter=",", lineterminator='\r')
                 for topic_data, consumer_records in records.items():
                     if topic_data.topic == "client-"+self.client_id:
                         for consumer_record in consumer_records:
-                            print("Received message: \nkey: " + consumer_record.key + " | value: " + consumer_record.value + "\n")
-                            writer.writerow(consumer_record.value)
-                # for i, line in enumerate(reader, self.current_index):
-                #     delimiter = ","
-                #     msg = delimiter.join(line)
-                #     producer.send(self.topic_name, key="data", value=msg)
+                            row = consumer_record.value.split(',')
+                            writer.writerow(row)
 
     def client_fn(context: Context) -> Client:
         """Create a Flower client representing a single organization."""
@@ -275,7 +269,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
                            ratio_known_normal, ratio_known_outlier, ratio_pollution,
                            random_state=cfg.settings['seed'], download_zip=download_zip)
-        # TODO: load data dynamically (portion of whole) + from distributor
 
         # Create a single Flower client representing a single organization
         return FL_Client(deepSAD,dataset,cfg.settings, device,n_jobs_dataloader).to_client()
@@ -328,7 +321,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # stopFlag.set()
 
         # with client_fn
-        # fl.client.start_client(server_address = server_ip_address, client_fn= client_fn)
+        fl.client.start_client(server_address = server_ip_address, client_fn= client_fn)
         return
 
     if fl_mode == 'server':

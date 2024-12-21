@@ -29,7 +29,7 @@ print("Using stream split fraction of %s of each clients data" % stream_split_fr
 # shuffle dataset
 ds = df.sample(frac=1, random_state = random_state)
 for i, dfsplit in enumerate(np.array_split(ds, num_clients)):
-    print("Generating data for client %s" % i+1)
+    print("Generating data for client %s" % str(i+1))
     stream, presplit = np.array_split(dfsplit, [int(stream_split_fraction * len(dfsplit))])
     print("Row count stream: %s" % len(stream))
     print("Row count presplit: %s" % len(presplit))
