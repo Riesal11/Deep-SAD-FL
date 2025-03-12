@@ -151,12 +151,15 @@ In addtion, for each client you can specify:
 To build the image, in the application root folder, execute
 ```
 docker build -t riesal11/deep-sad-fl .
+
+docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl:multi -f .\Dockerfile.client .
 ```
 To run the the container
 ```
 docker run -t -d -p 8080:8080 riesal11/deep-sad-fl
 docker run -t -d -p 3000:3000 riesal11/deep-sad-fl
 
+on RPi:
 sudo docker run -e SEED=2 -e PORT=3000 --mount type=bind,src=./data/2_client_setup/client_2,dst=/app/data -t -d -p 3000:3000 riesal11/deep-sad-fl:multi
 ```
 
@@ -164,11 +167,13 @@ sudo docker run -e SEED=2 -e PORT=3000 --mount type=bind,src=./data/2_client_set
 To push the image to the docker hub
 ```
 docker push riesal11/deep-sad-fl
+docker push riesal11/deep-sad-fl:multi
 ```
 
 From the client machines, pull the image
 ```
 docker pull riesal11/deep-sad-fl
+docker pull riesal11/deep-sad-fl:multi
 ```
 
 ### docker-compose
