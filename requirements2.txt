@@ -43,3 +43,5 @@ kafka-python-ng
 # six==1.12.0
 # torch==2.4.1
 # torchvision==0.19.1
+# flwr
+# kafka-python-ng

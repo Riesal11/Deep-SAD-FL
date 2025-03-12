@@ -297,11 +297,11 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
         producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')),
                                  key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
-                                 bootstrap_servers='kafka:9092')
+                                 bootstrap_servers='10.0.0.20:29092')
         producer.send('distributor', key="new-client", value=str(client_id))
 
 
-        consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
+        consumer = KafkaConsumer(bootstrap_servers='10.0.0.20:29092',
             value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
             key_deserializer=lambda k: binascii.unhexlify(k).decode('utf-8'),
             client_id=client_id,

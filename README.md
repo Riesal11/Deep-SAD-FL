@@ -156,6 +156,8 @@ To run the the container
 ```
 docker run -t -d -p 8080:8080 riesal11/deep-sad-fl
 docker run -t -d -p 3000:3000 riesal11/deep-sad-fl
+
+sudo docker run -e SEED=2 -e PORT=3000 --mount type=bind,src=./data/2_client_setup/client_2,dst=/app/data -t -d -p 3000:3000 riesal11/deep-sad-fl:multi
 ```
 
 
