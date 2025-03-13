@@ -253,6 +253,22 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                             row = consumer_record.value.split(',')
                             writer.writerow(row)
 
+    class HealthThread(Thread):
+        def __init__(self, event, *args):
+            Thread.__init__(self)
+            self.stopped = event
+            self.producer: KafkaProducer = args[0]
+            self.client_id = str(args[1])
+            print("client id: " + self.client_id)
+
+        def run(self):
+            while not self.stopped.wait(5.0):
+                self.send_health_check()
+
+        def send_health_check(self):
+            producer.send('distributor', key="health", value=str(client_id))
+            print("health check sent")
+
     def client_fn(context: Context) -> Client:
         """Create a Flower client representing a single organization."""
         
@@ -300,6 +316,9 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                                  bootstrap_servers='10.0.0.20:29092')
         producer.send('distributor', key="new-client", value=str(client_id))
 
+        stopFlag_health = Event()
+        thread_health = HealthThread(stopFlag_health, producer, client_id)
+        thread_health.start()
 
         consumer = KafkaConsumer(bootstrap_servers='10.0.0.20:29092',
             value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
@@ -312,10 +331,9 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             time.sleep(1)
         logger.info("new client topic ready to go!")
         consumer.subscribe([client_topic])
-        stopFlag = Event()
-        thread = PollingThread(stopFlag, consumer, client_id)
-        thread.start()
-
+        stopFlag_poll = Event()
+        thread_poll = PollingThread(stopFlag_poll, consumer, client_id)
+        thread_poll.start()
 
         # this will stop the timer
         # stopFlag.set()

@@ -1,8 +1,3 @@
-# how to get clients?
-# static vs from server?
-
-# connection to clients
-
 # redistribution of lost client
 
 # TODO: delete data folder in data_distributor
@@ -41,12 +36,44 @@ create_topic(server_topic)
 create_topic(distributor_topic)
 
 connected_client_ids = []
+backup_ids = []
+
+health_dict = {}
 
 # use kafka:9092 in container or localhost:29092 on host
 # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
 producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
                          key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
                          bootstrap_servers='kafka:9092')
+
+class ServerPollingThread(Thread):
+    def __init__(self, event):
+        Thread.__init__(self)
+        self.stopped = event
+        self.consumer = KafkaConsumer(bootstrap_servers='kafka:9092',
+                                value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
+                                key_deserializer=lambda k: binascii.unhexlify(k).decode('utf-8'),
+                                auto_offset_reset='earliest',
+                                client_id="server",
+                                consumer_timeout_ms=1000)
+        self.consumer.subscribe([server_topic.name])
+    
+    def run(self):
+        while not self.stopped.wait(5.0):
+            print("polling thread server")
+            poll_server_topic(self.consumer)
+
+def poll_server_topic(consumer: KafkaConsumer):
+    records = consumer.poll(10.0)
+    for topic_data, consumer_records in records.items():
+            for consumer_record in consumer_records:
+                print("Received message: " + consumer_record.value + "\n")
+                if consumer_record.key == 'new-backup-client':
+                    backup_id = str(consumer_record.value)
+                    backup_ids.append(backup_id)
+                    print("new backup client " + backup_id)
+                else:
+                    print("unrecognized key")
 
 class DistributorPollingThread(Thread):
     def __init__(self, event):
@@ -82,7 +109,8 @@ def poll_distributor_topic(consumer: KafkaConsumer):
                         data_thread.start()
                         thread_dict[client_id] = stopFlag
                     elif consumer_record.key == 'health':
-                        print("TODO: handle health msg")
+                        client_id = int(consumer_record.value)
+                        health_dict[client_id] = time.time()
                     else:
                         print("unrecognized key")
 
@@ -121,12 +149,37 @@ class DataThread(Thread):
             #     self.current_index = i+1
             #     print ("current index = " + str(self.current_index))
 
+class HealthThread(Thread):
+    def __init__(self, event, *args):
+        Thread.__init__(self)
+        self.stopped = event
+        print ("Created health thread")
+    
+    def run(self):
+        while not self.stopped.wait(5.0):
+            print ("checking health...")
+            now = time.time()
+            for key in health_dict:
+                print (now-health_dict[key])
+                if (now-health_dict[key] > 10):
+                    print ("HEALTH CHECK ERROR client id " + str(key))
+                    # pick available backup and send message
+                    
+
+
 stopFlag_distributor = Event()
 distributor_polling_thread = DistributorPollingThread(stopFlag_distributor)
 distributor_polling_thread.start()
 
+stopFlag_distributor = Event()
+distributor_polling_thread = ServerPollingThread(stopFlag_distributor)
+distributor_polling_thread.start()
+
+stopFlag_health = Event()
+health_thread = HealthThread(stopFlag_health)
+health_thread.start()
+
 thread_dict = {}
-thread_dict[0] = stopFlag_distributor
 
 
 

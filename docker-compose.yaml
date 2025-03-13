@@ -33,23 +33,57 @@ services:
     tty: true
     # entrypoint:
     #   - ../docker-entrypoint-client.sh
-  # client_2:
-  #   container_name: deep-sad-fl-client-2
-  #   build:
-  #     context: .
-  #     dockerfile: ./Dockerfile.client
-  #     args:
-  #       SEED: 2
-  #       PORT: 3001
-  #   depends_on:
-  #     - kafka
-  #   volumes:
-  #     - ./data/2_client_setup/client_2:/app/data
-  #   ports:
-  #     - "3001:3001"
-  #   tty: true
-  #   # entrypoint:
-  #   #   - ../docker-entrypoint-client.sh
+  client_2:
+    container_name: deep-sad-fl-client-2
+    build:
+      context: .
+      dockerfile: ./Dockerfile.client
+      args:
+        SEED: 2
+        PORT: 3001
+    depends_on:
+      - kafka
+    volumes:
+      - ./data/2_client_setup/client_2:/app/data
+    ports:
+      - "3001:3001"
+    tty: true
+    # entrypoint:
+    #   - ../docker-entrypoint-client.sh
+  backup_client_1:
+    container_name: deep-sad-fl-backup-1
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backup
+      args:
+        PORT: 3002
+    depends_on:
+      - kafka
+      - distributor
+    volumes:
+      - ./data/2_client_setup:/app/data
+    ports:
+      - "3002:3002"
+    tty: true
+    # entrypoint:
+    #   - ../docker-entrypoint-client.sh
+  backup_client_2:
+    container_name: deep-sad-fl-backup-2
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backup
+      args:
+        PORT: 3003
+    depends_on:
+      - kafka
+      - distributor
+    volumes:
+      - ./data/2_client_setup:/app/data
+    ports:
+      - "3003:3003"
+    tty: true
+    # entrypoint:
+    #   - ../docker-entrypoint-client.sh
 
   zookeeper:
     image: bitnami/zookeeper:3.9.1

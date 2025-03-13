@@ -8,4 +8,10 @@ services:
       - "3000:3000"
     tty: true
     entrypoint:
-      - ../docker-entrypoint-client.sh
+      - ../docker-entrypoint-client.sh 
+    build:
+      context: .
+      dockerfile: ./Dockerfile.client
+      args:
+        SEED: 1
+        PORT: 3000
