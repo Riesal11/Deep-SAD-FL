@@ -82,7 +82,7 @@ class DeepSAD(object):
         self.results['train_time'] = self.trainer.train_time
         self.c = self.trainer.c.cpu().data.numpy().tolist()  # get as list
 
-    def test(self, dataset: BaseADDataset, device: str = 'cuda', n_jobs_dataloader: int = 0):
+    def test(self, dataset: BaseADDataset, device: str = 'cuda', n_jobs_dataloader: int = 0, use_full_dataset: bool = False):
         """Tests the Deep SAD model on the test data."""
        
         if self.trainer is None:
@@ -92,7 +92,7 @@ class DeepSAD(object):
         #for param_tensor in self.net.state_dict():
         #    print(param_tensor, "\t", self.net.state_dict()[param_tensor].size())
 
-        self.trainer.test(dataset, self.net)
+        self.trainer.test(dataset, self.net, use_full_dataset)
 
         # Get results
         self.results['test_auc'] = self.trainer.test_auc

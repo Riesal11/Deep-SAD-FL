@@ -17,6 +17,7 @@ seaborn
 six
 flwr
 kafka-python-ng
+bson
 
 # with pip manually
 # pip install torch==2.4.1

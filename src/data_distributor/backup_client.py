@@ -17,6 +17,7 @@ from kafka import KafkaConsumer, KafkaProducer
 import logging
 from threading import Thread, Event
 import time
+import json
 
 import sys
 import os
@@ -39,8 +40,15 @@ class PollingThread(Thread):
         for topic_data, consumer_records in records.items():
             for consumer_record in consumer_records:
                 print(consumer_record)
-
-# python main.py --fl_mode client --client_id $@ --seed $@ --server_ip_address 10.0.0.20:8080
+                if consumer_record.key == 'backup request':
+                    value_dict = json.loads(consumer_record.value)
+                    # TODO: make sure backup_id and client_id present
+                    if str(value_dict['backup_id']) == self.backup_id:
+                        client_id = str(value_dict['client_id'])
+                        print("initiaing backup for client " + client_id)
+                        start_cmd = "python main.py --fl_mode client --client_id %s --seed %s --server_ip_address 10.0.0.20:8080" %(client_id,client_id)
+                        print(start_cmd)
+                        os.system(start_cmd)
 
 def main():
 
@@ -50,7 +58,6 @@ def main():
     producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')),
                                 key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
                                 bootstrap_servers='10.0.0.20:29092')
-    # TODO: generate random identifier
     producer.send('server', key="new-backup-client", value=backup_id)
 
     consumer = KafkaConsumer(bootstrap_servers='10.0.0.20:29092',

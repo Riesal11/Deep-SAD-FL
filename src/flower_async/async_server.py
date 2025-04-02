@@ -73,8 +73,8 @@ class AsyncServer(Server):
         client_manager: AsyncClientManager, # ClientManager,
         async_strategy: AsynchronousStrategy,
         base_conf_dict,
-        total_train_time: int = 180,
-        waiting_interval: int = 5,
+        total_train_time: int = 800,
+        waiting_interval: int = 50,
         max_workers: int = 2,
         server_artificial_delay: bool = False,
     ):
@@ -132,12 +132,13 @@ class AsyncServer(Server):
         log(INFO, "Evaluating initial parameters")
         res = self.strategy.evaluate(0, parameters=self.parameters)
         if res is not None:
-            log(
-                INFO,
-                "initial parameters (loss, other metrics): %s, %s",
-                res[0],
-                res[1],
-            )
+            # will produce huge log from other metrics (test scores)
+            # log(
+            #     INFO,
+            #     "initial parameters (loss, other metrics): %s, %s",
+            #     res[0],
+            #     res[1],
+            # )
             history.add_loss_centralized(timestamp=time(), loss=res[0])
             history.add_metrics_centralized(timestamp=time(), metrics=res[1])
         else:
@@ -162,12 +163,21 @@ class AsyncServer(Server):
         best_loss = float('inf')
         patience_init = 50 # n times the `waiting interval` seconds
         patience = patience_init
+        log(INFO, "TOTAL TRAIN TIME %ss", self.total_train_time)
         while time() - start_time < self.total_train_time:
+            # self.fit_round(
+            #     server_round=0,
+            #     timeout=timeout,
+            #     executor=executor,
+            #     end_timestamp=end_timestamp,
+            #     history=history
+            # )
             # If the clients are to be started periodically, move fit_round here and remove the executor.submit lines from _handle_finished_future_after_fit
             sleep(self.waiting_interval)
             if self.server_artificial_delay:
                 self.busy_wait(10)
-            loss = self.evaluate_centralized(counter, history)
+            with self.model_param_lock:
+                loss = self.evaluate_centralized(counter, history)
             if loss is not None:
                 if loss < best_loss - 1e-4:
                     best_loss = loss
@@ -207,10 +217,12 @@ class AsyncServer(Server):
 
 
     def evaluate_centralized(self, current_round: int, history: History):
-        log(DEBUG, "SERVER: evaluate_centralized... ")
+        # is always none, there is no dataset on server currently
+
+        log(DEBUG, "SERVER: evaluate_centralized... round: %s ", current_round)
         res_cen = self.strategy.evaluate(
             current_round, parameters=self.parameters)
-        log(DEBUG, "SERVER: evaluate result: %s", res_cen)
+        # log(DEBUG, "SERVER: evaluate result: %s", res_cen)
         if res_cen is not None:
             loss_cen, metrics_cen = res_cen
             metrics_cen['end_timestamp'] = self.end_timestamp
@@ -220,11 +232,11 @@ class AsyncServer(Server):
             history.add_metrics_centralized(
                 timestamp=time(), metrics=metrics_cen
             )
-            log(INFO, "Centralized evaluation: loss %s, f1=%s", loss_cen, metrics_cen['f1'])
+            log(INFO, "Centralized evaluation: loss %s, f1=%s", loss_cen, metrics_cen['test_f1'])
             return loss_cen
         else:
+            log(INFO, self.parameters)
             return None
-
 
     def evaluate_decentralized(self, current_round: int, history: History, timeout: Optional[float]):
         """Evaluate model on a sample of available clients
@@ -332,6 +344,7 @@ class AsyncServer(Server):
 
         # Collect `fit` results from all clients participating in this round
         fit_clients(
+            self,
             client_instructions=client_instructions,
             timeout=timeout,
             server=self,
@@ -449,14 +462,18 @@ def reconnect_client(
     return client, disconnect
 
 
-def handle_futures(futures, server):
+def handle_futures(self, futures, server, timeout):
     for future in futures:
         _handle_finished_future_after_fit(
-            future=future, server=server
+            self,
+            future=future, 
+            server=server,
+            timeout=timeout,
         )
 
 
 def fit_clients(
+    self,
     client_instructions: List[Tuple[ClientProxy, FitIns]],
     timeout: Optional[float],
     server: AsyncServer,
@@ -472,7 +489,7 @@ def fit_clients(
     }
     for f in submitted_fs:
         f.add_done_callback(
-            lambda ftr: _handle_finished_future_after_fit(ftr, server=server, executor=executor, end_timestamp=end_timestamp, history=history),
+            lambda ftr: _handle_finished_future_after_fit(self, ftr, server=server, executor=executor, end_timestamp=end_timestamp, history=history, timeout=timeout),
         )
 
 
@@ -486,21 +503,31 @@ def fit_client(
 
 
 def _handle_finished_future_after_fit(
+    self,
     future: concurrent.futures.Future,
     server: AsyncServer,
     executor: ThreadPoolExecutor,
     end_timestamp: float,
     history: AsyncHistory,
+    timeout: Optional[float]
 ) -> None:
     """Update the server parameters, restart the client."""
     log(DEBUG, "SERVER: handle finished future after fit")
     # Check if there was an exception
     failure = future.exception()
     if failure is not None:
-        log(WARNING, "Failure: %s", failure)
+        log(WARNING, "Failure: ", exc_info=True)
+        # TODO: start new client
+        self.fit_round(
+            server_round=1,
+            timeout=timeout,
+            executor=executor,
+            end_timestamp=end_timestamp,
+            history=history
+        )
         return
 
-    # print("Got a result :)")
+    print("Got a result :)")
     result: Tuple[ClientProxy, FitRes] = future.result()
     clientProxy, res = result
 
@@ -508,7 +535,7 @@ def _handle_finished_future_after_fit(
         parameters_aggregated = server.async_strategy.average(
             server.parameters, res.parameters, res.metrics['t_diff'], res.num_examples)
         server.set_new_params(parameters_aggregated)
-        
+
         history.add_metrics_distributed_fit_async(
             clientProxy.cid,{"sample_sizes": res.num_examples, **res.metrics }, timestamp=time()
         )
@@ -520,67 +547,67 @@ def _handle_finished_future_after_fit(
         # new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid, iter=iter))
         new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid))
         ftr = executor.submit(fit_client, client=clientProxy, ins=new_ins, timeout=None, group_id=0)
-        ftr.add_done_callback(lambda ftr: _handle_finished_future_after_fit(ftr, server, executor, end_timestamp, history))
+        ftr.add_done_callback(lambda ftr: _handle_finished_future_after_fit(self, ftr, server, executor, end_timestamp, history, timeout))
 
 
 ############################### FOR EVALUATION ####################################
 
-def evaluate_clients(
-    client_instructions: List[Tuple[ClientProxy, EvaluateIns]],
-    max_workers: Optional[int],
-    timeout: Optional[float],
-) -> EvaluateResultsAndFailures:
-    """Evaluate parameters concurrently on all selected clients."""
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        submitted_fs = {
-            executor.submit(evaluate_client, client_proxy, ins, timeout)
-            for client_proxy, ins in client_instructions
-        }
-        finished_fs, _ = concurrent.futures.wait(
-            fs=submitted_fs,
-            timeout=None,  # Handled in the respective communication stack
-        )
+# def evaluate_clients(
+#     client_instructions: List[Tuple[ClientProxy, EvaluateIns]],
+#     max_workers: Optional[int],
+#     timeout: Optional[float],
+# ) -> EvaluateResultsAndFailures:
+#     """Evaluate parameters concurrently on all selected clients."""
+#     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+#         submitted_fs = {
+#             executor.submit(evaluate_client, client_proxy, ins, timeout)
+#             for client_proxy, ins in client_instructions
+#         }
+#         finished_fs, _ = concurrent.futures.wait(
+#             fs=submitted_fs,
+#             timeout=None,  # Handled in the respective communication stack
+#         )
 
-    # Gather results
-    results: List[Tuple[ClientProxy, EvaluateRes]] = []
-    failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]] = []
-    for future in finished_fs:
-        _handle_finished_future_after_evaluate(
-            future=future, results=results, failures=failures
-        )
-    return results, failures
-
-
-def evaluate_client(
-    client: ClientProxy,
-    ins: EvaluateIns,
-    timeout: Optional[float],
-) -> Tuple[ClientProxy, EvaluateRes]:
-    """Evaluate parameters on a single client."""
-    evaluate_res = client.evaluate(ins, timeout=timeout)
-    return client, evaluate_res
+#     # Gather results
+#     results: List[Tuple[ClientProxy, EvaluateRes]] = []
+#     failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]] = []
+#     for future in finished_fs:
+#         _handle_finished_future_after_evaluate(
+#             future=future, results=results, failures=failures
+#         )
+#     return results, failures
 
 
-def _handle_finished_future_after_evaluate(
-    future: concurrent.futures.Future,  # type: ignore
-    results: List[Tuple[ClientProxy, EvaluateRes]],
-    failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
-) -> None:
-    """Convert finished future into either a result or a failure."""
-    # Check if there was an exception
-    failure = future.exception()
-    if failure is not None:
-        failures.append(failure)
-        return
+# def evaluate_client(
+#     client: ClientProxy,
+#     ins: EvaluateIns,
+#     timeout: Optional[float],
+# ) -> Tuple[ClientProxy, EvaluateRes]:
+#     """Evaluate parameters on a single client."""
+#     evaluate_res = client.evaluate(ins, timeout=timeout)
+#     return client, evaluate_res
 
-    # Successfully received a result from a client
-    result: Tuple[ClientProxy, EvaluateRes] = future.result()
-    _, res = result
 
-    # Check result status code
-    if res.status.code == Code.OK:
-        results.append(result)
-        return
+# def _handle_finished_future_after_evaluate(
+#     future: concurrent.futures.Future,  # type: ignore
+#     results: List[Tuple[ClientProxy, EvaluateRes]],
+#     failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
+# ) -> None:
+#     """Convert finished future into either a result or a failure."""
+#     # Check if there was an exception
+#     failure = future.exception()
+#     if failure is not None:
+#         failures.append(failure)
+#         return
 
-    # Not successful, client returned a result where the status code is not OK
-    failures.append(result)
+#     # Successfully received a result from a client
+#     result: Tuple[ClientProxy, EvaluateRes] = future.result()
+#     _, res = result
+
+#     # Check result status code
+#     if res.status.code == Code.OK:
+#         results.append(result)
+#         return
+
+#     # Not successful, client returned a result where the status code is not OK
+#     failures.append(result)

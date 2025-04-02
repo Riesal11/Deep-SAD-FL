@@ -3,6 +3,8 @@
 # TODO: delete data folder in data_distributor
 
 import time
+import json
+# from bson import json_util
 import csv
 import binascii
 import pandas as pd
@@ -121,6 +123,7 @@ class DataThread(Thread):
         self.client_id = str(args[0])
         self.topic_name = "client-" + self.client_id
         self.current_index = 0
+        self.nrows_to_read = 100
         print ("Created data thread for client " + self.client_id)
     
     def run(self):
@@ -128,16 +131,16 @@ class DataThread(Thread):
             print("data thread " + self.client_id)
             filename = "data/data"+self.client_id+"_stream.csv"
 
-            # TODO: send slowly, e.g every 30 seconds 500 entries
+            # send slowly, currently 100 every 5 sec
             # test setup -> different intervals?
 
-            df = pd.read_csv(filename, skiprows=self.current_index, delimiter="\t")
+            df = pd.read_csv(filename, skiprows=self.current_index, delimiter="\t", nrows=self.nrows_to_read)
             for index, row in df.iterrows():
                 delimiter = ","
                 msg = delimiter.join(row)
                 producer.send(self.topic_name, key="data", value=msg)
             if len(df.index) > 0:
-                self.current_index = len(df.index)
+                self.current_index += len(df.index)
                 print ("current index = " + str(self.current_index))
 
             # with open(filename, "r") as f:
@@ -159,11 +162,30 @@ class HealthThread(Thread):
         while not self.stopped.wait(5.0):
             print ("checking health...")
             now = time.time()
+            delete_entries = []
             for key in health_dict:
                 print (now-health_dict[key])
-                if (now-health_dict[key] > 10):
+                if (now-health_dict[key] > 30):
                     print ("HEALTH CHECK ERROR client id " + str(key))
                     # pick available backup and send message
+                    print(backup_ids)
+                    backup_id = backup_ids.pop(0)
+                    print(backup_ids)
+                    print("picked backup id " + str(backup_id))
+                    value_dict = {
+                        'backup_id': backup_id,
+                        'client_id': str(key)
+                    }
+                    producer.send(server_topic.name, key="backup request", value= json.dumps(value_dict))
+                    # mark id to be deleted from health_dict
+                    delete_entries.append(key)
+            for entry in delete_entries:
+                # stop current data thread
+                thread_dict[entry].set()
+                # remove dead client from health dict
+                health_dict.pop(entry)
+
+
                     
 
 
@@ -180,94 +202,3 @@ health_thread = HealthThread(stopFlag_health)
 health_thread.start()
 
 thread_dict = {}
-
-
-
-
-
-
-
-# # -------------------------------
-
-# #!/usr/bin/env python
-# import threading, time
-
-# from kafka import KafkaAdminClient, KafkaConsumer, KafkaProducer
-# from kafka.admin import NewTopic
-
-
-# class Producer(threading.Thread):
-#     def __init__(self):
-#         threading.Thread.__init__(self)
-#         self.stop_event = threading.Event()
-
-#     def stop(self):
-#         self.stop_event.set()
-
-#     def run(self):
-#         producer = KafkaProducer(bootstrap_servers='localhost:29092')
-
-#         while not self.stop_event.is_set():
-#             producer.send('my-topic', b"test")
-#             producer.send('my-topic', b"\xc2Hola, mundo!")
-#             time.sleep(1)
-
-#         producer.close()
-
-
-# class Consumer(threading.Thread):
-#     def __init__(self):
-#         threading.Thread.__init__(self)
-#         self.stop_event = threading.Event()
-
-#     def stop(self):
-#         self.stop_event.set()
-
-#     def run(self):
-#         consumer = KafkaConsumer(bootstrap_servers='localhost:29092',
-#                                  auto_offset_reset='earliest',
-#                                  consumer_timeout_ms=1000)
-#         consumer.subscribe(['my-topic'])
-
-#         while not self.stop_event.is_set():
-#             for message in consumer:
-#                 print(message)
-#                 if self.stop_event.is_set():
-#                     break
-
-#         consumer.close()
-
-
-# def main():
-#     # Create 'my-topic' Kafka topic
-#     try:
-#         admin = KafkaAdminClient(bootstrap_servers='localhost:29092')
-
-#         topic = NewTopic(name='my-topic',
-#                          num_partitions=1,
-#                          replication_factor=1)
-#         admin.create_topics([topic])
-#     except Exception:
-#         pass
-
-#     tasks = [
-#         Producer(),
-#         Consumer()
-#     ]
-
-#     # Start threads of a publisher/producer and a subscriber/consumer to 'my-topic' Kafka topic
-#     for t in tasks:
-#         t.start()
-
-#     time.sleep(10)
-
-#     # Stop threads
-#     for task in tasks:
-#         task.stop()
-
-#     for task in tasks:
-#         task.join()
-
-
-# if __name__ == "__main__":
-#     main()

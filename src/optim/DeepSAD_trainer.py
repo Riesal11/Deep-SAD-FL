@@ -111,11 +111,16 @@ class DeepSADTrainer(BaseTrainer):
 
         return net
 
-    def test(self, dataset: BaseADDataset, net: BaseNet):
+    def test(self, dataset: BaseADDataset, net: BaseNet, use_full_dataset: bool = False):
         logger = logging.getLogger()
 
-        # Get test data loader
-        _, test_loader = dataset.loaders(batch_size=self.batch_size, num_workers=self.n_jobs_dataloader)
+        if use_full_dataset:
+            # special case where the full dataset is tested
+            logger.info('Using full dataset for testing...')
+            _, test_loader = dataset.loaders(batch_size=self.batch_size, num_workers=self.n_jobs_dataloader, use_full_dataset=use_full_dataset)
+        else:
+            # Get test data loader
+            _, test_loader = dataset.loaders(batch_size=self.batch_size, num_workers=self.n_jobs_dataloader)
 
         # Due to client_fn in main, c is not defined here, so I do the same again
         # TODO: check if this has any complications

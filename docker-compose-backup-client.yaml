@@ -1,0 +1,16 @@
+services:
+  backup_client:
+    container_name: deep-sad-fl-backup-${BACKUP_CLIENT_ID}
+    image: riesal11/deep-sad-fl-backup
+    volumes:
+      - ./data/${CLIENTS}_client_setup/backup_${BACKUP_CLIENT_ID}:/app/data
+    ports:
+      - "3003:3003"
+    tty: true
+    entrypoint:
+      - ../docker-entrypoint-backup.sh 
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backup
+      args:
+        PORT: 3003

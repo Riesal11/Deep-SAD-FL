@@ -32,6 +32,8 @@ import csv
 from threading import Event, Thread, Timer
 from kafka import KafkaConsumer, KafkaProducer
 
+from utils.centralized_evaluation import gen_evaluate_fn
+
 ################################################################################
 # Settings
 ################################################################################
@@ -226,7 +228,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
                             metric="roc_auc", mode="max", num_samples=18,scheduler=scheduler, search_alg=searcher)
         logger.info(f'Best configuration found by RayTune: {analysis.get_best_config(metric="roc_auc", mode="max")}')
         return
-    
 
     class PollingThread(Thread):
         def __init__(self, event, *args):
@@ -238,7 +239,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
         def run(self):
             while not self.stopped.wait(5.0):
-                print("my thread")
                 self.poll_distributor()
 
         def poll_distributor(self):
@@ -267,7 +267,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
         def send_health_check(self):
             producer.send('distributor', key="health", value=str(client_id))
-            print("health check sent")
 
     def client_fn(context: Context) -> Client:
         """Create a Flower client representing a single organization."""
@@ -334,7 +333,8 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         stopFlag_poll = Event()
         thread_poll = PollingThread(stopFlag_poll, consumer, client_id)
         thread_poll.start()
-
+        # since server also loads dataset, needs some time to be ready for connections
+        time.sleep(60)
         # this will stop the timer
         # stopFlag.set()
 
@@ -345,16 +345,27 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
     if fl_mode == 'server':
         # initial sync
         # strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2)
+
+        # Load model
+        deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
+        deepSAD.set_network(net_name = net_name,h1=net_h1)
+        # Load data
+        logger.info("loading dataset...")
+        dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
+                           ratio_known_normal, ratio_known_outlier, ratio_pollution,
+                           random_state=0, download_zip=download_zip)
+
+        evaluate_fn = gen_evaluate_fn(dataset, device, deepSAD, n_jobs_dataloader)
         
         # async test
         server = AsyncServer(
             base_conf_dict=dict(),
-            strategy=fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2), 
+            strategy=fl.server.strategy.FedAvg(min_fit_clients=1,min_evaluate_clients=1,min_available_clients=1, evaluate_fn=evaluate_fn), 
             # client_manager=fl.server.SimpleClientManager(), 
             client_manager=AsyncClientManager(),
             async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=2, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
         
-        config = fl.server.ServerConfig(num_rounds=5)
+        config = fl.server.ServerConfig(num_rounds=10)
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
             return

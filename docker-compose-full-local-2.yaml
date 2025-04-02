@@ -7,7 +7,8 @@ services:
   server:
     container_name: deep-sad-fl-server
     volumes:
-      - ./data/full_dataset:/app/data
+      - ./data/2_client_setup/server:/app/data
+      - ./log/2_client_setup/server:/app/log
     build:
       context: .
       dockerfile: ./Dockerfile.server
@@ -30,6 +31,7 @@ services:
       - kafka
     volumes:
       - ./data/2_client_setup/client_1:/app/data
+      - ./log/2_client_setup/client_1:/app/log
     ports:
       - "3000:3000"
     tty: true
@@ -47,6 +49,7 @@ services:
       - kafka
     volumes:
       - ./data/2_client_setup/client_2:/app/data
+      - ./log/2_client_setup/client_2:/app/log
     ports:
       - "3001:3001"
     tty: true
@@ -64,6 +67,7 @@ services:
       - distributor
     volumes:
       - ./data/2_client_setup/backup_1:/app/data
+      - ./log/2_client_setup/backup_1:/app/log
     ports:
       - "3002:3002"
     tty: true
@@ -81,6 +85,7 @@ services:
       - distributor
     volumes:
       - ./data/2_client_setup/backup_2:/app/data
+      - ./log/2_client_setup/backup_2:/app/log
     ports:
       - "3003:3003"
     tty: true
