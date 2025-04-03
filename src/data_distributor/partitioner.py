@@ -51,8 +51,8 @@ print("Generating data for server validation")
 
 server_data, clients_data = np.array_split(ds, [int(server_validation_fraction * len(ds))])
 
-print("Row count server_data: %s" % len(server_data))
-print("Row count clients_data: %s" % len(clients_data))
+print("Row count server data: %s" % len(server_data))
+print("Row count clients data: %s" % len(clients_data))
 server_data.to_csv(f"data/{num_clients}_client_setup/server/wustl_iiot_2021.csv", index=False)
 
 for i, dfsplit in enumerate(np.array_split(clients_data, backup_clients)):

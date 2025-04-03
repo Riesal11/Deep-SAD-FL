@@ -4,11 +4,12 @@ services:
     image: riesal11/deep-sad-fl-backup
     volumes:
       - ./data/${CLIENTS}_client_setup/backup_${BACKUP_CLIENT_ID}:/app/data
+      - ./log/${CLIENTS}_client_setup/backup_${BACKUP_CLIENT_ID}:/app/log
     ports:
       - "3003:3003"
     tty: true
-    entrypoint:
-      - ../docker-entrypoint-backup.sh 
+    # entrypoint:
+    #   - ../docker-entrypoint-backup.sh 
     build:
       context: .
       dockerfile: ./Dockerfile.backup

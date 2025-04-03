@@ -80,7 +80,7 @@ from utils.centralized_evaluation import gen_evaluate_fn
               help='Name of the optimizer to use for Deep SAD network training.')
 @click.option('--lr', type=float, default=0.001,
               help='Initial learning rate for Deep SAD network training. Default=0.001')
-@click.option('--n_epochs', type=int, default=5, help='Number of epochs to train.')     # initial: 50
+@click.option('--n_epochs', type=int, default=50, help='Number of epochs to train.')     # initial: 50
 @click.option('--lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--batch_size', type=int, default=128, help='Batch size for mini-batch training.')
@@ -92,7 +92,7 @@ from utils.centralized_evaluation import gen_evaluate_fn
               help='Name of the optimizer to use for autoencoder pretraining.')
 @click.option('--ae_lr', type=float, default=0.001,
               help='Initial learning rate for autoencoder pretraining. Default=0.001')
-@click.option('--ae_n_epochs', type=int, default=5, help='Number of epochs to train autoencoder.') # initial: 50
+@click.option('--ae_n_epochs', type=int, default=50, help='Number of epochs to train autoencoder.') # initial: 50
 @click.option('--ae_lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--ae_batch_size', type=int, default=128, help='Batch size for mini-batch autoencoder training.')

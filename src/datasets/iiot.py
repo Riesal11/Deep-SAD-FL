@@ -44,7 +44,7 @@ class IIOTADDataset(BaseADDataset):
         if use_full_dataset:
             full_dataset = ConcatDataset([self.train_set, self.test_set])
             full_loader = DataLoader(dataset=full_dataset, batch_size=batch_size, shuffle=shuffle_test,
-                                  num_workers=num_workers, drop_last=False)
+                                  num_workers=num_workers, drop_last=True)
             return full_loader, full_loader
         train_loader = DataLoader(dataset=self.train_set, batch_size=batch_size, shuffle=shuffle_train,
                                   num_workers=num_workers, drop_last=True)

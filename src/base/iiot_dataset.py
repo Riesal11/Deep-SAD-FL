@@ -38,8 +38,8 @@ class IIoTDataset(Dataset):
 
         df = pd.read_csv(self.csv_file)
 
-        df = df[(df.values  == "normal")|(df.values  == "DoS" ) ]
-
+        # df = df[(df.values  == "normal")|(df.values  == "DoS")|(df.values  == "Reconn")|(df.values  == "Backdoor")|(df.values  == "CommInj")]
+        df = df[(df.values  == "normal")|(df.values  == "DoS" )]
 
         if dataset_size != -1:
             if fl_dataset_index == -1:

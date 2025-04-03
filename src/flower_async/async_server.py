@@ -73,8 +73,8 @@ class AsyncServer(Server):
         client_manager: AsyncClientManager, # ClientManager,
         async_strategy: AsynchronousStrategy,
         base_conf_dict,
-        total_train_time: int = 800,
-        waiting_interval: int = 50,
+        total_train_time: int = 1800,
+        waiting_interval: int = 60,
         max_workers: int = 2,
         server_artificial_delay: bool = False,
     ):
