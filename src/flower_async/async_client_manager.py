@@ -44,8 +44,8 @@ class AsyncClientManager(SimpleClientManager):
         with self._cv_free:
             return self._cv_free.wait_for(
                 # remove timeout (initial 5)
-                # lambda: len(self.free_clients) >= num_free_clients, timeout=5
-                lambda: len(self.free_clients) >= num_free_clients
+                lambda: len(self.free_clients) >= num_free_clients, timeout
+                # lambda: len(self.free_clients) >= num_free_clients
             )
     
     def register(self, client: ClientProxy) -> bool:
@@ -75,7 +75,7 @@ class AsyncClientManager(SimpleClientManager):
     def sample_free(
         self,
         num_free_clients: int,
-        min_num_free_clients: int = 2,
+        min_num_free_clients: int = 1,
         criterion: Criterion = None,
     ) -> List[ClientProxy]:
         log(INFO, "Sampling %s clients, min %s", num_free_clients, min_num_free_clients)

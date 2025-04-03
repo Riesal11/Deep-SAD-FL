@@ -4,8 +4,15 @@ services:
     image: riesal11/deep-sad-fl:multi
     volumes:
       - ./data/${CLIENTS}_client_setup/client_${CLIENT_ID}:/app/data
+      - ./log/${CLIENTS}_client_setup/client_${CLIENT_ID}:/app/log
     ports:
       - "3000:3000"
     tty: true
     entrypoint:
-      - ../docker-entrypoint-client.sh
+      - ../docker-entrypoint-client.sh 
+    build:
+      context: .
+      dockerfile: ./Dockerfile.client
+      args:
+        SEED: 1
+        PORT: 3000

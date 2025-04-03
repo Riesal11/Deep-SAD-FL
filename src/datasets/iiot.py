@@ -1,4 +1,4 @@
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import DataLoader, Subset, ConcatDataset
 from base.base_dataset import BaseADDataset
 from base.iiot_dataset import IIoTDataset
 from .preprocessing import create_semisupervised_setting
@@ -39,8 +39,13 @@ class IIOTADDataset(BaseADDataset):
         # Get test set
         self.test_set = IIoTDataset(root=self.root, dataset_name=dataset_name,fl_dataset_index=fl_dataset_index,dataset_size=dataset_size,net_name=net_name, train=False, random_state=random_state)
 
-    def loaders(self, batch_size: int, shuffle_train=True, shuffle_test=False, num_workers: int = 0) -> (
+    def loaders(self, batch_size: int, shuffle_train=True, shuffle_test=False, num_workers: int = 0, use_full_dataset: bool = False) -> (
             DataLoader, DataLoader):
+        if use_full_dataset:
+            full_dataset = ConcatDataset([self.train_set, self.test_set])
+            full_loader = DataLoader(dataset=full_dataset, batch_size=batch_size, shuffle=shuffle_test,
+                                  num_workers=num_workers, drop_last=False)
+            return full_loader, full_loader
         train_loader = DataLoader(dataset=self.train_set, batch_size=batch_size, shuffle=shuffle_train,
                                   num_workers=num_workers, drop_last=True)
         test_loader = DataLoader(dataset=self.test_set, batch_size=batch_size, shuffle=shuffle_test,
