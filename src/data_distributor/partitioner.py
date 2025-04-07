@@ -30,14 +30,14 @@ import pandas as pd
 import numpy as np
 
 filename = "data/full_dataset/wustl_iiot_2021.csv"
-num_clients = 2
+num_clients = 3
 backup_clients = 2
 
 df = pd.read_csv(filename)
 row_count = len(df.index)
 random_state = 1
-stream_split_fraction = 0.1
-server_validation_fraction = 0.3
+stream_split_fraction = 0.2
+server_validation_fraction = 0.2
 print("Number of clients: %s" % num_clients)
 print("Row count total: %s" % row_count)
 print("Using server validation split fraction of %s of full dataset" % server_validation_fraction)
