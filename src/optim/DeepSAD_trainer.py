@@ -184,8 +184,7 @@ class DeepSADTrainer(BaseTrainer):
         today = datetime.now()
         date_time_1 = today.strftime("%H_%M_%S_%f")
         print("date and time 1:",date_time_1)
-        # removed for now until final tests
-        # plt.savefig(self.log_file + '/auc_roc' + str(date_time_1) + '.png')
+        plt.savefig(self.log_file + '/auc_roc' + str(date_time_1) + '.png')
         plt.close()
 
         plt.figure()
@@ -200,7 +199,7 @@ class DeepSADTrainer(BaseTrainer):
         plt.xlabel('Recall')
         date_time_2 = today.strftime("%H_%M_%S_%f")
         print("date and time 1:",date_time_2)
-        # plt.savefig(self.log_file + '/auc_pr' + str(date_time_1) + '.png')
+        plt.savefig(self.log_file + '/auc_pr' + str(date_time_1) + '.png')
 
 
 

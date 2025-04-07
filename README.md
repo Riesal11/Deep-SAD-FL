@@ -153,7 +153,7 @@ To build the image, in the application root folder, execute
 docker build -t riesal11/deep-sad-fl .
 
 docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl:final -f .\Dockerfile.client .
-docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl-backup:final -f .\Dockerfile.client .
+docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl-backup -f .\Dockerfile.backup .
 
 # image tags for experiments: init, async, stream, final
 ```
@@ -164,7 +164,7 @@ docker run -t -d -p 3003:3003 riesal11/deep-sad-fl-backup:{TAG}
 
 
 on RPi:
-sudo docker run -e SEED=2 -e PORT=3000 --mount type=bind,src=./data/2_client_setup/client_2,dst=/app/data -t -d -p 3000:3000 riesal11/deep-sad-fl:{TAG}
+sudo docker run -e SEED=3 -e PORT=3000 --mount type=bind,src=./data/3_client_setup/client_3,dst=/app/data --mount type=bind,src=./log/3_client_setup/client_3,dst=/app/log -t -d -p 3000:3000 riesal11/deep-sad-fl:{TAG}
 ```
 
 

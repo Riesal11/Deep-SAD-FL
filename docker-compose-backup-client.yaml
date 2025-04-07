@@ -10,8 +10,8 @@ services:
     tty: true
     # entrypoint:
     #   - ../docker-entrypoint-backup.sh 
-    build:
-      context: .
-      dockerfile: ./Dockerfile.backup
-      args:
-        PORT: 3003
+    # build:
+    #   context: .
+    #   dockerfile: ./Dockerfile.backup
+    #   args:
+    #     PORT: 3003

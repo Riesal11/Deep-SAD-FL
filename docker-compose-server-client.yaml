@@ -6,8 +6,8 @@ services:
   server:
     container_name: deep-sad-fl-server
     volumes:
-      - ./data/2_client_setup/server:/app/data
-      - ./log/2_client_setup/server:/app/log
+      - ./data/${CLIENTS}_client_setup/server:/app/data
+      - ./log/${CLIENTS}_client_setup/server:/app/log
     build:
       context: .
       dockerfile: ./Dockerfile.server
@@ -20,17 +20,18 @@ services:
     #   - ../docker-entrypoint-server.sh
   client_1:
     container_name: deep-sad-fl-client-1
-    build:
-      context: .
-      dockerfile: ./Dockerfile.client
-      args:
-        SEED: 1
-        PORT: 3000
+    image: riesal11/deep-sad-fl:final
+    # build:
+    #   context: .
+    #   dockerfile: ./Dockerfile.client
+    #   args:
+    #     SEED: 1
+    #     PORT: 3000
     depends_on:
       - kafka
     volumes:
-      - ./data/2_client_setup/client_1:/app/data
-      - ./log/2_client_setup/client_1:/app/log
+      - ./data/${CLIENTS}_client_setup/client_1:/app/data
+      - ./log/${CLIENTS}_client_setup/client_1:/app/log
     ports:
       - "3000:3000"
     tty: true
@@ -38,17 +39,18 @@ services:
     #   - ../docker-entrypoint-client.sh
   backup_client_1:
     container_name: deep-sad-fl-backup-1
-    build:
-      context: .
-      dockerfile: ./Dockerfile.backup
-      args:
-        PORT: 3002
+    image: riesal11/deep-sad-fl-backup
+    # build:
+    #   context: .
+    #   dockerfile: ./Dockerfile.backup
+    #   args:
+    #     PORT: 3002
     depends_on:
       - kafka
       - distributor
     volumes:
-      - ./data/2_client_setup/backup_1:/app/data
-      - ./log/2_client_setup/backup_1:/app/log
+      - ./data/${CLIENTS}_client_setup/backup_1:/app/data
+      - ./log/${CLIENTS}_client_setup/backup_1:/app/log
     ports:
       - "3002:3002"
     tty: true
@@ -95,7 +97,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.distributor
     volumes:
-      - ./data/2_client_setup/streams:/app/data
+      - ./data/${CLIENTS}_client_setup/streams:/app/data
     ports:
       - "4000:4000"
     tty: true

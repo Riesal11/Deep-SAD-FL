@@ -2,7 +2,7 @@ services:
   client:
     container_name: deep-sad-fl-client-${CLIENT_ID}
     # init, async, stream, final
-    image: riesal11/deep-sad-fl:client-final
+    image: riesal11/deep-sad-fl:final
     volumes:
       - ./data/${CLIENTS}_client_setup/client_${CLIENT_ID}:/app/data
       - ./log/${CLIENTS}_client_setup/client_${CLIENT_ID}:/app/log
