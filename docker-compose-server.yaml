@@ -3,8 +3,8 @@ services:
     container_name: deep-sad-fl-server
     build: .
     volumes:
-      - ./data/3_client_setup/server:/app/data
-      - ./log/3_client_setup/server:/app/log
+      - ./data/${CLIENTS}_client_setup/server:/app/data
+      - ./log/${CLIENTS}_client_setup/server:/app/log
     ports:
       - "8080:8080"
     tty: true

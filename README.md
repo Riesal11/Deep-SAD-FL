@@ -152,33 +152,39 @@ To build the image, in the application root folder, execute
 ```
 docker build -t riesal11/deep-sad-fl .
 
-docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl:multi -f .\Dockerfile.client .
+docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl:final -f .\Dockerfile.client .
+docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl-backup:final -f .\Dockerfile.client .
+
+# image tags for experiments: init, async, stream, final
 ```
 To run the the container
 ```
-docker run -t -d -p 8080:8080 riesal11/deep-sad-fl
-docker run -t -d -p 3000:3000 riesal11/deep-sad-fl
+docker run -t -d -p 3000:3000 riesal11/deep-sad-fl:{TAG}
+docker run -t -d -p 3003:3003 riesal11/deep-sad-fl-backup:{TAG}
+
 
 on RPi:
-sudo docker run -e SEED=2 -e PORT=3000 --mount type=bind,src=./data/2_client_setup/client_2,dst=/app/data -t -d -p 3000:3000 riesal11/deep-sad-fl:multi
+sudo docker run -e SEED=2 -e PORT=3000 --mount type=bind,src=./data/2_client_setup/client_2,dst=/app/data -t -d -p 3000:3000 riesal11/deep-sad-fl:{TAG}
 ```
 
 
 To push the image to the docker hub
 ```
 docker push riesal11/deep-sad-fl
-docker push riesal11/deep-sad-fl:multi
+docker push riesal11/deep-sad-fl:{TAG}
+docker push riesal11/deep-sad-fl-backup:{TAG}
 ```
 
 From the client machines, pull the image
 ```
 docker pull riesal11/deep-sad-fl
-docker pull riesal11/deep-sad-fl:multi
+docker pull riesal11/deep-sad-fl:{TAG}
+docker pull riesal11/deep-sad-fl-backup:{TAG}
 ```
 
 ### docker-compose
 
-Using virtual setup (server + 2 clients on same machine)
+Using actual setup (server + 1 backup client + data distributor)
 ```
 docker-compose up -d --build
 ```
