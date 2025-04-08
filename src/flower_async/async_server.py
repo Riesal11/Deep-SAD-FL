@@ -65,7 +65,8 @@ ReconnectResultsAndFailures = Tuple[
 
 
 class AsyncServer(Server):
-    """Flower server implementing asynchronous FL."""
+    """Flower server implementing asynchronous FL.
+    Based on the implementation of https://github.com/r-gg/thesis"""
 
     def __init__(
         self,

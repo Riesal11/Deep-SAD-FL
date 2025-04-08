@@ -11,7 +11,8 @@ from logging import DEBUG, WARNING
 from time import time
 
 class AsynchronousStrategy:
-    """Abstract base class for all asynchronous strategies."""
+    """Abstract base class for all asynchronous strategies.
+    From https://github.com/r-gg/thesis"""
 
     def __init__(self, total_samples: int, staleness_alpha: float, fedasync_mixing_alpha: float, fedasync_a: float, num_clients: int, async_aggregation_strategy: str,
                  use_staleness: bool, use_sample_weighing: bool, send_gradients: bool, server_artificial_delay: bool) -> None:

@@ -31,6 +31,8 @@ metrics_centralized_async: {
     "accuracy": [ (timestamp1, value1) , .... ]
 }
 Note: value1 is collected at timestamp1 in metrics_distributed_fit.
+
+From https://github.com/r-gg/thesis
 """
 from flwr.server.history import History
 from typing import Dict

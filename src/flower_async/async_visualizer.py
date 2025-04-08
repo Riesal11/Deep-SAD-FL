@@ -18,7 +18,8 @@ def extract_vals_from_metrics(metrics: List[Tuple[int, Any]]):
 
 class AsyncVisualizer:
     """Visualize the collected metrics.
-    Currently not used and tested"""
+    Currently not used and tested
+    from https://github.com/r-gg/thesis"""
 
     def __init__(self, tracker:Tracker) -> None:
         self.tracker = tracker

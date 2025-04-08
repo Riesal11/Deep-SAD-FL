@@ -10,6 +10,8 @@ import random
 import time
 
 class AsyncClientManager(SimpleClientManager):
+    """Flower client manager implementing asynchronous FL.
+    Based on the implementation of https://github.com/r-gg/thesis"""
 
     def __init__(self) -> None:
         super().__init__()
