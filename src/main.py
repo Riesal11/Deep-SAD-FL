@@ -26,6 +26,7 @@ from datasets.main import load_dataset
 from flower_async.async_server import AsyncServer
 from flower_async.async_strategy import AsynchronousStrategy
 from flower_async.async_client_manager import AsyncClientManager
+from flower_async.fedavg_async import FedAvgAsync
 
 import binascii
 import csv
@@ -278,8 +279,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # Load data
         # Note: each client gets a different trainloader/valloader, so each client
         # will train and evaluate on their own unique data partition
-        # Read the node_config to fetch data partition associated to this node
-        # partition_id = context.node_config["partition-id"]
         logger.info("loading dataset...")
         dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
                            ratio_known_normal, ratio_known_outlier, ratio_pollution,
@@ -298,7 +297,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             return
         logger.info('Federated mode: client')
         logger.info('Client id %s', client_id)
-        # with single client
+        # with single client (non changing dataset)
         # dataset = load_dataset('iiot', data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
         #                    ratio_known_normal, ratio_known_outlier, ratio_pollution,
         #                    random_state=cfg.settings['seed'])
@@ -334,7 +333,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         thread_poll = PollingThread(stopFlag_poll, consumer, client_id)
         thread_poll.start()
         # since server also loads dataset, needs some time to be ready for connections
-        time.sleep(60)
+        time.sleep(30)
         # this will stop the timer
         # stopFlag.set()
 
@@ -357,13 +356,11 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
         evaluate_fn = gen_evaluate_fn(dataset, device, deepSAD, n_jobs_dataloader)
         
-        # async test
         server = AsyncServer(
             base_conf_dict=dict(),
-            strategy=fl.server.strategy.FedAvg(min_fit_clients=1,min_evaluate_clients=1,min_available_clients=1, evaluate_fn=evaluate_fn), 
-            # client_manager=fl.server.SimpleClientManager(), 
+            strategy=FedAvgAsync(min_fit_clients=1,min_evaluate_clients=1,min_available_clients=1, evaluate_fn=evaluate_fn), 
             client_manager=AsyncClientManager(),
-            async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=2, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
+            async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=3, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
         
         config = fl.server.ServerConfig(num_rounds=10)
         if(dataset_name != 'iiot'):
@@ -374,7 +371,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # initial sync
         # fl.server.start_server(server_address = server_ip_address,strategy=strategy,config=config)
 
-        # async test
+        # async
         fl.server.start_server(server=server, server_address = server_ip_address,strategy=server.strategy,config=config)
         return
 

@@ -1,6 +1,6 @@
 # version: '3'
 
-# inclus server, 1 client, 1 backup and data distributor + kafka
+# includes server, 1 client, 1 backup and data distributor + kafka
 
 services:
   server:
@@ -35,6 +35,9 @@ services:
     ports:
       - "3000:3000"
     tty: true
+    environment:
+      - SEED=1
+      - PORT=3000
     # entrypoint:
     #   - ../docker-entrypoint-client.sh
   backup_client_1:

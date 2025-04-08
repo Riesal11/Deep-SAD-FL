@@ -43,7 +43,6 @@ class AsyncClientManager(SimpleClientManager):
         log(INFO, "MANAGER: wait_for_free %s hours", timeout/60/60)
         with self._cv_free:
             return self._cv_free.wait_for(
-                # remove timeout (initial 5)
                 lambda: len(self.free_clients) >= num_free_clients, timeout
                 # lambda: len(self.free_clients) >= num_free_clients
             )

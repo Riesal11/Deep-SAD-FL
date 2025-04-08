@@ -73,9 +73,9 @@ class AsyncServer(Server):
         client_manager: AsyncClientManager, # ClientManager,
         async_strategy: AsynchronousStrategy,
         base_conf_dict,
-        total_train_time: int = 1800,
-        waiting_interval: int = 60,
-        max_workers: int = 2,
+        total_train_time: int = 1800,   # 30 min
+        waiting_interval: int = 15,
+        max_workers: int = 5,
         server_artificial_delay: bool = False,
     ):
         self.async_strategy = async_strategy
@@ -95,6 +95,7 @@ class AsyncServer(Server):
         self.server_artificial_delay = server_artificial_delay
         # was missing initially
         self.client_local_delay = False
+        self.got_new_result = True
 
         # self.client_iters = np.zeros(60)
         if self.client_local_delay:
@@ -108,6 +109,7 @@ class AsyncServer(Server):
     def set_new_params(self, new_params: Parameters):
         with self.model_param_lock:
             self.parameters = new_params
+        self.got_new_result = True
 
     # pylint: disable=too-many-locals
 
@@ -165,19 +167,32 @@ class AsyncServer(Server):
         patience = patience_init
         log(INFO, "TOTAL TRAIN TIME %ss", self.total_train_time)
         while time() - start_time < self.total_train_time:
+            sleep(self.waiting_interval)
+            # If the clients are to be started periodically, move fit_round here and remove the executor.submit lines from _handle_finished_future_after_fit
             # self.fit_round(
-            #     server_round=0,
+            #     server_round=counter,
             #     timeout=timeout,
             #     executor=executor,
             #     end_timestamp=end_timestamp,
             #     history=history
             # )
-            # If the clients are to be started periodically, move fit_round here and remove the executor.submit lines from _handle_finished_future_after_fit
-            sleep(self.waiting_interval)
+
+            # start available client (e.g backup)
+            if self._client_manager.num_free() > 0:
+                self.fit_round(
+                    server_round=counter,
+                    timeout=timeout,
+                    executor=executor,
+                    end_timestamp=end_timestamp,
+                    history=history
+                )
             if self.server_artificial_delay:
                 self.busy_wait(10)
-            with self.model_param_lock:
-                loss = self.evaluate_centralized(counter, history)
+            # only evaluate if model has changed
+            if self.got_new_result:
+                with self.model_param_lock:
+                    loss = self.evaluate_centralized(counter, history)
+                self.got_new_result = False
             if loss is not None:
                 if loss < best_loss - 1e-4:
                     best_loss = loss
@@ -189,9 +204,7 @@ class AsyncServer(Server):
                     break
             # self.evaluate_decentralized(counter, history, timeout)
             counter += 1
-            log(INFO, "SERVER: test4")
 
-        log(INFO, "SERVER: test5")
         executor.shutdown(wait=True, cancel_futures=True)
         log(INFO, "FL finished")
         end_time = time()
@@ -223,6 +236,7 @@ class AsyncServer(Server):
         res_cen = self.strategy.evaluate(
             current_round, parameters=self.parameters)
         # log(DEBUG, "SERVER: evaluate result: %s", res_cen)
+        
         if res_cen is not None:
             loss_cen, metrics_cen = res_cen
             metrics_cen['end_timestamp'] = self.end_timestamp
@@ -233,13 +247,15 @@ class AsyncServer(Server):
                 timestamp=time(), metrics=metrics_cen
             )
             log(INFO, "Centralized evaluation: loss %s, f1=%s", loss_cen, metrics_cen['test_f1'])
+            self.got_result = False
             return loss_cen
         else:
             log(INFO, self.parameters)
             return None
 
     def evaluate_decentralized(self, current_round: int, history: History, timeout: Optional[float]):
-        """Evaluate model on a sample of available clients
+        """Currently not used and tested.
+        Evaluate model on a sample of available clients
         NOTE: Only call this method if clients are started periodically.
         This is not to be called if the clients are starting immediately after they finish! This is because the ray actor cannot process
         two concurrent requests to the same client. They get mixed up and future.result() in client_fit can return an
@@ -517,14 +533,6 @@ def _handle_finished_future_after_fit(
     failure = future.exception()
     if failure is not None:
         log(WARNING, "Failure: ", exc_info=True)
-        # TODO: start new client
-        self.fit_round(
-            server_round=1,
-            timeout=timeout,
-            executor=executor,
-            end_timestamp=end_timestamp,
-            history=history
-        )
         return
 
     print("Got a result :)")
@@ -535,7 +543,7 @@ def _handle_finished_future_after_fit(
         parameters_aggregated = server.async_strategy.average(
             server.parameters, res.parameters, res.metrics['t_diff'], res.num_examples)
         server.set_new_params(parameters_aggregated)
-
+        self.got_result=True
         history.add_metrics_distributed_fit_async(
             clientProxy.cid,{"sample_sizes": res.num_examples, **res.metrics }, timestamp=time()
         )

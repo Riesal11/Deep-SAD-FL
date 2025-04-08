@@ -73,24 +73,6 @@ services:
     tty: true
     # entrypoint:
     #   - ../docker-entrypoint-client.sh
-  backup_client_2:
-    container_name: deep-sad-fl-backup-2
-    build:
-      context: .
-      dockerfile: ./Dockerfile.backup
-      args:
-        PORT: 3003
-    depends_on:
-      - kafka
-      - distributor
-    volumes:
-      - ./data/2_client_setup/backup_2:/app/data
-      - ./log/2_client_setup/backup_2:/app/log
-    ports:
-      - "3003:3003"
-    tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
 
   zookeeper:
     image: bitnami/zookeeper:3.9.1

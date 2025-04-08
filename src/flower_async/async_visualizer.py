@@ -17,7 +17,8 @@ def extract_vals_from_metrics(metrics: List[Tuple[int, Any]]):
     return [val for _, val in metrics]
 
 class AsyncVisualizer:
-    """Visualize the collected metrics."""
+    """Visualize the collected metrics.
+    Currently not used and tested"""
 
     def __init__(self, tracker:Tracker) -> None:
         self.tracker = tracker

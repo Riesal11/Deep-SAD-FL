@@ -79,7 +79,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.backup
       args:
-        PORT: 3002
+        PORT: 3003
     depends_on:
       - kafka
       - distributor
@@ -87,7 +87,7 @@ services:
       - ./data/3_client_setup/backup_1:/app/data
       - ./log/3_client_setup/backup_1:/app/log
     ports:
-      - "3002:3002"
+      - "3003:3003"
     tty: true
     # entrypoint:
     #   - ../docker-entrypoint-client.sh
@@ -97,7 +97,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.backup
       args:
-        PORT: 3003
+        PORT: 3004
     depends_on:
       - kafka
       - distributor
@@ -105,7 +105,7 @@ services:
       - ./data/3_client_setup/backup_2:/app/data
       - ./log/3_client_setup/backup_2:/app/log
     ports:
-      - "3003:3003"
+      - "3004:3004"
     tty: true
     # entrypoint:
     #   - ../docker-entrypoint-client.sh
@@ -150,7 +150,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.distributor
     volumes:
-      - ./data/2_client_setup/streams:/app/data
+      - ./data/3_client_setup/streams:/app/data
     ports:
       - "4000:4000"
     tty: true
