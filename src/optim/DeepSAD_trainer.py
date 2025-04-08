@@ -8,7 +8,7 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import auc
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from datetime import datetime
-
+from utils import write_results_to_csv
 
 
 import logging
@@ -228,6 +228,21 @@ class DeepSADTrainer(BaseTrainer):
         logger.info('Test ROC-AUC: {:.2f}%'.format(100. * self.test_auc))
         logger.info('Test Time: {:.3f}s'.format(self.test_time))
         logger.info('Finished testing.')
+
+        write_results_to_csv(file_path=self.log_file + '/test_results.csv', 
+                            test_loss=self.test_loss, 
+                            anomaly_scores_min=min(scores),
+                            anomaly_scores_max=max(scores),
+                            best_threshold_f1=f'{threshold_opt}, {test_f1}',
+                            test_precision=test_precision,
+                            test_recall=test_recall,
+                            test_precision_norm=test_precision_norm,
+                            test_recall_norm=test_recall_norm,
+                            test_f1_norm=test_f1_norm,
+                            test_pr_auc=100. * auc(recall,precision),
+                            test_roc_auc=100. * self.test_auc,
+                            test_time=self.test_time
+                            )
 
     def init_center_c(self, train_loader: DataLoader, net: BaseNet, eps=0.1):
         """Initialize hypersphere center c as the mean from an initial forward pass on the data."""

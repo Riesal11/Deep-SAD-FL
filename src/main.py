@@ -72,7 +72,7 @@ from flower_async.async_client_manager import AsyncClientManager
               help='Name of the optimizer to use for Deep SAD network training.')
 @click.option('--lr', type=float, default=0.001,
               help='Initial learning rate for Deep SAD network training. Default=0.001')
-@click.option('--n_epochs', type=int, default=5, help='Number of epochs to train.')     # initial: 50
+@click.option('--n_epochs', type=int, default=50, help='Number of epochs to train.')     # initial: 50
 @click.option('--lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--batch_size', type=int, default=128, help='Batch size for mini-batch training.')
@@ -84,7 +84,7 @@ from flower_async.async_client_manager import AsyncClientManager
               help='Name of the optimizer to use for autoencoder pretraining.')
 @click.option('--ae_lr', type=float, default=0.001,
               help='Initial learning rate for autoencoder pretraining. Default=0.001')
-@click.option('--ae_n_epochs', type=int, default=5, help='Number of epochs to train autoencoder.') # initial: 50
+@click.option('--ae_n_epochs', type=int, default=50, help='Number of epochs to train autoencoder.') # initial: 50
 @click.option('--ae_lr_milestone', type=int, default=(25,), multiple=True,
               help='Lr scheduler milestones at which lr is multiplied by 0.1. Can be multiple and must be increasing.')
 @click.option('--ae_batch_size', type=int, default=128, help='Batch size for mini-batch autoencoder training.')
@@ -237,7 +237,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
     if fl_mode == 'server':
         # initial sync
-        strategy = fl.server.strategy.FedAvg(min_fit_clients=2,min_evaluate_clients=2,min_available_clients=2)
+        strategy = fl.server.strategy.FedAvg(min_fit_clients=3,min_evaluate_clients=2,min_available_clients=3)
         
         # async test
         # server = AsyncServer(
@@ -247,7 +247,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         #     client_manager=AsyncClientManager(),
         #     async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=2, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
         
-        config = fl.server.ServerConfig(num_rounds=5)
+        config = fl.server.ServerConfig(num_rounds=3)
         if(dataset_name != 'iiot'):
             logger.info('Federated learning is only implemented for the iiot dataset')
             return
