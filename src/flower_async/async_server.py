@@ -230,8 +230,6 @@ class AsyncServer(Server):
 
 
     def evaluate_centralized(self, current_round: int, history: History):
-        # is always none, there is no dataset on server currently
-
         log(DEBUG, "SERVER: evaluate_centralized... round: %s ", current_round)
         res_cen = self.strategy.evaluate(
             current_round, parameters=self.parameters)
@@ -253,77 +251,77 @@ class AsyncServer(Server):
             log(INFO, self.parameters)
             return None
 
-    def evaluate_decentralized(self, current_round: int, history: History, timeout: Optional[float]):
-        """Currently not used and tested.
-        Evaluate model on a sample of available clients
-        NOTE: Only call this method if clients are started periodically.
-        This is not to be called if the clients are starting immediately after they finish! This is because the ray actor cannot process
-        two concurrent requests to the same client. They get mixed up and future.result() in client_fit can return an
-        EvaluateRes instead of FitRes.
-        """
-        res_fed = self.evaluate_round(
-            server_round=current_round, timeout=timeout)
-        if res_fed is not None:
-            loss_fed, evaluate_metrics_fed, (results, _) = res_fed
-            if loss_fed is not None:
-                client_ids = [client.cid for client, _ in results]
-                evaluate_metrics_fed['client_ids'] = client_ids
-                history.add_loss_distributed(
-                    timestamp=time(), loss=loss_fed
-                )
-                history.add_metrics_distributed(
-                    timestamp=time(), metrics=evaluate_metrics_fed
-                )
+    # def evaluate_decentralized(self, current_round: int, history: History, timeout: Optional[float]):
+    #     """Currently not used and tested.
+    #     Evaluate model on a sample of available clients
+    #     NOTE: Only call this method if clients are started periodically.
+    #     This is not to be called if the clients are starting immediately after they finish! This is because the ray actor cannot process
+    #     two concurrent requests to the same client. They get mixed up and future.result() in client_fit can return an
+    #     EvaluateRes instead of FitRes.
+    #     """
+    #     res_fed = self.evaluate_round(
+    #         server_round=current_round, timeout=timeout)
+    #     if res_fed is not None:
+    #         loss_fed, evaluate_metrics_fed, (results, _) = res_fed
+    #         if loss_fed is not None:
+    #             client_ids = [client.cid for client, _ in results]
+    #             evaluate_metrics_fed['client_ids'] = client_ids
+    #             history.add_loss_distributed(
+    #                 timestamp=time(), loss=loss_fed
+    #             )
+    #             history.add_metrics_distributed(
+    #                 timestamp=time(), metrics=evaluate_metrics_fed
+    #             )
 
-    def evaluate_round(
-        self,
-        server_round: int,
-        timeout: Optional[float],
-    ) -> Optional[
-        Tuple[Optional[float], Dict[str, Scalar], EvaluateResultsAndFailures]
-    ]:
-        """Validate current global model on a number of clients."""
-        log(INFO, "SERVER: evaluate_round...")
-        # Get clients and their respective instructions from strategy
-        client_instructions = self.strategy.configure_evaluate(
-            server_round=server_round,
-            parameters=self.parameters,
-            client_manager=self._client_manager,
-        )
-        if not client_instructions:
-            log(INFO, "evaluate_round %s: no clients selected, cancel", server_round)
-            return None
-        log(
-            DEBUG,
-            "evaluate_round %s: strategy sampled %s clients (out of %s)",
-            server_round,
-            len(client_instructions),
-            self._client_manager.num_available(),
-        )
+    # def evaluate_round(
+    #     self,
+    #     server_round: int,
+    #     timeout: Optional[float],
+    # ) -> Optional[
+    #     Tuple[Optional[float], Dict[str, Scalar], EvaluateResultsAndFailures]
+    # ]:
+    #     """Validate current global model on a number of clients."""
+    #     log(INFO, "SERVER: evaluate_round...")
+    #     # Get clients and their respective instructions from strategy
+    #     client_instructions = self.strategy.configure_evaluate(
+    #         server_round=server_round,
+    #         parameters=self.parameters,
+    #         client_manager=self._client_manager,
+    #     )
+    #     if not client_instructions:
+    #         log(INFO, "evaluate_round %s: no clients selected, cancel", server_round)
+    #         return None
+    #     log(
+    #         DEBUG,
+    #         "evaluate_round %s: strategy sampled %s clients (out of %s)",
+    #         server_round,
+    #         len(client_instructions),
+    #         self._client_manager.num_available(),
+    #     )
 
-        # Collect `evaluate` results from all clients participating in this round
-        results, failures = evaluate_clients(
-            client_instructions,
-            max_workers=self.max_workers,
-            timeout=timeout,
-        )
-        log(
-            DEBUG,
-            "evaluate_round %s received %s results and %s failures",
-            server_round,
-            len(results),
-            len(failures),
-        )
-        # log(DEBUG, f"Evaluate results: {results}")
+    #     # Collect `evaluate` results from all clients participating in this round
+    #     results, failures = evaluate_clients(
+    #         client_instructions,
+    #         max_workers=self.max_workers,
+    #         timeout=timeout,
+    #     )
+    #     log(
+    #         DEBUG,
+    #         "evaluate_round %s received %s results and %s failures",
+    #         server_round,
+    #         len(results),
+    #         len(failures),
+    #     )
+    #     # log(DEBUG, f"Evaluate results: {results}")
 
-        # Aggregate the evaluation results
-        aggregated_result: Tuple[
-            Optional[float],
-            Dict[str, Scalar],
-        ] = self.strategy.aggregate_evaluate(server_round, results, failures)
+    #     # Aggregate the evaluation results
+    #     aggregated_result: Tuple[
+    #         Optional[float],
+    #         Dict[str, Scalar],
+    #     ] = self.strategy.aggregate_evaluate(server_round, results, failures)
 
-        loss_aggregated, metrics_aggregated = aggregated_result
-        return loss_aggregated, metrics_aggregated, (results, failures)
+    #     loss_aggregated, metrics_aggregated = aggregated_result
+    #     return loss_aggregated, metrics_aggregated, (results, failures)
 
     def fit_round(
         self,
