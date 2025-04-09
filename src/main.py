@@ -237,7 +237,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
     if fl_mode == 'server':
         # initial sync
-        strategy = fl.server.strategy.FedAvg(min_fit_clients=3,min_evaluate_clients=2,min_available_clients=3)
+        strategy = fl.server.strategy.FedAvg(min_fit_clients=3,min_evaluate_clients=3,min_available_clients=3)
         
         # async test
         # server = AsyncServer(

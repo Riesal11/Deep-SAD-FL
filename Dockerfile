@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM continuumio/anaconda3:2024.06-1
+FROM continuumio/anaconda3
 WORKDIR /app
 COPY requirements2.txt .
 RUN conda config --append channels conda-forge
