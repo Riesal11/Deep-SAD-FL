@@ -98,7 +98,7 @@ from flower_async.async_client_manager import AsyncClientManager
               help='Specify the normal class of the dataset (all other classes are considered anomalous).')
 @click.option('--known_outlier_class', type=int, default=1,
               help='Specify the known outlier class of the dataset for semi-supervised anomaly detection.')
-@click.option('--n_known_outlier_classes', type=int, default=1,
+@click.option('--n_known_outlier_classes', type=int, default=4,
               help='Number of known outlier classes.'
                    'If 0, no anomalies are known.'
                    'If 1, outlier class as specified in --known_outlier_class option.'
