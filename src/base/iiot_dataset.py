@@ -21,7 +21,7 @@ class IIoTDataset(Dataset):
     def __init__(self, root: str, dataset_name: str,fl_dataset_index=-1, dataset_size=-1,net_name='iiot_no_cat',train=True, random_state=None, download_zip=False):
         super(Dataset, self).__init__()
 
-        self.classes = [0, 1]
+        self.classes = [0, 1, 2, 3, 4]
 
         # does not work with newer torch version, maybe fix?
         # if isinstance(root, torch._six.string_classes):
@@ -38,8 +38,8 @@ class IIoTDataset(Dataset):
 
         df = pd.read_csv(self.csv_file)
 
-        # df = df[(df.values  == "normal")|(df.values  == "DoS")|(df.values  == "Reconn")|(df.values  == "Backdoor")|(df.values  == "CommInj")]
-        df = df[(df.values  == "normal")|(df.values  == "DoS" )]
+        df = df[(df.values  == "normal")|(df.values  == "DoS" )|(df.values  == "Reconn" )|(df.values  == "Backdoor" )|(df.values  == "CommInj" ) ]
+        # df = df[(df.values  == "normal")|(df.values  == "DoS" )]
 
         if dataset_size != -1:
             if fl_dataset_index == -1:

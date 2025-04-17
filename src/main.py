@@ -107,7 +107,7 @@ from utils.centralized_evaluation import gen_evaluate_fn
               help='Specify the normal class of the dataset (all other classes are considered anomalous).')
 @click.option('--known_outlier_class', type=int, default=1,
               help='Specify the known outlier class of the dataset for semi-supervised anomaly detection.')
-@click.option('--n_known_outlier_classes', type=int, default=1,
+@click.option('--n_known_outlier_classes', type=int, default=4,
               help='Number of known outlier classes.'
                    'If 0, no anomalies are known.'
                    'If 1, outlier class as specified in --known_outlier_class option.'
@@ -360,7 +360,7 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
             base_conf_dict=dict(),
             strategy=FedAvgAsync(min_fit_clients=1,min_evaluate_clients=1,min_available_clients=1, evaluate_fn=evaluate_fn), 
             client_manager=AsyncClientManager(),
-            async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=1.0, num_clients=3, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
+            async_strategy=AsynchronousStrategy(async_aggregation_strategy='fedasync', fedasync_a=1.0,total_samples=1000000, staleness_alpha=1.0, fedasync_mixing_alpha=0.4, num_clients=3, use_staleness=False, use_sample_weighing=False, send_gradients=False, server_artificial_delay=False))
         
         config = fl.server.ServerConfig(num_rounds=10)
         if(dataset_name != 'iiot'):

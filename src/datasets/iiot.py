@@ -15,14 +15,14 @@ class IIOTADDataset(BaseADDataset):
         super().__init__(root)
 
         # Define normal and outlier classes
-        self.n_classes = 2  # 0: normal, 1: outlier
+        self.n_classes = 5  # 0: normal, 1: outlier
         self.normal_classes = (0,)
-        self.outlier_classes = (1,)
+        self.outlier_classes = (1,2,3,4)
 
         if n_known_outlier_classes == 0:
             self.known_outlier_classes = ()
         else:
-            self.known_outlier_classes = (1,)
+            self.known_outlier_classes = (1,2,3,4)
 
         # Get train set
         train_set = IIoTDataset(root=self.root, dataset_name=dataset_name,fl_dataset_index=fl_dataset_index,dataset_size=dataset_size,net_name=net_name,train=True, random_state=random_state, download_zip=download_zip)
