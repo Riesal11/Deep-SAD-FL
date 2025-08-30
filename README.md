@@ -23,7 +23,7 @@ Clone the repository to your machine and directory of choice:
 https://github.com/Riesal11/Deep-SAD-FL.git
 ```
 
-To run the code locally, we recommend using `conda`:
+Although the preferred way to run is with docker/docker-compose, to run the code locally, we recommend using `conda`:
 
 #### `conda`
 ```
