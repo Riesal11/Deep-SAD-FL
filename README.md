@@ -60,8 +60,6 @@ NOTE: Because the image includes the code to run the application, you first need
 
 To build the client image, in the application root folder, execute
 ```
-docker build -t {DOCKER_USER}/deep-sad-fl .
-
 docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl:final -f .\Dockerfile.client .
 docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl-backup -f .\Dockerfile.backup .
 
@@ -84,14 +82,12 @@ This will automatically start the main.py with respective arguments (as defined 
 
 To push the image to the docker hub
 ```
-docker push {DOCKER_USER}/deep-sad-fl
 docker push {DOCKER_USER}/deep-sad-fl:{TAG}
 docker push {DOCKER_USER}/deep-sad-fl-backup:{TAG}
 ```
 
 From the client machines, pull the image
 ```
-docker pull {DOCKER_USER}/deep-sad-fl
 docker pull {DOCKER_USER}/deep-sad-fl:{TAG}
 docker pull {DOCKER_USER}/deep-sad-fl-backup:{TAG}
 ```
