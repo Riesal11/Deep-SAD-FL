@@ -1,0 +1,444 @@
+2025-04-16 20:01:01,563 - root - INFO - Log file is ../log/log.txt
+2025-04-16 20:01:01,564 - root - INFO - Computation device: cpu
+2025-04-16 20:01:01,564 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-16 20:01:01,584 - root - INFO - loading dataset...
+2025-04-16 20:01:06,690 - root - INFO - Dataset size: 238892
+2025-04-16 20:01:06,697 - root - INFO - Classes in the dataset: ['normal' 'DoS' 'Reconn' 'Backdoor' 'CommInj']
+2025-04-16 20:01:07,114 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-16 20:01:07,115 - root - INFO - 132873 unlabeled normal samples in the trainset
+2025-04-16 20:01:07,115 - root - INFO - 6993 unlabeled outlier samples in the trainset
+2025-04-16 20:01:07,115 - root - INFO - 1412 labeled outlier samples in the trainset
+2025-04-16 20:01:11,442 - root - INFO - Dataset size: 238892
+2025-04-16 20:01:11,448 - root - INFO - Classes in the dataset: ['normal' 'DoS' 'Reconn' 'Backdoor' 'CommInj']
+2025-04-16 20:01:11,941 - root - INFO - 88582 normal samples in the testset
+2025-04-16 20:01:11,943 - root - INFO - 6975 outlier samples in the testset
+2025-04-16 20:01:11,951 - root - INFO - Federated mode: server
+2025-04-16 20:01:11,951 - flwr - WARNING - DEPRECATED FEATURE: flwr.server.start_server() is deprecated.
+	Instead, use the `flower-superlink` CLI command to start a SuperLink as shown below:
+
+		$ flower-superlink --insecure
+
+	To view usage and all available options, run:
+
+		$ flower-superlink --help
+
+	Using `start_server()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2025-04-16 20:01:11,953 - flwr - WARNING - Both server and strategy were provided, ignoring strategy
+2025-04-16 20:01:11,953 - flwr - INFO - Starting Flower server, config: num_rounds=10, no round_timeout
+2025-04-16 20:01:11,978 - flwr - INFO - Flower ECE: gRPC server running (10 rounds), SSL is disabled
+2025-04-16 20:01:11,979 - flwr - INFO - SERVER: fit...
+2025-04-16 20:01:11,979 - flwr - INFO - Initializing global parameters
+2025-04-16 20:01:11,980 - flwr - INFO - Requesting initial parameters from one random client
+2025-04-16 20:01:11,980 - flwr - INFO - Sampling 1 clients, min None
+2025-04-16 20:01:11,980 - flwr - INFO - MANAGER: Min num free clients: 1
+2025-04-16 20:01:11,981 - flwr - INFO - MANAGER: wait_for_free 24.0 hours
+2025-04-16 20:01:44,801 - flwr - INFO - Registering client with id: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:01:44,802 - flwr - INFO - MANAGER: Client set to free: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:01:44,803 - flwr - INFO - MANAGER: available cids: ['6e8b8e2851624f2785810f914d3cabe2']
+2025-04-16 20:01:44,803 - flwr - INFO - MANAGER: Client set to busy: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:01:54,816 - flwr - INFO - Registering client with id: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:01:54,817 - flwr - INFO - MANAGER: Client set to free: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:01:54,880 - flwr - INFO - Received initial parameters from one random client
+2025-04-16 20:01:54,881 - flwr - INFO - MANAGER: Client set to free: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:01:54,881 - flwr - INFO - Evaluating initial parameters
+2025-04-16 20:01:54,888 - root - INFO - Using full dataset for testing...
+2025-04-16 20:01:54,890 - root - INFO - Initializing center c...
+2025-04-16 20:01:57,733 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000,  0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-16 20:01:57,735 - root - INFO - Starting testing...
+2025-04-16 20:02:01,183 - root - INFO - Test Loss: 0.231803
+2025-04-16 20:02:01,228 - root - INFO - Anomaly scores range from 0.03647783026099205 to 0.1251268982887268
+2025-04-16 20:02:01,229 - root - INFO - Best Threshold 0.07008848339319229 with the F1-score 0.5832589285714286
+2025-04-16 20:02:01,229 - root - INFO - Precision 0.6795838751625488
+2025-04-16 20:02:01,230 - root - INFO - Recall 0.510850439882698
+2025-04-16 20:02:01,230 - root - INFO - Precision of the normal class 0.966679244445431
+2025-04-16 20:02:01,230 - root - INFO - Recall of the normal class 0.9833103790837868
+2025-04-16 20:02:01,231 - root - INFO - F1-score of the normal class 0.9749238896848138
+2025-04-16 20:02:01,231 - root - INFO - Test PR-AUC: 47.71%
+2025-04-16 20:02:01,232 - root - INFO - Test ROC-AUC: 51.78%
+2025-04-16 20:02:01,232 - root - INFO - Test Time: 3.064s
+2025-04-16 20:02:01,232 - root - INFO - Finished testing.
+2025-04-16 20:02:01,283 - flwr - INFO - FL starting
+2025-04-16 20:02:01,284 - flwr - INFO - SERVER: fit_round...
+2025-04-16 20:02:01,284 - flwr - INFO - MANAGER : number of free clients: 2
+2025-04-16 20:02:01,284 - flwr - INFO - Sampling 2 clients, min 1
+2025-04-16 20:02:01,285 - flwr - INFO - MANAGER: Min num free clients: 1
+2025-04-16 20:02:01,285 - flwr - INFO - MANAGER: wait_for_free 24.0 hours
+2025-04-16 20:02:01,286 - flwr - INFO - MANAGER: available cids: ['382ae36777fe49c39a26b2f98993cadb', '6e8b8e2851624f2785810f914d3cabe2']
+2025-04-16 20:02:01,286 - flwr - INFO - MANAGER: Client set to busy: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:02:01,287 - flwr - INFO - MANAGER: Client set to busy: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:02:01,289 - flwr - INFO - SERVER: fit_clients...
+2025-04-16 20:02:01,290 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:02:01,291 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:02:01,291 - flwr - INFO - TOTAL TRAIN TIME 1800s
+2025-04-16 20:02:14,500 - flwr - INFO - Registering client with id: 1065a3479f7746d39ef19ed739ec750c
+2025-04-16 20:02:14,501 - flwr - INFO - MANAGER: Client set to free: 1065a3479f7746d39ef19ed739ec750c
+2025-04-16 20:02:16,293 - flwr - INFO - MANAGER : number of free clients: 1
+2025-04-16 20:02:16,294 - flwr - INFO - SERVER: fit_round...
+2025-04-16 20:02:16,295 - flwr - INFO - MANAGER : number of free clients: 1
+2025-04-16 20:02:16,295 - flwr - INFO - Sampling 1 clients, min 1
+2025-04-16 20:02:16,296 - flwr - INFO - MANAGER: Min num free clients: 1
+2025-04-16 20:02:16,296 - flwr - INFO - MANAGER: wait_for_free 24.0 hours
+2025-04-16 20:02:16,297 - flwr - INFO - MANAGER: available cids: ['1065a3479f7746d39ef19ed739ec750c']
+2025-04-16 20:02:16,297 - flwr - INFO - MANAGER: Client set to busy: 1065a3479f7746d39ef19ed739ec750c
+2025-04-16 20:02:16,297 - flwr - INFO - SERVER: fit_clients...
+2025-04-16 20:02:16,298 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:02:16,301 - root - INFO - Using full dataset for testing...
+2025-04-16 20:02:16,302 - root - INFO - Starting testing...
+2025-04-16 20:02:20,428 - root - INFO - Test Loss: 0.231803
+2025-04-16 20:02:20,463 - root - INFO - Anomaly scores range from 0.03647783026099205 to 0.1251268982887268
+2025-04-16 20:02:20,463 - root - INFO - Best Threshold 0.07008848339319229 with the F1-score 0.5832589285714286
+2025-04-16 20:02:20,464 - root - INFO - Precision 0.6795838751625488
+2025-04-16 20:02:20,464 - root - INFO - Recall 0.510850439882698
+2025-04-16 20:02:20,465 - root - INFO - Precision of the normal class 0.966679244445431
+2025-04-16 20:02:20,465 - root - INFO - Recall of the normal class 0.9833103790837868
+2025-04-16 20:02:20,465 - root - INFO - F1-score of the normal class 0.9749238896848138
+2025-04-16 20:02:20,466 - root - INFO - Test PR-AUC: 47.71%
+2025-04-16 20:02:20,467 - root - INFO - Test ROC-AUC: 51.78%
+2025-04-16 20:02:20,467 - root - INFO - Test Time: 3.759s
+2025-04-16 20:02:20,467 - root - INFO - Finished testing.
+2025-04-16 20:02:20,506 - flwr - INFO - Centralized evaluation: loss 0.2318030495397948, f1=0.5832589285714286
+2025-04-16 20:02:35,505 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:02:50,506 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:03:05,506 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:03:20,507 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:03:35,506 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:03:50,507 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:04:05,508 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:04:20,509 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:04:35,207 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:04:35,208 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:04:35,509 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:04:35,512 - root - INFO - Using full dataset for testing...
+2025-04-16 20:04:35,514 - root - INFO - Starting testing...
+2025-04-16 20:04:39,188 - root - INFO - Test Loss: 0.211941
+2025-04-16 20:04:39,244 - root - INFO - Anomaly scores range from 0.007657656446099281 to 0.08860952407121658
+2025-04-16 20:04:39,245 - root - INFO - Best Threshold 0.032661519944667816 with the F1-score 0.9001859132607967
+2025-04-16 20:04:39,245 - root - INFO - Precision 0.8455284552845529
+2025-04-16 20:04:39,246 - root - INFO - Recall 0.9623981753014011
+2025-04-16 20:04:39,246 - root - INFO - Precision of the normal class 0.9973693089078757
+2025-04-16 20:04:39,247 - root - INFO - Recall of the normal class 0.9878169379783703
+2025-04-16 20:04:39,247 - root - INFO - F1-score of the normal class 0.9925701412694056
+2025-04-16 20:04:39,249 - root - INFO - Test PR-AUC: 94.85%
+2025-04-16 20:04:39,249 - root - INFO - Test ROC-AUC: 96.47%
+2025-04-16 20:04:39,250 - root - INFO - Test Time: 3.298s
+2025-04-16 20:04:39,250 - root - INFO - Finished testing.
+2025-04-16 20:04:39,296 - flwr - INFO - Centralized evaluation: loss 0.21194133705283338, f1=0.9001859132607967
+2025-04-16 20:04:54,297 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:05:09,296 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:05:24,297 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:05:39,297 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:05:54,298 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:06:09,297 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:06:24,298 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:06:36,970 - flwr - INFO - SERVER: get_config_for_client_fit: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:06:36,970 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:06:39,298 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:06:39,301 - root - INFO - Using full dataset for testing...
+2025-04-16 20:06:39,302 - root - INFO - Starting testing...
+2025-04-16 20:06:44,187 - root - INFO - Test Loss: 0.183617
+2025-04-16 20:06:44,219 - root - INFO - Anomaly scores range from 0.001183086889795959 to 0.15709194540977478
+2025-04-16 20:06:44,219 - root - INFO - Best Threshold 0.040238939225673676 with the F1-score 0.8989715668481548
+2025-04-16 20:06:44,220 - root - INFO - Precision 0.8789067363964637
+2025-04-16 20:06:44,220 - root - INFO - Recall 0.9199739328771587
+2025-04-16 20:06:44,220 - root - INFO - Precision of the normal class 0.9944368436789316
+2025-04-16 20:06:44,221 - root - INFO - Recall of the normal class 0.9912171773046443
+2025-04-16 20:06:44,221 - root - INFO - F1-score of the normal class 0.9928244002053402
+2025-04-16 20:06:44,223 - root - INFO - Test PR-AUC: 95.02%
+2025-04-16 20:06:44,223 - root - INFO - Test ROC-AUC: 99.17%
+2025-04-16 20:06:44,224 - root - INFO - Test Time: 4.443s
+2025-04-16 20:06:44,224 - root - INFO - Finished testing.
+2025-04-16 20:06:44,263 - flwr - INFO - Centralized evaluation: loss 0.18361711744722484, f1=0.8989715668481548
+2025-04-16 20:06:59,263 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:07:08,374 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:07:08,375 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:07:14,264 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:07:14,266 - root - INFO - Using full dataset for testing...
+2025-04-16 20:07:14,267 - root - INFO - Starting testing...
+2025-04-16 20:07:18,285 - root - INFO - Test Loss: 0.164438
+2025-04-16 20:07:18,327 - root - INFO - Anomaly scores range from 0.002521852031350136 to 0.20097264647483826
+2025-04-16 20:07:18,328 - root - INFO - Best Threshold 0.03298616409301758 with the F1-score 0.8787832606906641
+2025-04-16 20:07:18,328 - root - INFO - Precision 0.8254695373339441
+2025-04-16 20:07:18,329 - root - INFO - Recall 0.9394591072010426
+2025-04-16 20:07:18,329 - root - INFO - Precision of the normal class 0.9957644891855418
+2025-04-16 20:07:18,329 - root - INFO - Recall of the normal class 0.9862364814522138
+2025-04-16 20:07:18,330 - root - INFO - F1-score of the normal class 0.9909775834806065
+2025-04-16 20:07:18,331 - root - INFO - Test PR-AUC: 91.71%
+2025-04-16 20:07:18,331 - root - INFO - Test ROC-AUC: 96.29%
+2025-04-16 20:07:18,332 - root - INFO - Test Time: 3.639s
+2025-04-16 20:07:18,332 - root - INFO - Finished testing.
+2025-04-16 20:07:18,379 - flwr - INFO - Centralized evaluation: loss 0.16443846727595537, f1=0.8787832606906641
+2025-04-16 20:07:33,378 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:07:48,379 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:08:03,379 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:08:18,380 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:08:33,379 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:08:48,380 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:09:03,379 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:09:18,380 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:09:33,380 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:09:41,499 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:09:41,500 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:09:48,381 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:09:48,385 - root - INFO - Using full dataset for testing...
+2025-04-16 20:09:48,386 - root - INFO - Starting testing...
+2025-04-16 20:09:52,366 - root - INFO - Test Loss: 0.130788
+2025-04-16 20:09:52,397 - root - INFO - Anomaly scores range from 0.0006726043648086488 to 0.29757967591285706
+2025-04-16 20:09:52,398 - root - INFO - Best Threshold 0.05933237448334694 with the F1-score 0.9288955125020699
+2025-04-16 20:09:52,398 - root - INFO - Precision 0.9443771043771044
+2025-04-16 20:09:52,398 - root - INFO - Recall 0.9139133268165526
+2025-04-16 20:09:52,399 - root - INFO - Precision of the normal class 0.9940482090560937
+2025-04-16 20:09:52,399 - root - INFO - Recall of the normal class 0.9962701225982705
+2025-04-16 20:09:52,399 - root - INFO - F1-score of the normal class 0.9951579255984935
+2025-04-16 20:09:52,400 - root - INFO - Test PR-AUC: 94.21%
+2025-04-16 20:09:52,401 - root - INFO - Test ROC-AUC: 96.03%
+2025-04-16 20:09:52,401 - root - INFO - Test Time: 3.565s
+2025-04-16 20:09:52,401 - root - INFO - Finished testing.
+2025-04-16 20:09:52,437 - flwr - INFO - Centralized evaluation: loss 0.1307879567770539, f1=0.9288955125020699
+2025-04-16 20:10:07,437 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:10:22,438 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:10:37,437 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:10:52,438 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:11:07,438 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:11:22,439 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:11:22,959 - flwr - INFO - SERVER: get_config_for_client_fit: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:11:22,960 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:11:37,439 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:11:37,442 - root - INFO - Using full dataset for testing...
+2025-04-16 20:11:37,442 - root - INFO - Starting testing...
+2025-04-16 20:11:41,850 - root - INFO - Test Loss: 0.143323
+2025-04-16 20:11:41,888 - root - INFO - Anomaly scores range from 0.000845474423840642 to 0.3316759467124939
+2025-04-16 20:11:41,888 - root - INFO - Best Threshold 0.040905892848968506 with the F1-score 0.9177426006408019
+2025-04-16 20:11:41,889 - root - INFO - Precision 0.8941154654469032
+2025-04-16 20:11:41,889 - root - INFO - Recall 0.942652329749104
+2025-04-16 20:11:41,889 - root - INFO - Precision of the normal class 0.9960112772071689
+2025-04-16 20:11:41,890 - root - INFO - Recall of the normal class 0.9922647942019823
+2025-04-16 20:11:41,890 - root - INFO - F1-score of the normal class 0.9941345059797275
+2025-04-16 20:11:41,892 - root - INFO - Test PR-AUC: 94.01%
+2025-04-16 20:11:41,892 - root - INFO - Test ROC-AUC: 96.15%
+2025-04-16 20:11:41,893 - root - INFO - Test Time: 4.002s
+2025-04-16 20:11:41,893 - root - INFO - Finished testing.
+2025-04-16 20:11:41,941 - flwr - INFO - Centralized evaluation: loss 0.14332254710431033, f1=0.9177426006408019
+2025-04-16 20:11:56,942 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:12:11,942 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:12:20,872 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:12:20,873 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:12:26,943 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:12:26,945 - root - INFO - Using full dataset for testing...
+2025-04-16 20:12:26,946 - root - INFO - Starting testing...
+2025-04-16 20:12:30,688 - root - INFO - Test Loss: 0.154496
+2025-04-16 20:12:30,728 - root - INFO - Anomaly scores range from 0.0007499149069190025 to 0.3926667869091034
+2025-04-16 20:12:30,729 - root - INFO - Best Threshold 0.10932674258947372 with the F1-score 0.9057772561293688
+2025-04-16 20:12:30,729 - root - INFO - Precision 0.9063091276831735
+2025-04-16 20:12:30,730 - root - INFO - Recall 0.9052460084718149
+2025-04-16 20:12:30,730 - root - INFO - Precision of the normal class 0.9934348656495374
+2025-04-16 20:12:30,731 - root - INFO - Recall of the normal class 0.9935156126526834
+2025-04-16 20:12:30,731 - root - INFO - F1-score of the normal class 0.9934752375103855
+2025-04-16 20:12:30,732 - root - INFO - Test PR-AUC: 89.23%
+2025-04-16 20:12:30,733 - root - INFO - Test ROC-AUC: 92.18%
+2025-04-16 20:12:30,733 - root - INFO - Test Time: 3.349s
+2025-04-16 20:12:30,733 - root - INFO - Finished testing.
+2025-04-16 20:12:30,769 - flwr - INFO - Centralized evaluation: loss 0.15449618523588052, f1=0.9057772561293688
+2025-04-16 20:12:45,770 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:13:00,770 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:13:15,771 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:13:30,771 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:13:45,771 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:14:00,771 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:14:15,772 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:14:30,772 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:14:45,773 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:14:58,033 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:14:58,034 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:15:00,772 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:15:00,777 - root - INFO - Using full dataset for testing...
+2025-04-16 20:15:00,778 - root - INFO - Starting testing...
+2025-04-16 20:15:04,645 - root - INFO - Test Loss: 0.237322
+2025-04-16 20:15:04,690 - root - INFO - Anomaly scores range from 0.001846680068410933 to 0.6827220916748047
+2025-04-16 20:15:04,691 - root - INFO - Best Threshold 0.21387219429016113 with the F1-score 0.9100033909799932
+2025-04-16 20:15:04,691 - root - INFO - Precision 0.9486037469070343
+2025-04-16 20:15:04,691 - root - INFO - Recall 0.8744216357119583
+2025-04-16 20:15:04,692 - root - INFO - Precision of the normal class 0.9913453549212908
+2025-04-16 20:15:04,692 - root - INFO - Recall of the normal class 0.9967171660156691
+2025-04-16 20:15:04,693 - root - INFO - F1-score of the normal class 0.9940240030623044
+2025-04-16 20:15:04,695 - root - INFO - Test PR-AUC: 85.34%
+2025-04-16 20:15:04,696 - root - INFO - Test ROC-AUC: 89.47%
+2025-04-16 20:15:04,697 - root - INFO - Test Time: 3.461s
+2025-04-16 20:15:04,697 - root - INFO - Finished testing.
+2025-04-16 20:15:04,748 - flwr - INFO - Centralized evaluation: loss 0.2373224057297449, f1=0.9100033909799932
+2025-04-16 20:15:19,748 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:15:34,748 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:15:49,749 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:16:04,749 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:16:08,811 - flwr - INFO - SERVER: get_config_for_client_fit: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:16:08,812 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:16:19,750 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:16:19,752 - root - INFO - Using full dataset for testing...
+2025-04-16 20:16:19,753 - root - INFO - Starting testing...
+2025-04-16 20:16:24,637 - root - INFO - Test Loss: 0.220148
+2025-04-16 20:16:24,668 - root - INFO - Anomaly scores range from 0.0014427065616473556 to 0.5244981050491333
+2025-04-16 20:16:24,668 - root - INFO - Best Threshold 0.18057145178318024 with the F1-score 0.9370407149950347
+2025-04-16 20:16:24,669 - root - INFO - Precision 0.9521695257315843
+2025-04-16 20:16:24,670 - root - INFO - Recall 0.9223851417399804
+2025-04-16 20:16:24,670 - root - INFO - Precision of the normal class 0.9946335638813166
+2025-04-16 20:16:24,670 - root - INFO - Recall of the normal class 0.9967894154568648
+2025-04-16 20:16:24,671 - root - INFO - F1-score of the normal class 0.9957103227407024
+2025-04-16 20:16:24,673 - root - INFO - Test PR-AUC: 92.03%
+2025-04-16 20:16:24,673 - root - INFO - Test ROC-AUC: 93.83%
+2025-04-16 20:16:24,673 - root - INFO - Test Time: 4.485s
+2025-04-16 20:16:24,674 - root - INFO - Finished testing.
+2025-04-16 20:16:24,710 - flwr - INFO - Centralized evaluation: loss 0.22014795389127087, f1=0.9370407149950347
+2025-04-16 20:16:39,709 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:16:54,710 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:17:09,710 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:17:24,711 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:17:28,231 - flwr - INFO - Unregistering client with id: 382ae36777fe49c39a26b2f98993cadb
+2025-04-16 20:17:28,232 - flwr - WARNING - Failure: 
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/src/flower_async/async_server.py", line 516, in fit_client
+    fit_res = client.fit(ins, timeout=timeout, group_id=group_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_client_proxy.py", line 94, in fit
+    res_wrapper: ResWrapper = self.bridge.request(
+                              ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_bridge.py", line 147, in request
+    self._raise_if_closed()
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_bridge.py", line 82, in _raise_if_closed
+    raise GrpcBridgeClosed()
+flwr.server.superlink.fleet.grpc_bidi.grpc_bridge.GrpcBridgeClosed
+2025-04-16 20:17:39,459 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:17:39,460 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:17:39,710 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:17:39,711 - root - INFO - Using full dataset for testing...
+2025-04-16 20:17:39,712 - root - INFO - Starting testing...
+2025-04-16 20:17:43,555 - root - INFO - Test Loss: 0.254092
+2025-04-16 20:17:43,600 - root - INFO - Anomaly scores range from 0.001493212766945362 to 0.6562022566795349
+2025-04-16 20:17:43,601 - root - INFO - Best Threshold 0.23925989866256714 with the F1-score 0.8956760234314157
+2025-04-16 20:17:43,601 - root - INFO - Precision 0.9321962221595714
+2025-04-16 20:17:43,602 - root - INFO - Recall 0.8619094167481264
+2025-04-16 20:17:43,602 - root - INFO - Precision of the normal class 0.9904811959822472
+2025-04-16 20:17:43,602 - root - INFO - Recall of the normal class 0.9956560023481068
+2025-04-16 20:17:43,602 - root - INFO - F1-score of the normal class 0.9930618577827219
+2025-04-16 20:17:43,604 - root - INFO - Test PR-AUC: 87.08%
+2025-04-16 20:17:43,604 - root - INFO - Test ROC-AUC: 90.10%
+2025-04-16 20:17:43,604 - root - INFO - Test Time: 3.456s
+2025-04-16 20:17:43,604 - root - INFO - Finished testing.
+2025-04-16 20:17:43,650 - flwr - INFO - Centralized evaluation: loss 0.2540921799637176, f1=0.8956760234314157
+2025-04-16 20:17:58,649 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:18:13,650 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:18:28,649 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:18:43,650 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:18:58,650 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:19:11,984 - flwr - INFO - Registering client with id: a7ad7a4ee84f4fc9a809de2804bb8b35
+2025-04-16 20:19:11,985 - flwr - INFO - MANAGER: Client set to free: a7ad7a4ee84f4fc9a809de2804bb8b35
+2025-04-16 20:19:13,650 - flwr - INFO - MANAGER : number of free clients: 1
+2025-04-16 20:19:13,651 - flwr - INFO - SERVER: fit_round...
+2025-04-16 20:19:13,651 - flwr - INFO - MANAGER : number of free clients: 1
+2025-04-16 20:19:13,652 - flwr - INFO - Sampling 1 clients, min 1
+2025-04-16 20:19:13,652 - flwr - INFO - MANAGER: Min num free clients: 1
+2025-04-16 20:19:13,653 - flwr - INFO - MANAGER: wait_for_free 24.0 hours
+2025-04-16 20:19:13,653 - flwr - INFO - MANAGER: available cids: ['a7ad7a4ee84f4fc9a809de2804bb8b35']
+2025-04-16 20:19:13,653 - flwr - INFO - MANAGER: Client set to busy: a7ad7a4ee84f4fc9a809de2804bb8b35
+2025-04-16 20:19:13,654 - flwr - INFO - SERVER: fit_clients...
+2025-04-16 20:19:13,654 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:19:28,653 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:19:43,654 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:19:44,422 - flwr - INFO - SERVER: get_config_for_client_fit: 1065a3479f7746d39ef19ed739ec750c
+2025-04-16 20:19:44,423 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:19:58,654 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:19:58,657 - root - INFO - Using full dataset for testing...
+2025-04-16 20:19:58,657 - root - INFO - Starting testing...
+2025-04-16 20:20:26,801 - root - INFO - Test Loss: 0.136459
+2025-04-16 20:20:26,844 - root - INFO - Anomaly scores range from 0.0003284541890025139 to 0.4457840621471405
+2025-04-16 20:20:26,850 - root - INFO - Best Threshold 0.2492114007472992 with the F1-score 0.96406825025092
+2025-04-16 20:20:26,850 - root - INFO - Precision 0.9905809556548643
+2025-04-16 20:20:26,851 - root - INFO - Recall 0.9389377647442163
+2025-04-16 20:20:26,851 - root - INFO - Precision of the normal class 0.9957841218420282
+2025-04-16 20:20:26,851 - root - INFO - Recall of the normal class 0.9993813641597615
+2025-04-16 20:20:26,851 - root - INFO - F1-score of the normal class 0.9975795001239548
+2025-04-16 20:20:26,852 - root - INFO - Test PR-AUC: 96.58%
+2025-04-16 20:20:26,853 - root - INFO - Test ROC-AUC: 96.91%
+2025-04-16 20:20:26,853 - root - INFO - Test Time: 27.652s
+2025-04-16 20:20:26,853 - root - INFO - Finished testing.
+2025-04-16 20:20:26,893 - flwr - INFO - Centralized evaluation: loss 0.13645913151873124, f1=0.96406825025092
+2025-04-16 20:20:41,892 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:20:56,893 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:21:05,835 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:21:05,836 - flwr - INFO - SERVER: fit_client...
+2025-04-16 20:21:11,892 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:21:11,897 - root - INFO - Using full dataset for testing...
+2025-04-16 20:21:11,898 - root - INFO - Starting testing...
+2025-04-16 20:21:17,416 - root - INFO - Test Loss: 0.201892
+2025-04-16 20:21:17,457 - root - INFO - Anomaly scores range from 0.001747573958709836 to 0.8017661571502686
+2025-04-16 20:21:17,457 - root - INFO - Best Threshold 0.18872612714767456 with the F1-score 0.9426458184649322
+2025-04-16 20:21:17,457 - root - INFO - Precision 0.938505264517796
+2025-04-16 20:21:17,458 - root - INFO - Recall 0.9468230694037145
+2025-04-16 20:21:17,458 - root - INFO - Precision of the normal class 0.9963130142464045
+2025-04-16 20:21:17,458 - root - INFO - Recall of the normal class 0.9957011582488542
+2025-04-16 20:21:17,458 - root - INFO - F1-score of the normal class 0.9960069922804862
+2025-04-16 20:21:17,459 - root - INFO - Test PR-AUC: 92.64%
+2025-04-16 20:21:17,460 - root - INFO - Test ROC-AUC: 96.49%
+2025-04-16 20:21:17,460 - root - INFO - Test Time: 5.021s
+2025-04-16 20:21:17,460 - root - INFO - Finished testing.
+2025-04-16 20:21:17,500 - flwr - INFO - Centralized evaluation: loss 0.20189222405085694, f1=0.9426458184649322
+2025-04-16 20:21:32,499 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:21:47,500 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:22:02,499 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:22:17,499 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:22:32,499 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:22:47,500 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:23:02,499 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:23:17,500 - flwr - INFO - MANAGER : number of free clients: 0
+2025-04-16 20:23:17,500 - flwr - INFO - Early stopping
+2025-04-16 20:25:12,582 - flwr - INFO - SERVER: get_config_for_client_fit: 6e8b8e2851624f2785810f914d3cabe2
+2025-04-16 20:25:12,583 - concurrent.futures - ERROR - exception calling callback for <Future at 0x7f289a38b740 state=finished returned tuple>
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.12/concurrent/futures/_base.py", line 340, in _invoke_callbacks
+    callback(self)
+  File "/app/src/flower_async/async_server.py", line 557, in <lambda>
+    ftr.add_done_callback(lambda ftr: _handle_finished_future_after_fit(self, ftr, server, executor, end_timestamp, history, timeout))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/src/flower_async/async_server.py", line 556, in _handle_finished_future_after_fit
+    ftr = executor.submit(fit_client, client=clientProxy, ins=new_ins, timeout=None, group_id=0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/concurrent/futures/thread.py", line 170, in submit
+    raise RuntimeError('cannot schedule new futures after shutdown')
+RuntimeError: cannot schedule new futures after shutdown
+2025-04-16 20:26:16,964 - flwr - INFO - SERVER: get_config_for_client_fit: a7ad7a4ee84f4fc9a809de2804bb8b35
+2025-04-16 20:26:16,964 - concurrent.futures - ERROR - exception calling callback for <Future at 0x7f28a41641d0 state=finished returned tuple>
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.12/concurrent/futures/_base.py", line 340, in _invoke_callbacks
+    callback(self)
+  File "/app/src/flower_async/async_server.py", line 507, in <lambda>
+    lambda ftr: _handle_finished_future_after_fit(self, ftr, server=server, executor=executor, end_timestamp=end_timestamp, history=history, timeout=timeout),
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/src/flower_async/async_server.py", line 556, in _handle_finished_future_after_fit
+    ftr = executor.submit(fit_client, client=clientProxy, ins=new_ins, timeout=None, group_id=0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/concurrent/futures/thread.py", line 170, in submit
+    raise RuntimeError('cannot schedule new futures after shutdown')
+RuntimeError: cannot schedule new futures after shutdown
+2025-04-16 20:39:03,855 - flwr - INFO - FL finished
+2025-04-16 20:39:03,856 - flwr - INFO - SERVER: save_model...
+2025-04-16 20:39:03,860 - flwr - INFO - Model saved to models/model_async_2025-04-16-20-39-03.pkl
+2025-04-16 20:39:03,860 - flwr - INFO - FL finished in 2222.5723266601562
+2025-04-16 20:48:17,073 - grpc._server - ERROR - Exception iterating responses: 
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.12/site-packages/grpc/_server.py", line 599, in _take_response_from_response_iterator
+    return next(response_iterator), True
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/flower_service_servicer.py", line 119, in Join
+    ins_wrapper: InsWrapper = next(ins_wrapper_iterator)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_bridge.py", line 166, in ins_wrapper_iterator
+    self._raise_if_closed()
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_bridge.py", line 82, in _raise_if_closed
+    raise GrpcBridgeClosed()
+flwr.server.superlink.fleet.grpc_bidi.grpc_bridge.GrpcBridgeClosed
+2025-04-16 20:48:17,072 - flwr - INFO - Unregistering client with id: 1065a3479f7746d39ef19ed739ec750c

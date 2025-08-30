@@ -1,0 +1,1173 @@
+2025-04-03 14:48:55,517 - root - INFO - Log file is ../log/log.txt
+2025-04-03 14:48:55,517 - root - INFO - Computation device: cpu
+2025-04-03 14:48:55,518 - root - INFO - Data path is ../data
+2025-04-03 14:48:55,518 - root - INFO - Export path is ../log
+2025-04-03 14:48:55,518 - root - INFO - Number of threads: 0
+2025-04-03 14:48:55,519 - root - INFO - Number of dataloader workers: 0
+2025-04-03 14:48:55,519 - root - INFO - Net: iiot_no_cat
+2025-04-03 14:48:55,519 - root - INFO - Dataset: iiot
+2025-04-03 14:48:55,520 - root - INFO - Normal class: 0
+2025-04-03 14:48:55,520 - root - INFO - Ratio of labeled normal train samples: 0.00
+2025-04-03 14:48:55,520 - root - INFO - Ratio of labeled anomalous samples: 0.01
+2025-04-03 14:48:55,521 - root - INFO - Pollution ratio of unlabeled train data: 0.05
+2025-04-03 14:48:55,521 - root - INFO - Known anomaly class: 1
+2025-04-03 14:48:55,521 - root - INFO - Eta-parameter: 1.00
+2025-04-03 14:48:55,524 - root - INFO - Set seed to 1.
+2025-04-03 14:48:55,524 - root - INFO - Federated mode: client
+2025-04-03 14:48:55,525 - root - INFO - Client id 1
+2025-04-03 14:48:55,526 - kafka.conn - INFO - <BrokerConnection node_id=bootstrap-0 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: connecting to 10.0.0.20:29092 [('10.0.0.20', 29092) IPv4]
+2025-04-03 14:48:55,527 - kafka.conn - INFO - Probing node bootstrap-0 broker version
+2025-04-03 14:48:55,529 - kafka.conn - INFO - <BrokerConnection node_id=bootstrap-0 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: Connection complete.
+2025-04-03 14:48:55,635 - kafka.conn - INFO - Broker version identified as 2.6.0
+2025-04-03 14:48:55,635 - kafka.conn - INFO - Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2025-04-03 14:48:55,643 - kafka.conn - INFO - <BrokerConnection node_id=1 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: connecting to 10.0.0.20:29092 [('10.0.0.20', 29092) IPv4]
+2025-04-03 14:48:55,644 - kafka.conn - INFO - <BrokerConnection node_id=bootstrap-0 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: connecting to 10.0.0.20:29092 [('10.0.0.20', 29092) IPv4]
+2025-04-03 14:48:55,644 - kafka.conn - INFO - Probing node bootstrap-0 broker version
+2025-04-03 14:48:55,645 - kafka.conn - INFO - <BrokerConnection node_id=1 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: Connection complete.
+2025-04-03 14:48:55,646 - kafka.conn - INFO - <BrokerConnection node_id=bootstrap-0 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: Connection complete.
+2025-04-03 14:48:55,646 - kafka.conn - INFO - <BrokerConnection node_id=bootstrap-0 host=10.0.0.20:29092 <connected> [IPv4 ('10.0.0.20', 29092)]>: Closing connection. 
+2025-04-03 14:48:55,752 - kafka.conn - INFO - Broker version identified as 2.6.0
+2025-04-03 14:48:55,753 - kafka.conn - INFO - Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2025-04-03 14:48:55,753 - kafka.coordinator.consumer - WARNING - group_id is None: disabling auto-commit.
+2025-04-03 14:48:55,909 - kafka.conn - INFO - <BrokerConnection node_id=1 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: connecting to 10.0.0.20:29092 [('10.0.0.20', 29092) IPv4]
+2025-04-03 14:48:55,910 - kafka.conn - INFO - <BrokerConnection node_id=1 host=10.0.0.20:29092 <connecting> [IPv4 ('10.0.0.20', 29092)]>: Connection complete.
+2025-04-03 14:48:55,910 - kafka.conn - INFO - <BrokerConnection node_id=bootstrap-0 host=10.0.0.20:29092 <connected> [IPv4 ('10.0.0.20', 29092)]>: Closing connection. 
+2025-04-03 14:48:55,914 - root - INFO - {'distributor', 'server'}
+2025-04-03 14:48:57,051 - root - INFO - {'distributor', 'server'}
+2025-04-03 14:48:58,161 - root - INFO - {'distributor', 'server'}
+2025-04-03 14:48:59,268 - root - INFO - {'distributor', 'server'}
+2025-04-03 14:49:00,376 - root - INFO - {'distributor', 'server'}
+2025-04-03 14:49:01,380 - root - INFO - new client topic ready to go!
+2025-04-03 14:49:01,381 - kafka.consumer.subscription_state - INFO - Updating subscribed topics to: ['client-1']
+2025-04-03 14:49:06,385 - kafka.consumer.subscription_state - INFO - Updated partition assignment: [TopicPartition(topic='client-1', partition=0)]
+2025-04-03 14:50:01,379 - flwr - WARNING - DEPRECATED FEATURE: flwr.client.start_client() is deprecated.
+	Instead, use the `flower-supernode` CLI command to start a SuperNode as shown below:
+
+		$ flower-supernode --insecure --superlink='<IP>:<PORT>'
+
+	To view all available options, run:
+
+		$ flower-supernode --help
+
+	Using `start_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2025-04-03 14:50:01,405 - flwr - INFO - 
+2025-04-03 14:50:01,405 - flwr - INFO - Received: get_parameters message 7bb02736-cb15-4342-990b-cced86b2a001
+2025-04-03 14:50:01,406 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:50:01,409 - root - INFO - loading dataset...
+2025-04-03 14:50:04,995 - root - INFO - Dataset size: 374631
+2025-04-03 14:50:05,004 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:50:05,514 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:50:05,515 - root - INFO - 209882 unlabeled normal samples in the trainset
+2025-04-03 14:50:05,515 - root - INFO - 11046 unlabeled outlier samples in the trainset
+2025-04-03 14:50:05,515 - root - INFO - 2231 labeled outlier samples in the trainset
+2025-04-03 14:50:09,418 - root - INFO - Dataset size: 374730
+2025-04-03 14:50:09,428 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:50:10,021 - root - INFO - 139957 normal samples in the testset
+2025-04-03 14:50:10,022 - root - INFO - 9936 outlier samples in the testset
+2025-04-03 14:50:10,037 - flwr - INFO - Sent reply
+2025-04-03 14:50:19,420 - flwr - INFO - 
+2025-04-03 14:50:19,420 - flwr - INFO - Received: train message 05a57024-6ab8-40ce-81bc-2a9491edb3ca
+2025-04-03 14:50:19,421 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:50:19,422 - root - INFO - loading dataset...
+2025-04-03 14:50:23,542 - root - INFO - Dataset size: 374928
+2025-04-03 14:50:23,554 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:50:24,222 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:50:24,222 - root - INFO - 210043 unlabeled normal samples in the trainset
+2025-04-03 14:50:24,223 - root - INFO - 11054 unlabeled outlier samples in the trainset
+2025-04-03 14:50:24,223 - root - INFO - 2233 labeled outlier samples in the trainset
+2025-04-03 14:50:28,399 - root - INFO - Dataset size: 375028
+2025-04-03 14:50:28,408 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:50:29,049 - root - INFO - 140066 normal samples in the testset
+2025-04-03 14:50:29,050 - root - INFO - 9946 outlier samples in the testset
+2025-04-03 14:50:29,064 - root - INFO - Initializing center c...
+2025-04-03 14:50:32,725 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:50:32,726 - root - INFO - Starting training...
+2025-04-03 14:50:38,791 - root - INFO - | Epoch: 001/005 | Train Time: 6.065s | Train Loss: 0.072551 |
+2025-04-03 14:50:44,309 - root - INFO - | Epoch: 002/005 | Train Time: 5.518s | Train Loss: 0.062046 |
+2025-04-03 14:50:49,978 - root - INFO - | Epoch: 003/005 | Train Time: 5.668s | Train Loss: 0.061936 |
+2025-04-03 14:50:55,483 - root - INFO - | Epoch: 004/005 | Train Time: 5.504s | Train Loss: 0.063700 |
+2025-04-03 14:51:01,098 - root - INFO - | Epoch: 005/005 | Train Time: 5.615s | Train Loss: 0.063008 |
+2025-04-03 14:51:01,099 - root - INFO - Training Time: 28.373s
+2025-04-03 14:51:01,099 - root - INFO - Finished training.
+2025-04-03 14:51:01,100 - root - INFO - Starting testing...
+2025-04-03 14:51:03,574 - root - INFO - Test Loss: 0.047443
+2025-04-03 14:51:03,606 - root - INFO - Anomaly scores range from 3.1566913094138727e-05 to 1.1834585666656494
+2025-04-03 14:51:03,607 - root - INFO - Best Threshold 0.3775107264518738 with the F1-score 0.9684123455513622
+2025-04-03 14:51:03,607 - root - INFO - Precision 0.9967010748111099
+2025-04-03 14:51:03,607 - root - INFO - Recall 0.9416850995375026
+2025-04-03 14:51:03,608 - root - INFO - Precision of the normal class 0.9958752622408704
+2025-04-03 14:51:03,608 - root - INFO - Recall of the normal class 0.9997786757671383
+2025-04-03 14:51:03,609 - root - INFO - F1-score of the normal class 0.9978231515492677
+2025-04-03 14:51:03,610 - root - INFO - Test PR-AUC: 99.61%
+2025-04-03 14:51:03,610 - root - INFO - Test ROC-AUC: 99.97%
+2025-04-03 14:51:03,611 - root - INFO - Test Time: 2.302s
+2025-04-03 14:51:03,611 - root - INFO - Finished testing.
+2025-04-03 14:51:03,648 - flwr - INFO - Sent reply
+2025-04-03 14:51:03,655 - flwr - INFO - 
+2025-04-03 14:51:03,656 - flwr - INFO - Received: train message e0786681-5470-4f04-9153-f914e0f218bb
+2025-04-03 14:51:03,656 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:51:03,657 - root - INFO - loading dataset...
+2025-04-03 14:51:08,430 - root - INFO - Dataset size: 375819
+2025-04-03 14:51:08,440 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:51:09,019 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:51:09,020 - root - INFO - 210541 unlabeled normal samples in the trainset
+2025-04-03 14:51:09,020 - root - INFO - 11081 unlabeled outlier samples in the trainset
+2025-04-03 14:51:09,020 - root - INFO - 2238 labeled outlier samples in the trainset
+2025-04-03 14:51:13,204 - root - INFO - Dataset size: 375819
+2025-04-03 14:51:13,215 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:51:13,876 - root - INFO - 140362 normal samples in the testset
+2025-04-03 14:51:13,878 - root - INFO - 9967 outlier samples in the testset
+2025-04-03 14:51:13,893 - root - INFO - Initializing center c...
+2025-04-03 14:51:17,835 - root - INFO - Center c initialized. c = tensor([-0.1008,  0.1000, -0.1000,  0.1094,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:51:17,836 - root - INFO - Starting training...
+2025-04-03 14:51:55,896 - root - INFO - | Epoch: 001/005 | Train Time: 38.060s | Train Loss: 0.060297 |
+2025-04-03 14:52:10,739 - root - INFO - | Epoch: 002/005 | Train Time: 14.837s | Train Loss: 0.059450 |
+2025-04-03 14:52:15,976 - root - INFO - | Epoch: 003/005 | Train Time: 5.236s | Train Loss: 0.059532 |
+2025-04-03 14:52:21,637 - root - INFO - | Epoch: 004/005 | Train Time: 5.661s | Train Loss: 0.058880 |
+2025-04-03 14:52:27,069 - root - INFO - | Epoch: 005/005 | Train Time: 5.432s | Train Loss: 0.058614 |
+2025-04-03 14:52:27,070 - root - INFO - Training Time: 69.234s
+2025-04-03 14:52:27,071 - root - INFO - Finished training.
+2025-04-03 14:52:27,072 - root - INFO - Starting testing...
+2025-04-03 14:52:29,678 - root - INFO - Test Loss: 0.038565
+2025-04-03 14:52:29,699 - root - INFO - Anomaly scores range from 8.751305358600803e-06 to 0.6338378190994263
+2025-04-03 14:52:29,699 - root - INFO - Best Threshold 0.3015897870063782 with the F1-score 0.9896657760750114
+2025-04-03 14:52:29,699 - root - INFO - Precision 0.9945288753799392
+2025-04-03 14:52:29,700 - root - INFO - Recall 0.9848500050165546
+2025-04-03 14:52:29,700 - root - INFO - Precision of the normal class 0.9989249531891868
+2025-04-03 14:52:29,700 - root - INFO - Recall of the normal class 0.9996152804890213
+2025-04-03 14:52:29,701 - root - INFO - F1-score of the normal class 0.9992699976141386
+2025-04-03 14:52:29,702 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 14:52:29,702 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 14:52:29,703 - root - INFO - Test Time: 2.438s
+2025-04-03 14:52:29,703 - root - INFO - Finished testing.
+2025-04-03 14:52:29,736 - flwr - INFO - Sent reply
+2025-04-03 14:52:29,744 - flwr - INFO - 
+2025-04-03 14:52:29,744 - flwr - INFO - Received: train message 3c8b4202-bc20-46bf-80fc-8bdc2b008c7a
+2025-04-03 14:52:29,745 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:52:29,746 - root - INFO - loading dataset...
+2025-04-03 14:52:33,932 - root - INFO - Dataset size: 377510
+2025-04-03 14:52:33,944 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:52:34,528 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:52:34,529 - root - INFO - 211486 unlabeled normal samples in the trainset
+2025-04-03 14:52:34,529 - root - INFO - 11130 unlabeled outlier samples in the trainset
+2025-04-03 14:52:34,529 - root - INFO - 2248 labeled outlier samples in the trainset
+2025-04-03 14:52:39,125 - root - INFO - Dataset size: 377510
+2025-04-03 14:52:39,135 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:52:39,756 - root - INFO - 140992 normal samples in the testset
+2025-04-03 14:52:39,758 - root - INFO - 10013 outlier samples in the testset
+2025-04-03 14:52:39,772 - root - INFO - Initializing center c...
+2025-04-03 14:52:43,826 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:52:43,827 - root - INFO - Starting training...
+2025-04-03 14:52:49,978 - root - INFO - | Epoch: 001/005 | Train Time: 6.150s | Train Loss: 0.058418 |
+2025-04-03 14:52:55,404 - root - INFO - | Epoch: 002/005 | Train Time: 5.425s | Train Loss: 0.058046 |
+2025-04-03 14:53:00,801 - root - INFO - | Epoch: 003/005 | Train Time: 5.396s | Train Loss: 0.057550 |
+2025-04-03 14:53:05,937 - root - INFO - | Epoch: 004/005 | Train Time: 5.135s | Train Loss: 0.057554 |
+2025-04-03 14:53:44,974 - root - INFO - | Epoch: 005/005 | Train Time: 39.036s | Train Loss: 0.057550 |
+2025-04-03 14:53:44,976 - root - INFO - Training Time: 61.149s
+2025-04-03 14:53:44,977 - root - INFO - Finished training.
+2025-04-03 14:53:44,978 - root - INFO - Starting testing...
+2025-04-03 14:53:48,383 - root - INFO - Test Loss: 0.043815
+2025-04-03 14:53:48,406 - root - INFO - Anomaly scores range from 1.154678739112569e-05 to 1.9035589694976807
+2025-04-03 14:53:48,407 - root - INFO - Best Threshold 0.19481195509433746 with the F1-score 0.9929226475279107
+2025-04-03 14:53:48,407 - root - INFO - Precision 0.9910456670978012
+2025-04-03 14:53:48,407 - root - INFO - Recall 0.9948067512234096
+2025-04-03 14:53:48,408 - root - INFO - Precision of the normal class 0.9996310853186146
+2025-04-03 14:53:48,408 - root - INFO - Recall of the normal class 0.9993616659101225
+2025-04-03 14:53:48,408 - root - INFO - F1-score of the normal class 0.9994963574585204
+2025-04-03 14:53:48,411 - root - INFO - Test PR-AUC: 99.80%
+2025-04-03 14:53:48,412 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 14:53:48,413 - root - INFO - Test Time: 3.199s
+2025-04-03 14:53:48,414 - root - INFO - Finished testing.
+2025-04-03 14:53:48,455 - flwr - INFO - Sent reply
+2025-04-03 14:53:48,463 - flwr - INFO - 
+2025-04-03 14:53:48,464 - flwr - INFO - Received: train message 81063f13-d907-49d6-90c8-099a16fee978
+2025-04-03 14:53:48,464 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:53:48,465 - root - INFO - loading dataset...
+2025-04-03 14:53:52,347 - root - INFO - Dataset size: 379095
+2025-04-03 14:53:52,358 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:53:52,990 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:53:52,991 - root - INFO - 212375 unlabeled normal samples in the trainset
+2025-04-03 14:53:52,991 - root - INFO - 11177 unlabeled outlier samples in the trainset
+2025-04-03 14:53:52,992 - root - INFO - 2258 labeled outlier samples in the trainset
+2025-04-03 14:53:57,521 - root - INFO - Dataset size: 379191
+2025-04-03 14:53:57,531 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:53:58,322 - root - INFO - 141620 normal samples in the testset
+2025-04-03 14:53:58,324 - root - INFO - 10057 outlier samples in the testset
+2025-04-03 14:53:58,342 - root - INFO - Initializing center c...
+2025-04-03 14:54:03,080 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:54:03,081 - root - INFO - Starting training...
+2025-04-03 14:54:08,857 - root - INFO - | Epoch: 001/005 | Train Time: 5.776s | Train Loss: 0.058619 |
+2025-04-03 14:54:14,302 - root - INFO - | Epoch: 002/005 | Train Time: 5.444s | Train Loss: 0.058768 |
+2025-04-03 14:54:20,635 - root - INFO - | Epoch: 003/005 | Train Time: 6.332s | Train Loss: 0.057791 |
+2025-04-03 14:54:26,757 - root - INFO - | Epoch: 004/005 | Train Time: 6.121s | Train Loss: 0.057341 |
+2025-04-03 14:54:32,775 - root - INFO - | Epoch: 005/005 | Train Time: 6.017s | Train Loss: 0.057883 |
+2025-04-03 14:54:32,776 - root - INFO - Training Time: 29.695s
+2025-04-03 14:54:32,776 - root - INFO - Finished training.
+2025-04-03 14:54:32,778 - root - INFO - Starting testing...
+2025-04-03 14:54:35,193 - root - INFO - Test Loss: 0.049166
+2025-04-03 14:54:35,214 - root - INFO - Anomaly scores range from 3.423894304432906e-05 to 0.9080615043640137
+2025-04-03 14:54:35,214 - root - INFO - Best Threshold 0.2613637447357178 with the F1-score 0.9820749048668136
+2025-04-03 14:54:35,215 - root - INFO - Precision 0.98910741301059
+2025-04-03 14:54:35,215 - root - INFO - Recall 0.9751416923535846
+2025-04-03 14:54:35,215 - root - INFO - Precision of the normal class 0.9982364808622903
+2025-04-03 14:54:35,215 - root - INFO - Recall of the normal class 0.999237395848044
+2025-04-03 14:54:35,216 - root - INFO - F1-score of the normal class 0.9987366875807214
+2025-04-03 14:54:35,217 - root - INFO - Test PR-AUC: 99.82%
+2025-04-03 14:54:35,217 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 14:54:35,218 - root - INFO - Test Time: 2.239s
+2025-04-03 14:54:35,218 - root - INFO - Finished testing.
+2025-04-03 14:54:35,258 - flwr - INFO - Sent reply
+2025-04-03 14:54:35,266 - flwr - INFO - 
+2025-04-03 14:54:35,266 - flwr - INFO - Received: train message 6e6da6f3-3054-4c02-a66c-e37f9fda04d8
+2025-04-03 14:54:35,267 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:54:35,268 - root - INFO - loading dataset...
+2025-04-03 14:54:39,255 - root - INFO - Dataset size: 379987
+2025-04-03 14:54:39,266 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:54:39,974 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:54:39,975 - root - INFO - 212859 unlabeled normal samples in the trainset
+2025-04-03 14:54:39,975 - root - INFO - 11203 unlabeled outlier samples in the trainset
+2025-04-03 14:54:39,975 - root - INFO - 2263 labeled outlier samples in the trainset
+2025-04-03 14:54:44,320 - root - INFO - Dataset size: 379987
+2025-04-03 14:54:44,330 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:54:45,110 - root - INFO - 141907 normal samples in the testset
+2025-04-03 14:54:45,112 - root - INFO - 10089 outlier samples in the testset
+2025-04-03 14:54:45,125 - root - INFO - Initializing center c...
+2025-04-03 14:55:05,699 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:55:05,710 - root - INFO - Starting training...
+2025-04-03 14:55:29,729 - root - INFO - | Epoch: 001/005 | Train Time: 24.009s | Train Loss: 0.058481 |
+2025-04-03 14:55:35,428 - root - INFO - | Epoch: 002/005 | Train Time: 5.698s | Train Loss: 0.058550 |
+2025-04-03 14:55:41,042 - root - INFO - | Epoch: 003/005 | Train Time: 5.612s | Train Loss: 0.058765 |
+2025-04-03 14:55:46,323 - root - INFO - | Epoch: 004/005 | Train Time: 5.280s | Train Loss: 0.058525 |
+2025-04-03 14:55:51,840 - root - INFO - | Epoch: 005/005 | Train Time: 5.516s | Train Loss: 0.061302 |
+2025-04-03 14:55:51,841 - root - INFO - Training Time: 46.121s
+2025-04-03 14:55:51,841 - root - INFO - Finished training.
+2025-04-03 14:55:51,842 - root - INFO - Starting testing...
+2025-04-03 14:55:54,515 - root - INFO - Test Loss: 0.042655
+2025-04-03 14:55:54,536 - root - INFO - Anomaly scores range from 1.022237029246753e-05 to 0.8721141815185547
+2025-04-03 14:55:54,536 - root - INFO - Best Threshold 0.33457234501838684 with the F1-score 0.9820731096644968
+2025-04-03 14:55:54,537 - root - INFO - Precision 0.9924096751340957
+2025-04-03 14:55:54,537 - root - INFO - Recall 0.9719496481316285
+2025-04-03 14:55:54,537 - root - INFO - Precision of the normal class 0.9980086549625303
+2025-04-03 14:55:54,538 - root - INFO - Recall of the normal class 0.9994714848457088
+2025-04-03 14:55:54,538 - root - INFO - F1-score of the normal class 0.9987395342614305
+2025-04-03 14:55:54,540 - root - INFO - Test PR-AUC: 99.76%
+2025-04-03 14:55:54,540 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 14:55:54,540 - root - INFO - Test Time: 2.487s
+2025-04-03 14:55:54,541 - root - INFO - Finished testing.
+2025-04-03 14:55:54,578 - flwr - INFO - Sent reply
+2025-04-03 14:55:54,585 - flwr - INFO - 
+2025-04-03 14:55:54,585 - flwr - INFO - Received: train message 89a55c86-823c-4ff7-a12b-ebc552439e33
+2025-04-03 14:55:54,586 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:55:54,587 - root - INFO - loading dataset...
+2025-04-03 14:55:58,729 - root - INFO - Dataset size: 381474
+2025-04-03 14:55:58,740 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:55:59,374 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:55:59,375 - root - INFO - 213693 unlabeled normal samples in the trainset
+2025-04-03 14:55:59,375 - root - INFO - 11247 unlabeled outlier samples in the trainset
+2025-04-03 14:55:59,376 - root - INFO - 2272 labeled outlier samples in the trainset
+2025-04-03 14:56:04,202 - root - INFO - Dataset size: 381573
+2025-04-03 14:56:04,211 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:56:05,021 - root - INFO - 142500 normal samples in the testset
+2025-04-03 14:56:05,023 - root - INFO - 10130 outlier samples in the testset
+2025-04-03 14:56:05,036 - root - INFO - Initializing center c...
+2025-04-03 14:56:08,772 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:56:08,773 - root - INFO - Starting training...
+2025-04-03 14:56:15,579 - root - INFO - | Epoch: 001/005 | Train Time: 6.805s | Train Loss: 0.058232 |
+2025-04-03 14:56:21,223 - root - INFO - | Epoch: 002/005 | Train Time: 5.644s | Train Loss: 0.058113 |
+2025-04-03 14:56:28,161 - root - INFO - | Epoch: 003/005 | Train Time: 6.937s | Train Loss: 0.059210 |
+2025-04-03 14:57:13,363 - root - INFO - | Epoch: 004/005 | Train Time: 45.199s | Train Loss: 0.057668 |
+2025-04-03 14:57:18,832 - root - INFO - | Epoch: 005/005 | Train Time: 5.468s | Train Loss: 0.064982 |
+2025-04-03 14:57:18,833 - root - INFO - Training Time: 70.059s
+2025-04-03 14:57:18,833 - root - INFO - Finished training.
+2025-04-03 14:57:18,843 - root - INFO - Starting testing...
+2025-04-03 14:57:21,209 - root - INFO - Test Loss: 0.048349
+2025-04-03 14:57:21,227 - root - INFO - Anomaly scores range from 4.7730918595334515e-06 to 346.03704833984375
+2025-04-03 14:57:21,227 - root - INFO - Best Threshold 0.34668290615081787 with the F1-score 0.9818705607708736
+2025-04-03 14:57:21,227 - root - INFO - Precision 0.9881035689293212
+2025-04-03 14:57:21,228 - root - INFO - Recall 0.975715695952616
+2025-04-03 14:57:21,228 - root - INFO - Precision of the normal class 0.9982752213816458
+2025-04-03 14:57:21,228 - root - INFO - Recall of the normal class 0.9991649122807017
+2025-04-03 14:57:21,229 - root - INFO - F1-score of the normal class 0.9987198686900924
+2025-04-03 14:57:21,230 - root - INFO - Test PR-AUC: 98.96%
+2025-04-03 14:57:21,230 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 14:57:21,231 - root - INFO - Test Time: 2.189s
+2025-04-03 14:57:21,231 - root - INFO - Finished testing.
+2025-04-03 14:57:21,269 - flwr - INFO - Sent reply
+2025-04-03 14:57:21,275 - flwr - INFO - 
+2025-04-03 14:57:21,276 - flwr - INFO - Received: train message a20b1f41-2417-4f78-a2a2-755219a6ce91
+2025-04-03 14:57:21,277 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:57:21,278 - root - INFO - loading dataset...
+2025-04-03 14:57:25,620 - root - INFO - Dataset size: 383264
+2025-04-03 14:57:25,631 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:57:26,168 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:57:26,168 - root - INFO - 214699 unlabeled normal samples in the trainset
+2025-04-03 14:57:26,169 - root - INFO - 11299 unlabeled outlier samples in the trainset
+2025-04-03 14:57:26,169 - root - INFO - 2282 labeled outlier samples in the trainset
+2025-04-03 14:57:30,834 - root - INFO - Dataset size: 383364
+2025-04-03 14:57:30,844 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:57:31,344 - root - INFO - 143169 normal samples in the testset
+2025-04-03 14:57:31,346 - root - INFO - 10178 outlier samples in the testset
+2025-04-03 14:57:31,357 - root - INFO - Initializing center c...
+2025-04-03 14:57:35,552 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:57:35,552 - root - INFO - Starting training...
+2025-04-03 14:57:41,760 - root - INFO - | Epoch: 001/005 | Train Time: 6.207s | Train Loss: 0.059046 |
+2025-04-03 14:57:47,498 - root - INFO - | Epoch: 002/005 | Train Time: 5.737s | Train Loss: 0.057416 |
+2025-04-03 14:57:53,136 - root - INFO - | Epoch: 003/005 | Train Time: 5.638s | Train Loss: 0.058421 |
+2025-04-03 14:57:58,618 - root - INFO - | Epoch: 004/005 | Train Time: 5.481s | Train Loss: 0.056856 |
+2025-04-03 14:58:04,151 - root - INFO - | Epoch: 005/005 | Train Time: 5.532s | Train Loss: 0.059786 |
+2025-04-03 14:58:04,152 - root - INFO - Training Time: 28.599s
+2025-04-03 14:58:04,152 - root - INFO - Finished training.
+2025-04-03 14:58:04,153 - root - INFO - Starting testing...
+2025-04-03 14:58:06,204 - root - INFO - Test Loss: 0.045602
+2025-04-03 14:58:06,225 - root - INFO - Anomaly scores range from 9.049369509739336e-06 to 0.8370280861854553
+2025-04-03 14:58:06,225 - root - INFO - Best Threshold 0.31566840410232544 with the F1-score 0.9791304347826087
+2025-04-03 14:58:06,226 - root - INFO - Precision 0.9631248812012926
+2025-04-03 14:58:06,226 - root - INFO - Recall 0.9956769502849283
+2025-04-03 14:58:06,227 - root - INFO - Precision of the normal class 0.999691930684404
+2025-04-03 14:58:06,227 - root - INFO - Recall of the normal class 0.997289916113125
+2025-04-03 14:58:06,227 - root - INFO - F1-score of the normal class 0.9984894788002545
+2025-04-03 14:58:06,229 - root - INFO - Test PR-AUC: 99.71%
+2025-04-03 14:58:06,229 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 14:58:06,229 - root - INFO - Test Time: 1.875s
+2025-04-03 14:58:06,230 - root - INFO - Finished testing.
+2025-04-03 14:58:06,272 - flwr - INFO - Sent reply
+2025-04-03 14:58:06,279 - flwr - INFO - 
+2025-04-03 14:58:06,279 - flwr - INFO - Received: train message f97ea9d7-c13e-4d6e-9133-959e20f078a2
+2025-04-03 14:58:06,280 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:58:06,281 - root - INFO - loading dataset...
+2025-04-03 14:58:10,621 - root - INFO - Dataset size: 384159
+2025-04-03 14:58:10,631 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:58:11,173 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:58:11,174 - root - INFO - 215193 unlabeled normal samples in the trainset
+2025-04-03 14:58:11,174 - root - INFO - 11325 unlabeled outlier samples in the trainset
+2025-04-03 14:58:11,174 - root - INFO - 2288 labeled outlier samples in the trainset
+2025-04-03 14:58:16,286 - root - INFO - Dataset size: 384258
+2025-04-03 14:58:16,300 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:58:16,882 - root - INFO - 143501 normal samples in the testset
+2025-04-03 14:58:16,883 - root - INFO - 10203 outlier samples in the testset
+2025-04-03 14:58:16,895 - root - INFO - Initializing center c...
+2025-04-03 14:58:31,455 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:58:31,456 - root - INFO - Starting training...
+2025-04-03 14:58:37,000 - root - INFO - | Epoch: 001/005 | Train Time: 5.543s | Train Loss: 0.071637 |
+2025-04-03 14:58:42,839 - root - INFO - | Epoch: 002/005 | Train Time: 5.839s | Train Loss: 0.057320 |
+2025-04-03 14:58:48,119 - root - INFO - | Epoch: 003/005 | Train Time: 5.278s | Train Loss: 0.056759 |
+2025-04-03 14:58:54,780 - root - INFO - | Epoch: 004/005 | Train Time: 6.660s | Train Loss: 0.057477 |
+2025-04-03 14:59:00,498 - root - INFO - | Epoch: 005/005 | Train Time: 5.717s | Train Loss: 0.056885 |
+2025-04-03 14:59:00,499 - root - INFO - Training Time: 29.042s
+2025-04-03 14:59:00,499 - root - INFO - Finished training.
+2025-04-03 14:59:00,501 - root - INFO - Starting testing...
+2025-04-03 14:59:02,733 - root - INFO - Test Loss: 0.041916
+2025-04-03 14:59:02,750 - root - INFO - Anomaly scores range from 7.019028771537705e-07 to 116.80951690673828
+2025-04-03 14:59:02,750 - root - INFO - Best Threshold 0.20554420351982117 with the F1-score 0.9935004642525533
+2025-04-03 14:59:02,751 - root - INFO - Precision 0.9907407407407407
+2025-04-03 14:59:02,751 - root - INFO - Recall 0.9962756052141527
+2025-04-03 14:59:02,751 - root - INFO - Precision of the normal class 0.9997350882574384
+2025-04-03 14:59:02,752 - root - INFO - Recall of the normal class 0.9993379837074307
+2025-04-03 14:59:02,752 - root - INFO - F1-score of the normal class 0.999536496541149
+2025-04-03 14:59:02,753 - root - INFO - Test PR-AUC: 99.77%
+2025-04-03 14:59:02,754 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 14:59:02,754 - root - INFO - Test Time: 2.057s
+2025-04-03 14:59:02,754 - root - INFO - Finished testing.
+2025-04-03 14:59:02,791 - flwr - INFO - Sent reply
+2025-04-03 14:59:02,798 - flwr - INFO - 
+2025-04-03 14:59:02,798 - flwr - INFO - Received: train message c43af837-1ea0-4dc7-8d30-b5bc9e1a66c5
+2025-04-03 14:59:02,799 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 14:59:02,800 - root - INFO - loading dataset...
+2025-04-03 14:59:07,148 - root - INFO - Dataset size: 385250
+2025-04-03 14:59:07,158 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:59:07,765 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 14:59:07,766 - root - INFO - 215796 unlabeled normal samples in the trainset
+2025-04-03 14:59:07,766 - root - INFO - 11357 unlabeled outlier samples in the trainset
+2025-04-03 14:59:07,767 - root - INFO - 2294 labeled outlier samples in the trainset
+2025-04-03 14:59:12,792 - root - INFO - Dataset size: 385446
+2025-04-03 14:59:12,806 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 14:59:13,540 - root - INFO - 143938 normal samples in the testset
+2025-04-03 14:59:13,542 - root - INFO - 10242 outlier samples in the testset
+2025-04-03 14:59:13,561 - root - INFO - Initializing center c...
+2025-04-03 14:59:17,932 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 14:59:17,933 - root - INFO - Starting training...
+2025-04-03 14:59:23,829 - root - INFO - | Epoch: 001/005 | Train Time: 5.896s | Train Loss: 0.057294 |
+2025-04-03 14:59:29,366 - root - INFO - | Epoch: 002/005 | Train Time: 5.536s | Train Loss: 0.056593 |
+2025-04-03 15:00:11,959 - root - INFO - | Epoch: 003/005 | Train Time: 42.592s | Train Loss: 0.056147 |
+2025-04-03 15:00:17,409 - root - INFO - | Epoch: 004/005 | Train Time: 5.450s | Train Loss: 0.056718 |
+2025-04-03 15:00:23,100 - root - INFO - | Epoch: 005/005 | Train Time: 5.689s | Train Loss: 0.057908 |
+2025-04-03 15:00:23,100 - root - INFO - Training Time: 65.167s
+2025-04-03 15:00:23,100 - root - INFO - Finished training.
+2025-04-03 15:00:23,101 - root - INFO - Starting testing...
+2025-04-03 15:00:25,329 - root - INFO - Test Loss: 0.037875
+2025-04-03 15:00:25,354 - root - INFO - Anomaly scores range from 4.6736358854104765e-06 to 0.6154590249061584
+2025-04-03 15:00:25,355 - root - INFO - Best Threshold 0.4246954023838043 with the F1-score 0.9761750162329554
+2025-04-03 15:00:25,355 - root - INFO - Precision 0.9992841803865425
+2025-04-03 15:00:25,355 - root - INFO - Recall 0.9541105252880296
+2025-04-03 15:00:25,356 - root - INFO - Precision of the normal class 0.9967451748949107
+2025-04-03 15:00:25,356 - root - INFO - Recall of the normal class 0.9999513679500897
+2025-04-03 15:00:25,356 - root - INFO - F1-score of the normal class 0.9983456972521927
+2025-04-03 15:00:25,358 - root - INFO - Test PR-AUC: 99.69%
+2025-04-03 15:00:25,358 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 15:00:25,358 - root - INFO - Test Time: 1.812s
+2025-04-03 15:00:25,359 - root - INFO - Finished testing.
+2025-04-03 15:00:25,398 - flwr - INFO - Sent reply
+2025-04-03 15:00:25,406 - flwr - INFO - 
+2025-04-03 15:00:25,406 - flwr - INFO - Received: train message 290dc8c1-c0c0-4293-9a0a-9c5a9d50224c
+2025-04-03 15:00:25,407 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:00:25,408 - root - INFO - loading dataset...
+2025-04-03 15:00:29,505 - root - INFO - Dataset size: 386942
+2025-04-03 15:00:29,518 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:00:30,309 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:00:30,310 - root - INFO - 216747 unlabeled normal samples in the trainset
+2025-04-03 15:00:30,310 - root - INFO - 11407 unlabeled outlier samples in the trainset
+2025-04-03 15:00:30,311 - root - INFO - 2304 labeled outlier samples in the trainset
+2025-04-03 15:00:34,753 - root - INFO - Dataset size: 387042
+2025-04-03 15:00:34,766 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:00:35,363 - root - INFO - 144536 normal samples in the testset
+2025-04-03 15:00:35,364 - root - INFO - 10282 outlier samples in the testset
+2025-04-03 15:00:35,375 - root - INFO - Initializing center c...
+2025-04-03 15:00:39,368 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:00:39,369 - root - INFO - Starting training...
+2025-04-03 15:00:45,209 - root - INFO - | Epoch: 001/005 | Train Time: 5.840s | Train Loss: 0.057079 |
+2025-04-03 15:00:50,990 - root - INFO - | Epoch: 002/005 | Train Time: 5.780s | Train Loss: 0.056257 |
+2025-04-03 15:00:56,317 - root - INFO - | Epoch: 003/005 | Train Time: 5.326s | Train Loss: 0.056542 |
+2025-04-03 15:01:01,840 - root - INFO - | Epoch: 004/005 | Train Time: 5.522s | Train Loss: 0.058525 |
+2025-04-03 15:01:07,411 - root - INFO - | Epoch: 005/005 | Train Time: 5.571s | Train Loss: 0.059523 |
+2025-04-03 15:01:07,412 - root - INFO - Training Time: 28.043s
+2025-04-03 15:01:07,412 - root - INFO - Finished training.
+2025-04-03 15:01:07,413 - root - INFO - Starting testing...
+2025-04-03 15:01:09,576 - root - INFO - Test Loss: 0.044866
+2025-04-03 15:01:09,599 - root - INFO - Anomaly scores range from 1.6248453960088227e-07 to 0.7299099564552307
+2025-04-03 15:01:09,600 - root - INFO - Best Threshold 0.41275614500045776 with the F1-score 0.9908542517999611
+2025-04-03 15:01:09,600 - root - INFO - Precision 0.9912400233599377
+2025-04-03 15:01:09,600 - root - INFO - Recall 0.9904687803929196
+2025-04-03 15:01:09,601 - root - INFO - Precision of the normal class 0.9993220057560328
+2025-04-03 15:01:09,601 - root - INFO - Recall of the normal class 0.9993773177616649
+2025-04-03 15:01:09,601 - root - INFO - F1-score of the normal class 0.9993496609934966
+2025-04-03 15:01:09,603 - root - INFO - Test PR-AUC: 99.92%
+2025-04-03 15:01:09,603 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 15:01:09,604 - root - INFO - Test Time: 1.964s
+2025-04-03 15:01:09,604 - root - INFO - Finished testing.
+2025-04-03 15:01:09,649 - flwr - INFO - Sent reply
+2025-04-03 15:01:09,657 - flwr - INFO - 
+2025-04-03 15:01:09,658 - flwr - INFO - Received: train message 61b32308-c301-40d5-b016-14da2df34cf7
+2025-04-03 15:01:09,658 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:01:09,659 - root - INFO - loading dataset...
+2025-04-03 15:01:14,619 - root - INFO - Dataset size: 387840
+2025-04-03 15:01:14,631 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:01:15,401 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:01:15,401 - root - INFO - 217252 unlabeled normal samples in the trainset
+2025-04-03 15:01:15,401 - root - INFO - 11434 unlabeled outlier samples in the trainset
+2025-04-03 15:01:15,402 - root - INFO - 2309 labeled outlier samples in the trainset
+2025-04-03 15:01:20,290 - root - INFO - Dataset size: 387939
+2025-04-03 15:01:20,302 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:01:20,965 - root - INFO - 144874 normal samples in the testset
+2025-04-03 15:01:20,967 - root - INFO - 10302 outlier samples in the testset
+2025-04-03 15:01:20,979 - root - INFO - Initializing center c...
+2025-04-03 15:01:25,123 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:01:25,124 - root - INFO - Starting training...
+2025-04-03 15:01:31,063 - root - INFO - | Epoch: 001/005 | Train Time: 5.938s | Train Loss: 0.056520 |
+2025-04-03 15:01:36,778 - root - INFO - | Epoch: 002/005 | Train Time: 5.707s | Train Loss: 0.056873 |
+2025-04-03 15:01:42,654 - root - INFO - | Epoch: 003/005 | Train Time: 5.875s | Train Loss: 0.055621 |
+2025-04-03 15:01:48,145 - root - INFO - | Epoch: 004/005 | Train Time: 5.490s | Train Loss: 0.055992 |
+2025-04-03 15:01:53,724 - root - INFO - | Epoch: 005/005 | Train Time: 5.578s | Train Loss: 0.057527 |
+2025-04-03 15:01:53,724 - root - INFO - Training Time: 28.600s
+2025-04-03 15:01:53,725 - root - INFO - Finished training.
+2025-04-03 15:01:53,725 - root - INFO - Starting testing...
+2025-04-03 15:01:55,825 - root - INFO - Test Loss: 0.040808
+2025-04-03 15:01:55,849 - root - INFO - Anomaly scores range from 1.0602902875689324e-06 to 0.7230730056762695
+2025-04-03 15:01:55,850 - root - INFO - Best Threshold 0.26959192752838135 with the F1-score 0.9927318538618083
+2025-04-03 15:01:55,850 - root - INFO - Precision 0.9910990712074303
+2025-04-03 15:01:55,851 - root - INFO - Recall 0.9943700252378179
+2025-04-03 15:01:55,851 - root - INFO - Precision of the normal class 0.9995995581331124
+2025-04-03 15:01:55,851 - root - INFO - Recall of the normal class 0.9993649654182255
+2025-04-03 15:01:55,851 - root - INFO - F1-score of the normal class 0.9994822480101065
+2025-04-03 15:01:55,853 - root - INFO - Test PR-AUC: 99.94%
+2025-04-03 15:01:55,853 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:01:55,854 - root - INFO - Test Time: 1.879s
+2025-04-03 15:01:55,854 - root - INFO - Finished testing.
+2025-04-03 15:01:55,897 - flwr - INFO - Sent reply
+2025-04-03 15:01:55,903 - flwr - INFO - 
+2025-04-03 15:01:55,904 - flwr - INFO - Received: train message fbbe9111-0e57-43cb-bf6e-72f4f5bca797
+2025-04-03 15:01:55,904 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:01:55,905 - root - INFO - loading dataset...
+2025-04-03 15:02:00,085 - root - INFO - Dataset size: 388736
+2025-04-03 15:02:00,098 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:02:00,934 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:02:00,935 - root - INFO - 217762 unlabeled normal samples in the trainset
+2025-04-03 15:02:00,935 - root - INFO - 11461 unlabeled outlier samples in the trainset
+2025-04-03 15:02:00,936 - root - INFO - 2315 labeled outlier samples in the trainset
+2025-04-03 15:02:05,440 - root - INFO - Dataset size: 388833
+2025-04-03 15:02:05,451 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:02:06,058 - root - INFO - 145210 normal samples in the testset
+2025-04-03 15:02:06,059 - root - INFO - 10324 outlier samples in the testset
+2025-04-03 15:02:06,071 - root - INFO - Initializing center c...
+2025-04-03 15:02:10,049 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:02:10,050 - root - INFO - Starting training...
+2025-04-03 15:02:16,167 - root - INFO - | Epoch: 001/005 | Train Time: 6.116s | Train Loss: 0.063174 |
+2025-04-03 15:02:40,062 - root - INFO - | Epoch: 002/005 | Train Time: 23.894s | Train Loss: 0.056888 |
+2025-04-03 15:03:01,646 - root - INFO - | Epoch: 003/005 | Train Time: 21.579s | Train Loss: 0.056687 |
+2025-04-03 15:03:07,197 - root - INFO - | Epoch: 004/005 | Train Time: 5.551s | Train Loss: 0.057807 |
+2025-04-03 15:03:12,909 - root - INFO - | Epoch: 005/005 | Train Time: 5.711s | Train Loss: 0.060922 |
+2025-04-03 15:03:12,910 - root - INFO - Training Time: 62.859s
+2025-04-03 15:03:12,910 - root - INFO - Finished training.
+2025-04-03 15:03:12,911 - root - INFO - Starting testing...
+2025-04-03 15:03:15,025 - root - INFO - Test Loss: 0.045618
+2025-04-03 15:03:15,046 - root - INFO - Anomaly scores range from 5.3595144891005475e-06 to 2.1045045852661133
+2025-04-03 15:03:15,047 - root - INFO - Best Threshold 0.49234655499458313 with the F1-score 0.9880582524271845
+2025-04-03 15:03:15,047 - root - INFO - Precision 0.9903659011288439
+2025-04-03 15:03:15,047 - root - INFO - Recall 0.9857613328167377
+2025-04-03 15:03:15,048 - root - INFO - Precision of the normal class 0.9989880075451955
+2025-04-03 15:03:15,048 - root - INFO - Recall of the normal class 0.9993182287721232
+2025-04-03 15:03:15,048 - root - INFO - F1-score of the normal class 0.9991530908740378
+2025-04-03 15:03:15,050 - root - INFO - Test PR-AUC: 99.77%
+2025-04-03 15:03:15,050 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 15:03:15,051 - root - INFO - Test Time: 1.931s
+2025-04-03 15:03:15,051 - root - INFO - Finished testing.
+2025-04-03 15:03:15,094 - flwr - INFO - Sent reply
+2025-04-03 15:03:15,101 - flwr - INFO - 
+2025-04-03 15:03:15,101 - flwr - INFO - Received: train message 0893d7d8-9eec-4359-9bbe-6234638fb08a
+2025-04-03 15:03:15,102 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:03:15,103 - root - INFO - loading dataset...
+2025-04-03 15:03:19,460 - root - INFO - Dataset size: 390223
+2025-04-03 15:03:19,471 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:03:20,323 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:03:20,323 - root - INFO - 218591 unlabeled normal samples in the trainset
+2025-04-03 15:03:20,323 - root - INFO - 11504 unlabeled outlier samples in the trainset
+2025-04-03 15:03:20,324 - root - INFO - 2324 labeled outlier samples in the trainset
+2025-04-03 15:03:24,925 - root - INFO - Dataset size: 390422
+2025-04-03 15:03:24,936 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:03:25,678 - root - INFO - 145803 normal samples in the testset
+2025-04-03 15:03:25,680 - root - INFO - 10366 outlier samples in the testset
+2025-04-03 15:03:25,699 - root - INFO - Initializing center c...
+2025-04-03 15:03:30,176 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:03:30,177 - root - INFO - Starting training...
+2025-04-03 15:03:36,047 - root - INFO - | Epoch: 001/005 | Train Time: 5.870s | Train Loss: 0.064674 |
+2025-04-03 15:03:42,152 - root - INFO - | Epoch: 002/005 | Train Time: 6.105s | Train Loss: 0.059704 |
+2025-04-03 15:03:48,230 - root - INFO - | Epoch: 003/005 | Train Time: 6.077s | Train Loss: 0.056909 |
+2025-04-03 15:03:54,128 - root - INFO - | Epoch: 004/005 | Train Time: 5.897s | Train Loss: 0.056196 |
+2025-04-03 15:04:05,118 - root - INFO - | Epoch: 005/005 | Train Time: 10.989s | Train Loss: 0.058245 |
+2025-04-03 15:04:05,120 - root - INFO - Training Time: 34.943s
+2025-04-03 15:04:05,121 - root - INFO - Finished training.
+2025-04-03 15:04:05,122 - root - INFO - Starting testing...
+2025-04-03 15:04:08,234 - root - INFO - Test Loss: 0.050478
+2025-04-03 15:04:08,253 - root - INFO - Anomaly scores range from 2.1842972273589112e-05 to 579.4467163085938
+2025-04-03 15:04:08,253 - root - INFO - Best Threshold 0.21100571751594543 with the F1-score 0.9921796286523054
+2025-04-03 15:04:08,254 - root - INFO - Precision 0.9869237377111769
+2025-04-03 15:04:08,254 - root - INFO - Recall 0.9974918001157631
+2025-04-03 15:04:08,254 - root - INFO - Precision of the normal class 0.9998215413337727
+2025-04-03 15:04:08,255 - root - INFO - Recall of the normal class 0.9990603759867767
+2025-04-03 15:04:08,255 - root - INFO - F1-score of the normal class 0.9994408137360846
+2025-04-03 15:04:08,256 - root - INFO - Test PR-AUC: 98.74%
+2025-04-03 15:04:08,257 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 15:04:08,257 - root - INFO - Test Time: 2.890s
+2025-04-03 15:04:08,257 - root - INFO - Finished testing.
+2025-04-03 15:04:08,293 - flwr - INFO - Sent reply
+2025-04-03 15:04:08,300 - flwr - INFO - 
+2025-04-03 15:04:08,301 - flwr - INFO - Received: train message fc4ce106-f119-461a-9071-46aad38dd759
+2025-04-03 15:04:08,301 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:04:08,302 - root - INFO - loading dataset...
+2025-04-03 15:04:12,721 - root - INFO - Dataset size: 391218
+2025-04-03 15:04:12,730 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:04:13,349 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:04:13,349 - root - INFO - 219151 unlabeled normal samples in the trainset
+2025-04-03 15:04:13,350 - root - INFO - 11534 unlabeled outlier samples in the trainset
+2025-04-03 15:04:13,350 - root - INFO - 2330 labeled outlier samples in the trainset
+2025-04-03 15:04:17,883 - root - INFO - Dataset size: 391416
+2025-04-03 15:04:17,895 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:04:18,466 - root - INFO - 146177 normal samples in the testset
+2025-04-03 15:04:18,469 - root - INFO - 10390 outlier samples in the testset
+2025-04-03 15:04:18,489 - root - INFO - Initializing center c...
+2025-04-03 15:04:23,627 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:04:23,628 - root - INFO - Starting training...
+2025-04-03 15:04:29,147 - root - INFO - | Epoch: 001/005 | Train Time: 5.518s | Train Loss: 0.059392 |
+2025-04-03 15:04:35,014 - root - INFO - | Epoch: 002/005 | Train Time: 5.866s | Train Loss: 0.057450 |
+2025-04-03 15:04:41,052 - root - INFO - | Epoch: 003/005 | Train Time: 6.037s | Train Loss: 0.056235 |
+2025-04-03 15:04:46,183 - root - INFO - | Epoch: 004/005 | Train Time: 5.130s | Train Loss: 0.058337 |
+2025-04-03 15:04:51,402 - root - INFO - | Epoch: 005/005 | Train Time: 5.219s | Train Loss: 0.056347 |
+2025-04-03 15:04:51,403 - root - INFO - Training Time: 27.775s
+2025-04-03 15:04:51,404 - root - INFO - Finished training.
+2025-04-03 15:04:51,404 - root - INFO - Starting testing...
+2025-04-03 15:04:53,810 - root - INFO - Test Loss: 0.046042
+2025-04-03 15:04:53,828 - root - INFO - Anomaly scores range from 7.413463663397124e-06 to 52.64653396606445
+2025-04-03 15:04:53,828 - root - INFO - Best Threshold 0.21189343929290771 with the F1-score 0.9938626774069812
+2025-04-03 15:04:53,829 - root - INFO - Precision 0.9902541563156889
+2025-04-03 15:04:53,829 - root - INFO - Recall 0.997497593840231
+2025-04-03 15:04:53,830 - root - INFO - Precision of the normal class 0.9998220409169
+2025-04-03 15:04:53,830 - root - INFO - Recall of the normal class 0.9993022158068643
+2025-04-03 15:04:53,830 - root - INFO - F1-score of the normal class 0.9995620607777527
+2025-04-03 15:04:53,832 - root - INFO - Test PR-AUC: 99.80%
+2025-04-03 15:04:53,832 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:04:53,833 - root - INFO - Test Time: 2.196s
+2025-04-03 15:04:53,833 - root - INFO - Finished testing.
+2025-04-03 15:04:53,874 - flwr - INFO - Sent reply
+2025-04-03 15:04:53,883 - flwr - INFO - 
+2025-04-03 15:04:53,883 - flwr - INFO - Received: train message 639a071f-77b5-47a5-9326-3d92ab4e45eb
+2025-04-03 15:04:53,884 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:04:53,885 - root - INFO - loading dataset...
+2025-04-03 15:04:58,338 - root - INFO - Dataset size: 392110
+2025-04-03 15:04:58,349 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:04:59,030 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:04:59,031 - root - INFO - 219657 unlabeled normal samples in the trainset
+2025-04-03 15:04:59,031 - root - INFO - 11560 unlabeled outlier samples in the trainset
+2025-04-03 15:04:59,031 - root - INFO - 2335 labeled outlier samples in the trainset
+2025-04-03 15:05:03,576 - root - INFO - Dataset size: 392208
+2025-04-03 15:05:03,586 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:05:04,549 - root - INFO - 146477 normal samples in the testset
+2025-04-03 15:05:04,550 - root - INFO - 10407 outlier samples in the testset
+2025-04-03 15:05:04,565 - root - INFO - Initializing center c...
+2025-04-03 15:05:26,148 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:05:26,156 - root - INFO - Starting training...
+2025-04-03 15:05:57,439 - root - INFO - | Epoch: 001/005 | Train Time: 31.282s | Train Loss: 0.057005 |
+2025-04-03 15:06:03,158 - root - INFO - | Epoch: 002/005 | Train Time: 5.718s | Train Loss: 0.056161 |
+2025-04-03 15:06:08,618 - root - INFO - | Epoch: 003/005 | Train Time: 5.460s | Train Loss: 0.056680 |
+2025-04-03 15:06:13,812 - root - INFO - | Epoch: 004/005 | Train Time: 5.194s | Train Loss: 0.057046 |
+2025-04-03 15:06:18,454 - root - INFO - | Epoch: 005/005 | Train Time: 4.641s | Train Loss: 0.057709 |
+2025-04-03 15:06:18,455 - root - INFO - Training Time: 52.298s
+2025-04-03 15:06:18,455 - root - INFO - Finished training.
+2025-04-03 15:06:18,456 - root - INFO - Starting testing...
+2025-04-03 15:06:21,076 - root - INFO - Test Loss: 0.042812
+2025-04-03 15:06:21,094 - root - INFO - Anomaly scores range from 6.112893970566802e-06 to 0.7669705152511597
+2025-04-03 15:06:21,095 - root - INFO - Best Threshold 0.22146926820278168 with the F1-score 0.9936391027787077
+2025-04-03 15:06:21,095 - root - INFO - Precision 0.9891449247762331
+2025-04-03 15:06:21,095 - root - INFO - Recall 0.9981743057557413
+2025-04-03 15:06:21,096 - root - INFO - Precision of the normal class 0.9998702026205408
+2025-04-03 15:06:21,096 - root - INFO - Recall of the normal class 0.9992217208162374
+2025-04-03 15:06:21,096 - root - INFO - F1-score of the normal class 0.9995458565384707
+2025-04-03 15:06:21,098 - root - INFO - Test PR-AUC: 99.97%
+2025-04-03 15:06:21,098 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:06:21,098 - root - INFO - Test Time: 2.411s
+2025-04-03 15:06:21,099 - root - INFO - Finished testing.
+2025-04-03 15:06:21,132 - flwr - INFO - Sent reply
+2025-04-03 15:06:21,140 - flwr - INFO - 
+2025-04-03 15:06:21,140 - flwr - INFO - Received: train message 77650805-dc30-4e26-979d-62990830a68a
+2025-04-03 15:06:21,141 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:06:21,142 - root - INFO - loading dataset...
+2025-04-03 15:06:25,442 - root - INFO - Dataset size: 393893
+2025-04-03 15:06:25,455 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:06:26,127 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:06:26,128 - root - INFO - 220656 unlabeled normal samples in the trainset
+2025-04-03 15:06:26,128 - root - INFO - 11613 unlabeled outlier samples in the trainset
+2025-04-03 15:06:26,129 - root - INFO - 2346 labeled outlier samples in the trainset
+2025-04-03 15:06:30,684 - root - INFO - Dataset size: 393993
+2025-04-03 15:06:30,694 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:06:31,514 - root - INFO - 147142 normal samples in the testset
+2025-04-03 15:06:31,515 - root - INFO - 10456 outlier samples in the testset
+2025-04-03 15:06:31,527 - root - INFO - Initializing center c...
+2025-04-03 15:06:35,604 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:06:35,604 - root - INFO - Starting training...
+2025-04-03 15:06:41,574 - root - INFO - | Epoch: 001/005 | Train Time: 5.969s | Train Loss: 0.056646 |
+2025-04-03 15:06:47,103 - root - INFO - | Epoch: 002/005 | Train Time: 5.528s | Train Loss: 0.056552 |
+2025-04-03 15:06:52,956 - root - INFO - | Epoch: 003/005 | Train Time: 5.853s | Train Loss: 0.059694 |
+2025-04-03 15:07:04,220 - root - INFO - | Epoch: 004/005 | Train Time: 11.263s | Train Loss: 0.057028 |
+2025-04-03 15:07:11,395 - root - INFO - | Epoch: 005/005 | Train Time: 7.174s | Train Loss: 0.056264 |
+2025-04-03 15:07:11,396 - root - INFO - Training Time: 35.791s
+2025-04-03 15:07:11,396 - root - INFO - Finished training.
+2025-04-03 15:07:11,398 - root - INFO - Starting testing...
+2025-04-03 15:07:14,128 - root - INFO - Test Loss: 0.040094
+2025-04-03 15:07:14,151 - root - INFO - Anomaly scores range from 1.5325534832300036e-06 to 0.7509012818336487
+2025-04-03 15:07:14,151 - root - INFO - Best Threshold 0.12089251726865768 with the F1-score 0.9941915825557037
+2025-04-03 15:07:14,151 - root - INFO - Precision 0.9898558968524839
+2025-04-03 15:07:14,152 - root - INFO - Recall 0.9985654169854629
+2025-04-03 15:07:14,152 - root - INFO - Precision of the normal class 0.9998979938796327
+2025-04-03 15:07:14,152 - root - INFO - Recall of the normal class 0.9992728112979299
+2025-04-03 15:07:14,153 - root - INFO - F1-score of the normal class 0.9995853048349377
+2025-04-03 15:07:14,154 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 15:07:14,155 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 15:07:14,155 - root - INFO - Test Time: 2.534s
+2025-04-03 15:07:14,156 - root - INFO - Finished testing.
+2025-04-03 15:07:14,192 - flwr - INFO - Sent reply
+2025-04-03 15:07:14,200 - flwr - INFO - 
+2025-04-03 15:07:14,200 - flwr - INFO - Received: train message 264dfa96-ae77-445c-ad57-9bb75946496a
+2025-04-03 15:07:14,201 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:07:14,202 - root - INFO - loading dataset...
+2025-04-03 15:07:18,568 - root - INFO - Dataset size: 394887
+2025-04-03 15:07:18,580 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:07:19,232 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:07:19,232 - root - INFO - 221218 unlabeled normal samples in the trainset
+2025-04-03 15:07:19,233 - root - INFO - 11643 unlabeled outlier samples in the trainset
+2025-04-03 15:07:19,233 - root - INFO - 2352 labeled outlier samples in the trainset
+2025-04-03 15:07:24,057 - root - INFO - Dataset size: 394987
+2025-04-03 15:07:24,069 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:07:24,677 - root - INFO - 147515 normal samples in the testset
+2025-04-03 15:07:24,678 - root - INFO - 10481 outlier samples in the testset
+2025-04-03 15:07:24,690 - root - INFO - Initializing center c...
+2025-04-03 15:07:28,493 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:07:28,494 - root - INFO - Starting training...
+2025-04-03 15:07:34,453 - root - INFO - | Epoch: 001/005 | Train Time: 5.958s | Train Loss: 0.056423 |
+2025-04-03 15:07:40,083 - root - INFO - | Epoch: 002/005 | Train Time: 5.630s | Train Loss: 0.056307 |
+2025-04-03 15:07:44,923 - root - INFO - | Epoch: 003/005 | Train Time: 4.839s | Train Loss: 0.056075 |
+2025-04-03 15:07:50,307 - root - INFO - | Epoch: 004/005 | Train Time: 5.383s | Train Loss: 0.056529 |
+2025-04-03 15:07:56,533 - root - INFO - | Epoch: 005/005 | Train Time: 6.226s | Train Loss: 0.055914 |
+2025-04-03 15:07:56,534 - root - INFO - Training Time: 28.039s
+2025-04-03 15:07:56,534 - root - INFO - Finished training.
+2025-04-03 15:07:56,536 - root - INFO - Starting testing...
+2025-04-03 15:07:59,367 - root - INFO - Test Loss: 0.048170
+2025-04-03 15:07:59,390 - root - INFO - Anomaly scores range from 3.989662218373269e-06 to 264.70782470703125
+2025-04-03 15:07:59,390 - root - INFO - Best Threshold 0.4675225019454956 with the F1-score 0.9966066051713426
+2025-04-03 15:07:59,391 - root - INFO - Precision 0.9984677264891784
+2025-04-03 15:07:59,391 - root - INFO - Recall 0.9947524091212671
+2025-04-03 15:07:59,391 - root - INFO - Precision of the normal class 0.999627255106605
+2025-04-03 15:07:59,392 - root - INFO - Recall of the normal class 0.9998915364539199
+2025-04-03 15:07:59,392 - root - INFO - F1-score of the normal class 0.9997593783149026
+2025-04-03 15:07:59,393 - root - INFO - Test PR-AUC: 99.75%
+2025-04-03 15:07:59,394 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 15:07:59,394 - root - INFO - Test Time: 2.630s
+2025-04-03 15:07:59,394 - root - INFO - Finished testing.
+2025-04-03 15:07:59,432 - flwr - INFO - Sent reply
+2025-04-03 15:07:59,440 - flwr - INFO - 
+2025-04-03 15:07:59,440 - flwr - INFO - Received: train message 92d50d32-9cb6-4c20-9f35-c2ed8ded2596
+2025-04-03 15:07:59,441 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:07:59,442 - root - INFO - loading dataset...
+2025-04-03 15:08:03,769 - root - INFO - Dataset size: 395684
+2025-04-03 15:08:03,779 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:08:04,508 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:08:04,509 - root - INFO - 221659 unlabeled normal samples in the trainset
+2025-04-03 15:08:04,509 - root - INFO - 11666 unlabeled outlier samples in the trainset
+2025-04-03 15:08:04,509 - root - INFO - 2356 labeled outlier samples in the trainset
+2025-04-03 15:08:09,643 - root - INFO - Dataset size: 395884
+2025-04-03 15:08:09,657 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:08:10,708 - root - INFO - 147848 normal samples in the testset
+2025-04-03 15:08:10,709 - root - INFO - 10506 outlier samples in the testset
+2025-04-03 15:08:10,734 - root - INFO - Initializing center c...
+2025-04-03 15:08:36,043 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:08:36,044 - root - INFO - Starting training...
+2025-04-03 15:08:41,954 - root - INFO - | Epoch: 001/005 | Train Time: 5.910s | Train Loss: 0.056896 |
+2025-04-03 15:08:47,555 - root - INFO - | Epoch: 002/005 | Train Time: 5.601s | Train Loss: 0.055835 |
+2025-04-03 15:08:52,880 - root - INFO - | Epoch: 003/005 | Train Time: 5.324s | Train Loss: 0.055998 |
+2025-04-03 15:08:58,339 - root - INFO - | Epoch: 004/005 | Train Time: 5.457s | Train Loss: 0.056132 |
+2025-04-03 15:09:04,355 - root - INFO - | Epoch: 005/005 | Train Time: 6.015s | Train Loss: 0.056561 |
+2025-04-03 15:09:04,355 - root - INFO - Training Time: 28.311s
+2025-04-03 15:09:04,356 - root - INFO - Finished training.
+2025-04-03 15:09:04,357 - root - INFO - Starting testing...
+2025-04-03 15:09:07,280 - root - INFO - Test Loss: 0.043526
+2025-04-03 15:09:07,300 - root - INFO - Anomaly scores range from 9.285867008657078e-07 to 1.0219663381576538
+2025-04-03 15:09:07,300 - root - INFO - Best Threshold 0.3374832570552826 with the F1-score 0.9981434759841957
+2025-04-03 15:09:07,301 - root - INFO - Precision 0.9983811065612799
+2025-04-03 15:09:07,301 - root - INFO - Recall 0.9979059584999048
+2025-04-03 15:09:07,302 - root - INFO - Precision of the normal class 0.999851203560293
+2025-04-03 15:09:07,302 - root - INFO - Recall of the normal class 0.9998850170445323
+2025-04-03 15:09:07,302 - root - INFO - F1-score of the normal class 0.999868110016537
+2025-04-03 15:09:07,304 - root - INFO - Test PR-AUC: 99.96%
+2025-04-03 15:09:07,304 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:09:07,305 - root - INFO - Test Time: 2.714s
+2025-04-03 15:09:07,305 - root - INFO - Finished testing.
+2025-04-03 15:09:07,339 - flwr - INFO - Sent reply
+2025-04-03 15:09:07,346 - flwr - INFO - 
+2025-04-03 15:09:07,347 - flwr - INFO - Received: train message 4267e31a-b058-4323-a782-d2ad96e3b520
+2025-04-03 15:09:07,347 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:09:07,348 - root - INFO - loading dataset...
+2025-04-03 15:09:11,960 - root - INFO - Dataset size: 396978
+2025-04-03 15:09:11,971 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:09:12,971 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:09:12,971 - root - INFO - 222387 unlabeled normal samples in the trainset
+2025-04-03 15:09:12,972 - root - INFO - 11704 unlabeled outlier samples in the trainset
+2025-04-03 15:09:12,972 - root - INFO - 2364 labeled outlier samples in the trainset
+2025-04-03 15:09:17,606 - root - INFO - Dataset size: 397277
+2025-04-03 15:09:17,616 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:09:18,233 - root - INFO - 148371 normal samples in the testset
+2025-04-03 15:09:18,235 - root - INFO - 10541 outlier samples in the testset
+2025-04-03 15:09:18,253 - root - INFO - Initializing center c...
+2025-04-03 15:09:23,169 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:09:23,170 - root - INFO - Starting training...
+2025-04-03 15:09:28,749 - root - INFO - | Epoch: 001/005 | Train Time: 5.579s | Train Loss: 0.056330 |
+2025-04-03 15:09:34,596 - root - INFO - | Epoch: 002/005 | Train Time: 5.846s | Train Loss: 0.056282 |
+2025-04-03 15:09:52,265 - root - INFO - | Epoch: 003/005 | Train Time: 17.668s | Train Loss: 0.055605 |
+2025-04-03 15:09:57,028 - root - INFO - | Epoch: 004/005 | Train Time: 4.761s | Train Loss: 0.056112 |
+2025-04-03 15:10:02,622 - root - INFO - | Epoch: 005/005 | Train Time: 5.593s | Train Loss: 0.056182 |
+2025-04-03 15:10:02,623 - root - INFO - Training Time: 39.453s
+2025-04-03 15:10:02,623 - root - INFO - Finished training.
+2025-04-03 15:10:02,624 - root - INFO - Starting testing...
+2025-04-03 15:10:05,556 - root - INFO - Test Loss: 0.037337
+2025-04-03 15:10:05,577 - root - INFO - Anomaly scores range from 5.054029088569223e-07 to 0.9691360592842102
+2025-04-03 15:10:05,577 - root - INFO - Best Threshold 0.16856522858142853 with the F1-score 0.9975791522286039
+2025-04-03 15:10:05,578 - root - INFO - Precision 0.998289948698461
+2025-04-03 15:10:05,578 - root - INFO - Recall 0.9968693672327104
+2025-04-03 15:10:05,578 - root - INFO - Precision of the normal class 0.9997776070518782
+2025-04-03 15:10:05,579 - root - INFO - Recall of the normal class 0.9998786824918616
+2025-04-03 15:10:05,579 - root - INFO - F1-score of the normal class 0.9998281422173698
+2025-04-03 15:10:05,580 - root - INFO - Test PR-AUC: 99.96%
+2025-04-03 15:10:05,581 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:10:05,581 - root - INFO - Test Time: 2.707s
+2025-04-03 15:10:05,582 - root - INFO - Finished testing.
+2025-04-03 15:10:05,616 - flwr - INFO - Sent reply
+2025-04-03 15:10:05,624 - flwr - INFO - 
+2025-04-03 15:10:05,624 - flwr - INFO - Received: train message a9f66765-55ce-4efe-a8cc-71f45081dfb7
+2025-04-03 15:10:05,625 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:10:05,626 - root - INFO - loading dataset...
+2025-04-03 15:10:10,148 - root - INFO - Dataset size: 398172
+2025-04-03 15:10:10,158 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:10:11,105 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:10:11,106 - root - INFO - 223054 unlabeled normal samples in the trainset
+2025-04-03 15:10:11,106 - root - INFO - 11739 unlabeled outlier samples in the trainset
+2025-04-03 15:10:11,107 - root - INFO - 2371 labeled outlier samples in the trainset
+2025-04-03 15:10:15,584 - root - INFO - Dataset size: 398271
+2025-04-03 15:10:15,594 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:10:16,522 - root - INFO - 148740 normal samples in the testset
+2025-04-03 15:10:16,524 - root - INFO - 10569 outlier samples in the testset
+2025-04-03 15:10:16,537 - root - INFO - Initializing center c...
+2025-04-03 15:10:20,596 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:10:20,597 - root - INFO - Starting training...
+2025-04-03 15:10:26,068 - root - INFO - | Epoch: 001/005 | Train Time: 5.470s | Train Loss: 0.057595 |
+2025-04-03 15:10:31,822 - root - INFO - | Epoch: 002/005 | Train Time: 5.753s | Train Loss: 0.056209 |
+2025-04-03 15:10:37,601 - root - INFO - | Epoch: 003/005 | Train Time: 5.779s | Train Loss: 0.055986 |
+2025-04-03 15:10:42,890 - root - INFO - | Epoch: 004/005 | Train Time: 5.288s | Train Loss: 0.055817 |
+2025-04-03 15:10:47,987 - root - INFO - | Epoch: 005/005 | Train Time: 5.096s | Train Loss: 0.056188 |
+2025-04-03 15:10:47,987 - root - INFO - Training Time: 27.390s
+2025-04-03 15:10:47,988 - root - INFO - Finished training.
+2025-04-03 15:10:47,989 - root - INFO - Starting testing...
+2025-04-03 15:10:51,739 - root - INFO - Test Loss: 0.038812
+2025-04-03 15:10:51,762 - root - INFO - Anomaly scores range from 6.918751296325354e-07 to 0.8599770665168762
+2025-04-03 15:10:51,763 - root - INFO - Best Threshold 0.3203786015510559 with the F1-score 0.9962060134686522
+2025-04-03 15:10:51,763 - root - INFO - Precision 0.998668821907388
+2025-04-03 15:10:51,763 - root - INFO - Recall 0.9937553221686063
+2025-04-03 15:10:51,764 - root - INFO - Precision of the normal class 0.9995564277649336
+2025-04-03 15:10:51,764 - root - INFO - Recall of the normal class 0.999905876025279
+2025-04-03 15:10:51,765 - root - INFO - F1-score of the normal class 0.9997311213583749
+2025-04-03 15:10:51,766 - root - INFO - Test PR-AUC: 99.98%
+2025-04-03 15:10:51,767 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:10:51,767 - root - INFO - Test Time: 3.499s
+2025-04-03 15:10:51,768 - root - INFO - Finished testing.
+2025-04-03 15:10:51,810 - flwr - INFO - Sent reply
+2025-04-03 15:10:51,819 - flwr - INFO - 
+2025-04-03 15:10:51,820 - flwr - INFO - Received: train message a9217159-2246-41b5-96ca-04dc15eed59b
+2025-04-03 15:10:51,820 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:10:51,821 - root - INFO - loading dataset...
+2025-04-03 15:10:56,693 - root - INFO - Dataset size: 399163
+2025-04-03 15:10:56,706 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:10:57,540 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:10:57,543 - root - INFO - 223609 unlabeled normal samples in the trainset
+2025-04-03 15:10:57,544 - root - INFO - 11768 unlabeled outlier samples in the trainset
+2025-04-03 15:10:57,545 - root - INFO - 2377 labeled outlier samples in the trainset
+2025-04-03 15:11:03,099 - root - INFO - Dataset size: 399262
+2025-04-03 15:11:03,110 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:11:04,111 - root - INFO - 149110 normal samples in the testset
+2025-04-03 15:11:04,113 - root - INFO - 10595 outlier samples in the testset
+2025-04-03 15:11:04,124 - root - INFO - Initializing center c...
+2025-04-03 15:11:08,609 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:11:08,610 - root - INFO - Starting training...
+2025-04-03 15:11:14,607 - root - INFO - | Epoch: 001/005 | Train Time: 5.997s | Train Loss: 0.055532 |
+2025-04-03 15:11:20,587 - root - INFO - | Epoch: 002/005 | Train Time: 5.979s | Train Loss: 0.055756 |
+2025-04-03 15:11:26,287 - root - INFO - | Epoch: 003/005 | Train Time: 5.699s | Train Loss: 0.080159 |
+2025-04-03 15:11:32,002 - root - INFO - | Epoch: 004/005 | Train Time: 5.714s | Train Loss: 0.076401 |
+2025-04-03 15:11:36,906 - root - INFO - | Epoch: 005/005 | Train Time: 4.904s | Train Loss: 0.065949 |
+2025-04-03 15:11:36,907 - root - INFO - Training Time: 28.297s
+2025-04-03 15:11:36,907 - root - INFO - Finished training.
+2025-04-03 15:11:36,908 - root - INFO - Starting testing...
+2025-04-03 15:11:39,787 - root - INFO - Test Loss: 0.044606
+2025-04-03 15:11:39,806 - root - INFO - Anomaly scores range from 1.8677645130082965e-05 to 1.5556625127792358
+2025-04-03 15:11:39,807 - root - INFO - Best Threshold 0.40090441703796387 with the F1-score 0.9643304733442591
+2025-04-03 15:11:39,807 - root - INFO - Precision 0.9854201556496897
+2025-04-03 15:11:39,808 - root - INFO - Recall 0.9441245870693723
+2025-04-03 15:11:39,808 - root - INFO - Precision of the normal class 0.9960415635823849
+2025-04-03 15:11:39,808 - root - INFO - Recall of the normal class 0.9990074441687344
+2025-04-03 15:11:39,809 - root - INFO - F1-score of the normal class 0.9975222993062438
+2025-04-03 15:11:39,810 - root - INFO - Test PR-AUC: 99.06%
+2025-04-03 15:11:39,811 - root - INFO - Test ROC-AUC: 99.94%
+2025-04-03 15:11:39,811 - root - INFO - Test Time: 2.615s
+2025-04-03 15:11:39,812 - root - INFO - Finished testing.
+2025-04-03 15:11:39,850 - flwr - INFO - Sent reply
+2025-04-03 15:11:39,858 - flwr - INFO - 
+2025-04-03 15:11:39,859 - flwr - INFO - Received: train message 70d971f5-5aca-4337-89df-c4f4aa6999a3
+2025-04-03 15:11:39,859 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:11:39,860 - root - INFO - loading dataset...
+2025-04-03 15:11:45,019 - root - INFO - Dataset size: 400059
+2025-04-03 15:11:45,032 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:11:45,837 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:11:45,838 - root - INFO - 224114 unlabeled normal samples in the trainset
+2025-04-03 15:11:45,838 - root - INFO - 11795 unlabeled outlier samples in the trainset
+2025-04-03 15:11:45,838 - root - INFO - 2382 labeled outlier samples in the trainset
+2025-04-03 15:11:50,343 - root - INFO - Dataset size: 400159
+2025-04-03 15:11:50,354 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:11:51,156 - root - INFO - 149448 normal samples in the testset
+2025-04-03 15:11:51,159 - root - INFO - 10616 outlier samples in the testset
+2025-04-03 15:11:51,178 - root - INFO - Initializing center c...
+2025-04-03 15:11:55,430 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:11:55,431 - root - INFO - Starting training...
+2025-04-03 15:12:01,662 - root - INFO - | Epoch: 001/005 | Train Time: 6.230s | Train Loss: 0.063981 |
+2025-04-03 15:12:48,225 - root - INFO - | Epoch: 002/005 | Train Time: 46.562s | Train Loss: 0.057381 |
+2025-04-03 15:12:56,420 - root - INFO - | Epoch: 003/005 | Train Time: 8.194s | Train Loss: 0.056672 |
+2025-04-03 15:13:02,616 - root - INFO - | Epoch: 004/005 | Train Time: 6.196s | Train Loss: 0.056195 |
+2025-04-03 15:13:07,810 - root - INFO - | Epoch: 005/005 | Train Time: 5.193s | Train Loss: 0.056120 |
+2025-04-03 15:13:07,811 - root - INFO - Training Time: 72.379s
+2025-04-03 15:13:07,811 - root - INFO - Finished training.
+2025-04-03 15:13:07,812 - root - INFO - Starting testing...
+2025-04-03 15:13:10,463 - root - INFO - Test Loss: 0.047159
+2025-04-03 15:13:10,491 - root - INFO - Anomaly scores range from 4.5571465307148173e-05 to 312.16546630859375
+2025-04-03 15:13:10,492 - root - INFO - Best Threshold 0.31845346093177795 with the F1-score 0.997738409347908
+2025-04-03 15:13:10,492 - root - INFO - Precision 0.9981146304675717
+2025-04-03 15:13:10,493 - root - INFO - Recall 0.9973624717407686
+2025-04-03 15:13:10,493 - root - INFO - Precision of the normal class 0.9998126538914464
+2025-04-03 15:13:10,494 - root - INFO - Recall of the normal class 0.9998661741876773
+2025-04-03 15:13:10,494 - root - INFO - F1-score of the normal class 0.9998394133233413
+2025-04-03 15:13:10,496 - root - INFO - Test PR-AUC: 99.77%
+2025-04-03 15:13:10,497 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:13:10,497 - root - INFO - Test Time: 2.422s
+2025-04-03 15:13:10,497 - root - INFO - Finished testing.
+2025-04-03 15:13:10,535 - flwr - INFO - Sent reply
+2025-04-03 15:13:10,542 - flwr - INFO - 
+2025-04-03 15:13:10,543 - flwr - INFO - Received: train message 457a5371-e4e4-48ab-ab77-ca12683a5487
+2025-04-03 15:13:10,544 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:13:10,545 - root - INFO - loading dataset...
+2025-04-03 15:13:14,970 - root - INFO - Dataset size: 401846
+2025-04-03 15:13:14,983 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:13:15,715 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:13:15,716 - root - INFO - 225120 unlabeled normal samples in the trainset
+2025-04-03 15:13:15,716 - root - INFO - 11848 unlabeled outlier samples in the trainset
+2025-04-03 15:13:15,716 - root - INFO - 2393 labeled outlier samples in the trainset
+2025-04-03 15:13:20,482 - root - INFO - Dataset size: 401946
+2025-04-03 15:13:20,494 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:13:21,191 - root - INFO - 150117 normal samples in the testset
+2025-04-03 15:13:21,194 - root - INFO - 10662 outlier samples in the testset
+2025-04-03 15:13:21,214 - root - INFO - Initializing center c...
+2025-04-03 15:13:25,770 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:13:25,771 - root - INFO - Starting training...
+2025-04-03 15:13:31,607 - root - INFO - | Epoch: 001/005 | Train Time: 5.836s | Train Loss: 0.056439 |
+2025-04-03 15:13:37,254 - root - INFO - | Epoch: 002/005 | Train Time: 5.646s | Train Loss: 0.056487 |
+2025-04-03 15:13:43,465 - root - INFO - | Epoch: 003/005 | Train Time: 6.211s | Train Loss: 0.056117 |
+2025-04-03 15:13:49,003 - root - INFO - | Epoch: 004/005 | Train Time: 5.537s | Train Loss: 0.056183 |
+2025-04-03 15:13:58,802 - root - INFO - | Epoch: 005/005 | Train Time: 9.798s | Train Loss: 0.055842 |
+2025-04-03 15:13:58,803 - root - INFO - Training Time: 33.032s
+2025-04-03 15:13:58,803 - root - INFO - Finished training.
+2025-04-03 15:13:58,804 - root - INFO - Starting testing...
+2025-04-03 15:14:10,707 - root - INFO - Test Loss: 0.041716
+2025-04-03 15:14:10,726 - root - INFO - Anomaly scores range from 2.0850236523983767e-06 to 0.9601668119430542
+2025-04-03 15:14:10,726 - root - INFO - Best Threshold 0.14056070148944855 with the F1-score 0.9980320494798988
+2025-04-03 15:14:10,727 - root - INFO - Precision 0.9971910112359551
+2025-04-03 15:14:10,727 - root - INFO - Recall 0.9988745075970737
+2025-04-03 15:14:10,727 - root - INFO - Precision of the normal class 0.999920052765175
+2025-04-03 15:14:10,728 - root - INFO - Recall of the normal class 0.9998001558784149
+2025-04-03 15:14:10,728 - root - INFO - F1-score of the normal class 0.9998601007274762
+2025-04-03 15:14:10,729 - root - INFO - Test PR-AUC: 99.99%
+2025-04-03 15:14:10,730 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:14:10,730 - root - INFO - Test Time: 11.682s
+2025-04-03 15:14:10,730 - root - INFO - Finished testing.
+2025-04-03 15:14:10,769 - flwr - INFO - Sent reply
+2025-04-03 15:14:10,777 - flwr - INFO - 
+2025-04-03 15:14:10,778 - flwr - INFO - Received: train message a658aa72-6432-40b4-afc6-8db256e13800
+2025-04-03 15:14:10,779 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:14:10,780 - root - INFO - loading dataset...
+2025-04-03 15:14:15,461 - root - INFO - Dataset size: 403033
+2025-04-03 15:14:15,473 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:14:16,580 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:14:16,580 - root - INFO - 225784 unlabeled normal samples in the trainset
+2025-04-03 15:14:16,581 - root - INFO - 11883 unlabeled outlier samples in the trainset
+2025-04-03 15:14:16,581 - root - INFO - 2400 labeled outlier samples in the trainset
+2025-04-03 15:14:21,981 - root - INFO - Dataset size: 403133
+2025-04-03 15:14:21,992 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:14:22,784 - root - INFO - 150562 normal samples in the testset
+2025-04-03 15:14:22,785 - root - INFO - 10692 outlier samples in the testset
+2025-04-03 15:14:22,798 - root - INFO - Initializing center c...
+2025-04-03 15:14:27,432 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:14:27,433 - root - INFO - Starting training...
+2025-04-03 15:14:33,516 - root - INFO - | Epoch: 001/005 | Train Time: 6.082s | Train Loss: 0.055945 |
+2025-04-03 15:14:39,332 - root - INFO - | Epoch: 002/005 | Train Time: 5.815s | Train Loss: 0.055643 |
+2025-04-03 15:14:45,166 - root - INFO - | Epoch: 003/005 | Train Time: 5.834s | Train Loss: 0.055721 |
+2025-04-03 15:14:50,487 - root - INFO - | Epoch: 004/005 | Train Time: 5.321s | Train Loss: 0.055506 |
+2025-04-03 15:14:57,006 - root - INFO - | Epoch: 005/005 | Train Time: 6.518s | Train Loss: 0.055660 |
+2025-04-03 15:14:57,007 - root - INFO - Training Time: 29.573s
+2025-04-03 15:14:57,008 - root - INFO - Finished training.
+2025-04-03 15:14:57,009 - root - INFO - Starting testing...
+2025-04-03 15:15:00,141 - root - INFO - Test Loss: 0.042256
+2025-04-03 15:15:00,163 - root - INFO - Anomaly scores range from 1.3497020745489863e-06 to 0.7486676573753357
+2025-04-03 15:15:00,163 - root - INFO - Best Threshold 0.35622724890708923 with the F1-score 0.9969556461055689
+2025-04-03 15:15:00,164 - root - INFO - Precision 0.9984989210995403
+2025-04-03 15:15:00,164 - root - INFO - Recall 0.9954171343060232
+2025-04-03 15:15:00,164 - root - INFO - Precision of the normal class 0.9996746239915004
+2025-04-03 15:15:00,165 - root - INFO - Recall of the normal class 0.9998937314860323
+2025-04-03 15:15:00,165 - root - INFO - F1-score of the normal class 0.999784165734152
+2025-04-03 15:15:00,167 - root - INFO - Test PR-AUC: 99.91%
+2025-04-03 15:15:00,167 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 15:15:00,167 - root - INFO - Test Time: 2.905s
+2025-04-03 15:15:00,168 - root - INFO - Finished testing.
+2025-04-03 15:15:00,203 - flwr - INFO - Sent reply
+2025-04-03 15:15:00,210 - flwr - INFO - 
+2025-04-03 15:15:00,211 - flwr - INFO - Received: train message ab160010-802e-41d5-9164-982368d4c5e6
+2025-04-03 15:15:00,211 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:15:00,212 - root - INFO - loading dataset...
+2025-04-03 15:15:05,120 - root - INFO - Dataset size: 403929
+2025-04-03 15:15:05,132 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:15:06,207 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:15:06,208 - root - INFO - 226291 unlabeled normal samples in the trainset
+2025-04-03 15:15:06,208 - root - INFO - 11910 unlabeled outlier samples in the trainset
+2025-04-03 15:15:06,208 - root - INFO - 2406 labeled outlier samples in the trainset
+2025-04-03 15:15:10,949 - root - INFO - Dataset size: 403929
+2025-04-03 15:15:10,962 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:15:12,178 - root - INFO - 150861 normal samples in the testset
+2025-04-03 15:15:12,180 - root - INFO - 10711 outlier samples in the testset
+2025-04-03 15:15:12,195 - root - INFO - Initializing center c...
+2025-04-03 15:15:47,809 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:15:47,813 - root - INFO - Starting training...
+2025-04-03 15:15:55,857 - root - INFO - | Epoch: 001/005 | Train Time: 8.035s | Train Loss: 0.056486 |
+2025-04-03 15:16:01,887 - root - INFO - | Epoch: 002/005 | Train Time: 6.029s | Train Loss: 0.055397 |
+2025-04-03 15:16:07,444 - root - INFO - | Epoch: 003/005 | Train Time: 5.557s | Train Loss: 0.055718 |
+2025-04-03 15:16:12,995 - root - INFO - | Epoch: 004/005 | Train Time: 5.550s | Train Loss: 0.056541 |
+2025-04-03 15:16:18,405 - root - INFO - | Epoch: 005/005 | Train Time: 5.409s | Train Loss: 0.055981 |
+2025-04-03 15:16:18,405 - root - INFO - Training Time: 30.584s
+2025-04-03 15:16:18,406 - root - INFO - Finished training.
+2025-04-03 15:16:18,407 - root - INFO - Starting testing...
+2025-04-03 15:16:21,433 - root - INFO - Test Loss: 0.044754
+2025-04-03 15:16:21,457 - root - INFO - Anomaly scores range from 7.961747883200587e-07 to 0.8699265718460083
+2025-04-03 15:16:21,457 - root - INFO - Best Threshold 0.20901677012443542 with the F1-score 0.997294271319276
+2025-04-03 15:16:21,457 - root - INFO - Precision 0.9966433566433567
+2025-04-03 15:16:21,458 - root - INFO - Recall 0.9979460367846139
+2025-04-03 15:16:21,458 - root - INFO - Precision of the normal class 0.9998541568609253
+2025-04-03 15:16:21,458 - root - INFO - Recall of the normal class 0.9997613697377056
+2025-04-03 15:16:21,458 - root - INFO - F1-score of the normal class 0.999807761146539
+2025-04-03 15:16:21,460 - root - INFO - Test PR-AUC: 99.83%
+2025-04-03 15:16:21,460 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 15:16:21,461 - root - INFO - Test Time: 2.830s
+2025-04-03 15:16:21,461 - root - INFO - Finished testing.
+2025-04-03 15:16:21,497 - flwr - INFO - Sent reply
+2025-04-03 15:16:21,505 - flwr - INFO - 
+2025-04-03 15:16:21,506 - flwr - INFO - Received: train message c68784b4-ff6c-44e6-9ff7-1f0257f1412a
+2025-04-03 15:16:21,506 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:16:21,507 - root - INFO - loading dataset...
+2025-04-03 15:16:26,240 - root - INFO - Dataset size: 405516
+2025-04-03 15:16:26,253 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:16:27,019 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:16:27,020 - root - INFO - 227178 unlabeled normal samples in the trainset
+2025-04-03 15:16:27,020 - root - INFO - 11956 unlabeled outlier samples in the trainset
+2025-04-03 15:16:27,020 - root - INFO - 2415 labeled outlier samples in the trainset
+2025-04-03 15:16:31,696 - root - INFO - Dataset size: 405615
+2025-04-03 15:16:31,708 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:16:32,502 - root - INFO - 151487 normal samples in the testset
+2025-04-03 15:16:32,504 - root - INFO - 10760 outlier samples in the testset
+2025-04-03 15:16:32,522 - root - INFO - Initializing center c...
+2025-04-03 15:16:37,034 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:16:37,035 - root - INFO - Starting training...
+2025-04-03 15:16:44,392 - root - INFO - | Epoch: 001/005 | Train Time: 7.356s | Train Loss: 0.056092 |
+2025-04-03 15:16:50,249 - root - INFO - | Epoch: 002/005 | Train Time: 5.856s | Train Loss: 0.056009 |
+2025-04-03 15:17:38,524 - root - INFO - | Epoch: 003/005 | Train Time: 48.274s | Train Loss: 0.055417 |
+2025-04-03 15:17:43,718 - root - INFO - | Epoch: 004/005 | Train Time: 5.193s | Train Loss: 0.055658 |
+2025-04-03 15:17:48,927 - root - INFO - | Epoch: 005/005 | Train Time: 5.209s | Train Loss: 0.055441 |
+2025-04-03 15:17:48,928 - root - INFO - Training Time: 71.893s
+2025-04-03 15:17:48,929 - root - INFO - Finished training.
+2025-04-03 15:17:48,929 - root - INFO - Starting testing...
+2025-04-03 15:17:52,068 - root - INFO - Test Loss: 0.039877
+2025-04-03 15:17:52,088 - root - INFO - Anomaly scores range from 3.619666983922798e-07 to 0.6589080095291138
+2025-04-03 15:17:52,089 - root - INFO - Best Threshold 0.10632656514644623 with the F1-score 0.9982801097011109
+2025-04-03 15:17:52,089 - root - INFO - Precision 0.9986050404538268
+2025-04-03 15:17:52,089 - root - INFO - Recall 0.9979553903345725
+2025-04-03 15:17:52,090 - root - INFO - Precision of the normal class 0.9998547797272499
+2025-04-03 15:17:52,090 - root - INFO - Recall of the normal class 0.9999009816023817
+2025-04-03 15:17:52,090 - root - INFO - F1-score of the normal class 0.9998778801310974
+2025-04-03 15:17:52,092 - root - INFO - Test PR-AUC: 99.96%
+2025-04-03 15:17:52,092 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 15:17:52,092 - root - INFO - Test Time: 2.892s
+2025-04-03 15:17:52,092 - root - INFO - Finished testing.
+2025-04-03 15:17:52,129 - flwr - INFO - Sent reply
+2025-04-03 15:17:52,137 - flwr - INFO - 
+2025-04-03 15:17:52,137 - flwr - INFO - Received: train message 1431cfa0-1c7d-41b1-afb6-a785cbe76cb7
+2025-04-03 15:17:52,138 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:17:52,139 - root - INFO - loading dataset...
+2025-04-03 15:17:56,764 - root - INFO - Dataset size: 407303
+2025-04-03 15:17:56,775 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:17:57,627 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:17:57,628 - root - INFO - 228170 unlabeled normal samples in the trainset
+2025-04-03 15:17:57,628 - root - INFO - 12008 unlabeled outlier samples in the trainset
+2025-04-03 15:17:57,629 - root - INFO - 2426 labeled outlier samples in the trainset
+2025-04-03 15:18:02,206 - root - INFO - Dataset size: 407402
+2025-04-03 15:18:02,219 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:18:03,100 - root - INFO - 152152 normal samples in the testset
+2025-04-03 15:18:03,102 - root - INFO - 10810 outlier samples in the testset
+2025-04-03 15:18:03,120 - root - INFO - Initializing center c...
+2025-04-03 15:18:07,446 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:18:07,446 - root - INFO - Starting training...
+2025-04-03 15:18:14,476 - root - INFO - | Epoch: 001/005 | Train Time: 7.029s | Train Loss: 0.064498 |
+2025-04-03 15:18:20,459 - root - INFO - | Epoch: 002/005 | Train Time: 5.982s | Train Loss: 0.056785 |
+2025-04-03 15:18:28,371 - root - INFO - | Epoch: 003/005 | Train Time: 7.911s | Train Loss: 0.055766 |
+2025-04-03 15:18:34,379 - root - INFO - | Epoch: 004/005 | Train Time: 6.007s | Train Loss: 0.060786 |
+2025-04-03 15:19:01,225 - root - INFO - | Epoch: 005/005 | Train Time: 26.845s | Train Loss: 0.056275 |
+2025-04-03 15:19:01,226 - root - INFO - Training Time: 53.779s
+2025-04-03 15:19:01,226 - root - INFO - Finished training.
+2025-04-03 15:19:01,228 - root - INFO - Starting testing...
+2025-04-03 15:19:25,151 - root - INFO - Test Loss: 0.041352
+2025-04-03 15:19:25,177 - root - INFO - Anomaly scores range from 1.4806879562456743e-06 to 0.8626197576522827
+2025-04-03 15:19:25,177 - root - INFO - Best Threshold 0.2775670289993286 with the F1-score 0.9973143174661975
+2025-04-03 15:19:25,178 - root - INFO - Precision 0.9984238828110513
+2025-04-03 15:19:25,178 - root - INFO - Recall 0.9962072155411655
+2025-04-03 15:19:25,178 - root - INFO - Precision of the normal class 0.9997305751235411
+2025-04-03 15:19:25,179 - root - INFO - Recall of the normal class 0.9998882696251117
+2025-04-03 15:19:25,179 - root - INFO - F1-score of the normal class 0.9998094161562525
+2025-04-03 15:19:25,181 - root - INFO - Test PR-AUC: 99.98%
+2025-04-03 15:19:25,182 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:19:25,182 - root - INFO - Test Time: 23.684s
+2025-04-03 15:19:25,183 - root - INFO - Finished testing.
+2025-04-03 15:19:25,239 - flwr - INFO - Sent reply
+2025-04-03 15:19:25,583 - flwr - INFO - 
+2025-04-03 15:19:25,583 - flwr - INFO - Received: train message 263a1805-7b19-41c7-aef6-d36c6c7ff128
+2025-04-03 15:19:25,584 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:19:25,585 - root - INFO - loading dataset...
+2025-04-03 15:19:30,344 - root - INFO - Dataset size: 409085
+2025-04-03 15:19:30,357 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:19:31,004 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:19:31,005 - root - INFO - 229158 unlabeled normal samples in the trainset
+2025-04-03 15:19:31,005 - root - INFO - 12060 unlabeled outlier samples in the trainset
+2025-04-03 15:19:31,006 - root - INFO - 2436 labeled outlier samples in the trainset
+2025-04-03 15:19:35,892 - root - INFO - Dataset size: 409183
+2025-04-03 15:19:35,905 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:19:36,882 - root - INFO - 152808 normal samples in the testset
+2025-04-03 15:19:36,884 - root - INFO - 10866 outlier samples in the testset
+2025-04-03 15:19:36,898 - root - INFO - Initializing center c...
+2025-04-03 15:19:41,519 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:19:41,520 - root - INFO - Starting training...
+2025-04-03 15:19:47,403 - root - INFO - | Epoch: 001/005 | Train Time: 5.882s | Train Loss: 0.055570 |
+2025-04-03 15:19:53,692 - root - INFO - | Epoch: 002/005 | Train Time: 6.289s | Train Loss: 0.055857 |
+2025-04-03 15:19:59,108 - root - INFO - | Epoch: 003/005 | Train Time: 5.415s | Train Loss: 0.056067 |
+2025-04-03 15:20:04,651 - root - INFO - | Epoch: 004/005 | Train Time: 5.542s | Train Loss: 0.055901 |
+2025-04-03 15:20:10,795 - root - INFO - | Epoch: 005/005 | Train Time: 6.143s | Train Loss: 0.055162 |
+2025-04-03 15:20:10,796 - root - INFO - Training Time: 29.276s
+2025-04-03 15:20:10,796 - root - INFO - Finished training.
+2025-04-03 15:20:10,797 - root - INFO - Starting testing...
+2025-04-03 15:20:13,971 - root - INFO - Test Loss: 0.042842
+2025-04-03 15:20:13,992 - root - INFO - Anomaly scores range from 2.503526097541453e-08 to 0.6915487051010132
+2025-04-03 15:20:13,993 - root - INFO - Best Threshold 0.11364996433258057 with the F1-score 0.9983423888019155
+2025-04-03 15:20:13,993 - root - INFO - Precision 0.9989863619609288
+2025-04-03 15:20:13,993 - root - INFO - Recall 0.9976992453524756
+2025-04-03 15:20:13,994 - root - INFO - Precision of the normal class 0.9998364109879467
+2025-04-03 15:20:13,994 - root - INFO - Recall of the normal class 0.9999280142400921
+2025-04-03 15:20:13,994 - root - INFO - F1-score of the normal class 0.9998822105159834
+2025-04-03 15:20:13,996 - root - INFO - Test PR-AUC: 99.99%
+2025-04-03 15:20:13,996 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:20:13,997 - root - INFO - Test Time: 2.967s
+2025-04-03 15:20:13,997 - root - INFO - Finished testing.
+2025-04-03 15:20:14,039 - flwr - INFO - Sent reply
+2025-04-03 15:20:14,047 - flwr - INFO - 
+2025-04-03 15:20:14,047 - flwr - INFO - Received: train message ad2617c8-c5ed-4cca-a1dc-f80a09326116
+2025-04-03 15:20:14,048 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:20:14,049 - root - INFO - loading dataset...
+2025-04-03 15:20:18,843 - root - INFO - Dataset size: 409875
+2025-04-03 15:20:18,853 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:20:19,529 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:20:19,529 - root - INFO - 229594 unlabeled normal samples in the trainset
+2025-04-03 15:20:19,530 - root - INFO - 12083 unlabeled outlier samples in the trainset
+2025-04-03 15:20:19,530 - root - INFO - 2441 labeled outlier samples in the trainset
+2025-04-03 15:20:24,389 - root - INFO - Dataset size: 410074
+2025-04-03 15:20:24,402 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:20:25,139 - root - INFO - 153140 normal samples in the testset
+2025-04-03 15:20:25,141 - root - INFO - 10890 outlier samples in the testset
+2025-04-03 15:20:25,154 - root - INFO - Initializing center c...
+2025-04-03 15:20:55,398 - root - INFO - Center c initialized. c = tensor([-0.1000,  0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000, -0.1000])
+2025-04-03 15:20:55,404 - root - INFO - Starting training...
+2025-04-03 15:21:14,535 - root - INFO - | Epoch: 001/005 | Train Time: 19.111s | Train Loss: 0.070778 |
+2025-04-03 15:21:21,938 - root - INFO - | Epoch: 002/005 | Train Time: 7.402s | Train Loss: 0.063542 |
+2025-04-03 15:21:26,741 - root - INFO - | Epoch: 003/005 | Train Time: 4.802s | Train Loss: 0.057408 |
+2025-04-03 15:21:31,118 - root - INFO - | Epoch: 004/005 | Train Time: 4.377s | Train Loss: 0.056064 |
+2025-04-03 15:21:35,437 - root - INFO - | Epoch: 005/005 | Train Time: 4.318s | Train Loss: 0.055532 |
+2025-04-03 15:21:35,437 - root - INFO - Training Time: 40.013s
+2025-04-03 15:21:35,437 - root - INFO - Finished training.
+2025-04-03 15:21:35,438 - root - INFO - Starting testing...
+2025-04-03 15:21:37,518 - root - INFO - Test Loss: 0.042039
+2025-04-03 15:21:37,541 - root - INFO - Anomaly scores range from 1.3750835933024064e-05 to 0.6646867990493774
+2025-04-03 15:21:37,541 - root - INFO - Best Threshold 0.14988236129283905 with the F1-score 0.9979803543560084
+2025-04-03 15:21:37,541 - root - INFO - Precision 0.9977055800293686
+2025-04-03 15:21:37,542 - root - INFO - Recall 0.9982552800734619
+2025-04-03 15:21:37,542 - root - INFO - Precision of the normal class 0.9998759256598796
+2025-04-03 15:21:37,542 - root - INFO - Recall of the normal class 0.9998367506856471
+2025-04-03 15:21:37,543 - root - INFO - F1-score of the normal class 0.9998563377890386
+2025-04-03 15:21:37,544 - root - INFO - Test PR-AUC: 99.98%
+2025-04-03 15:21:37,545 - root - INFO - Test ROC-AUC: 100.00%
+2025-04-03 15:21:37,545 - root - INFO - Test Time: 1.884s
+2025-04-03 15:21:37,546 - root - INFO - Finished testing.
+2025-04-03 15:21:37,584 - flwr - INFO - Sent reply

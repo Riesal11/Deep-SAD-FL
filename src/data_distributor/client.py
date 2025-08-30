@@ -32,7 +32,6 @@ class PollingThread(Thread):
         records = self.consumer.poll(10.0)
         filename = "../data/wustl_iiot_2021.csv"
 
-        # TODO:
         with open(filename, "a") as f:
             writer = csv.writer(f, delimiter=",", lineterminator='\r')
             for topic_data, consumer_records in records.items():
@@ -49,14 +48,13 @@ def main():
     client_id = 1
 
     # use kafka:9092 in container or localhost:29092 on host
-    # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
     producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')),
                                 key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
-                                bootstrap_servers='10.0.0.20:29092')
+                                bootstrap_servers='<server_ip>:29092')
     producer.send('distributor', key="new-client", value=str(client_id))
 
 
-    consumer = KafkaConsumer(bootstrap_servers='10.0.0.20:29092',
+    consumer = KafkaConsumer(bootstrap_servers='<server_ip>:29092',
         value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
         key_deserializer=lambda k: binascii.unhexlify(k).decode('utf-8'),
         client_id=client_id,

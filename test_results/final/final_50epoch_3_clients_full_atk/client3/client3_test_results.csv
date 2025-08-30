@@ -1,0 +1,3 @@
+Test Loss,Anomaly scores min,Anomaly scores max,Best Threshold with the F1-score,Precision,Recall,Precision of the normal class,Recall of the normal class,F1-score of the normal class,Test PR-AUC,Test ROC-AUC,Test Time
+0.044985,0.000001,2.141024,"""0.10629922151565552, 0.9919592602519431""",0.989308,0.994625,0.999578,0.999156,0.999367,99.73%,99.99%,9.714
+0.045677,0.000004,2.631549,"""0.12315010279417038, 0.9984469155743306""",0.997765,0.999130,0.999932,0.999824,0.999878,99.79%,100.00%,10.340

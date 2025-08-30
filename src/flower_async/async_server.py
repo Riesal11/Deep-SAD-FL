@@ -122,7 +122,6 @@ class AsyncServer(Server):
         while time() - start_time < seconds:
             pass
 
-    # TODO: num_rounds not used?
     def fit(self, num_rounds: int, timeout: Optional[float]) -> History:
         """Run federated averaging for a number of rounds."""
         log(INFO, "SERVER: fit...")
@@ -135,13 +134,6 @@ class AsyncServer(Server):
         log(INFO, "Evaluating initial parameters")
         res = self.strategy.evaluate(0, parameters=self.parameters)
         if res is not None:
-            # will produce huge log from other metrics (test scores)
-            # log(
-            #     INFO,
-            #     "initial parameters (loss, other metrics): %s, %s",
-            #     res[0],
-            #     res[1],
-            # )
             history.add_loss_centralized(timestamp=time(), loss=res[0])
             history.add_metrics_centralized(timestamp=time(), metrics=res[1])
         else:
@@ -252,78 +244,6 @@ class AsyncServer(Server):
             log(INFO, self.parameters)
             return None
 
-    # def evaluate_decentralized(self, current_round: int, history: History, timeout: Optional[float]):
-    #     """Currently not used and tested.
-    #     Evaluate model on a sample of available clients
-    #     NOTE: Only call this method if clients are started periodically.
-    #     This is not to be called if the clients are starting immediately after they finish! This is because the ray actor cannot process
-    #     two concurrent requests to the same client. They get mixed up and future.result() in client_fit can return an
-    #     EvaluateRes instead of FitRes.
-    #     """
-    #     res_fed = self.evaluate_round(
-    #         server_round=current_round, timeout=timeout)
-    #     if res_fed is not None:
-    #         loss_fed, evaluate_metrics_fed, (results, _) = res_fed
-    #         if loss_fed is not None:
-    #             client_ids = [client.cid for client, _ in results]
-    #             evaluate_metrics_fed['client_ids'] = client_ids
-    #             history.add_loss_distributed(
-    #                 timestamp=time(), loss=loss_fed
-    #             )
-    #             history.add_metrics_distributed(
-    #                 timestamp=time(), metrics=evaluate_metrics_fed
-    #             )
-
-    # def evaluate_round(
-    #     self,
-    #     server_round: int,
-    #     timeout: Optional[float],
-    # ) -> Optional[
-    #     Tuple[Optional[float], Dict[str, Scalar], EvaluateResultsAndFailures]
-    # ]:
-    #     """Validate current global model on a number of clients."""
-    #     log(INFO, "SERVER: evaluate_round...")
-    #     # Get clients and their respective instructions from strategy
-    #     client_instructions = self.strategy.configure_evaluate(
-    #         server_round=server_round,
-    #         parameters=self.parameters,
-    #         client_manager=self._client_manager,
-    #     )
-    #     if not client_instructions:
-    #         log(INFO, "evaluate_round %s: no clients selected, cancel", server_round)
-    #         return None
-    #     log(
-    #         DEBUG,
-    #         "evaluate_round %s: strategy sampled %s clients (out of %s)",
-    #         server_round,
-    #         len(client_instructions),
-    #         self._client_manager.num_available(),
-    #     )
-
-    #     # Collect `evaluate` results from all clients participating in this round
-    #     results, failures = evaluate_clients(
-    #         client_instructions,
-    #         max_workers=self.max_workers,
-    #         timeout=timeout,
-    #     )
-    #     log(
-    #         DEBUG,
-    #         "evaluate_round %s received %s results and %s failures",
-    #         server_round,
-    #         len(results),
-    #         len(failures),
-    #     )
-    #     # log(DEBUG, f"Evaluate results: {results}")
-
-    #     # Aggregate the evaluation results
-    #     aggregated_result: Tuple[
-    #         Optional[float],
-    #         Dict[str, Scalar],
-    #     ] = self.strategy.aggregate_evaluate(server_round, results, failures)
-
-    #     loss_aggregated, metrics_aggregated = aggregated_result
-    #     return loss_aggregated, metrics_aggregated, (results, failures)
-
     def fit_round(
         self,
         server_round: int,
@@ -331,20 +251,16 @@ class AsyncServer(Server):
         executor: ThreadPoolExecutor,
         end_timestamp: float,
         history: AsyncHistory,
-    ):  # -> Optional[Tuple[Optional[Parameters], Dict[str, Scalar], FitResultsAndFailures]]:
+    ):
         """Perform a single round of federated averaging."""
         log(INFO, "SERVER: fit_round...")
 
-        # info: uses base strategy, not async strategy
         # Get clients and their respective instructions from strategy
         client_instructions = self.strategy.configure_fit(
             server_round=server_round,
             parameters=self.parameters,
             client_manager=self._client_manager,
         )
-        # not used?
-        # for client_proxy, fitins in client_instructions:
-        #     fitins.config = { **fitins.config, **self.get_config_for_client_fit(client_proxy.cid) }
 
         if not client_instructions:
             log(INFO, "fit_round %s: no clients selected, cancel", server_round)
@@ -371,29 +287,6 @@ class AsyncServer(Server):
     def get_config_for_client_fit(self, client_id, iter=0):
         log(INFO, "SERVER: get_config_for_client_fit: %s", client_id)
         config = {}
-
-        # TODO: check what this all does and if I need it
-        # if self.client_local_delay and client_id in self.clients_with_delay:
-        #     config['client_delay'] = self.delays_per_iter_per_client[iter, np.where(self.clients_with_delay == client_id)[0][0]]
-        #     config['cid'] = client_id
-        #     return config
-
-        # # if not self.is_streaming:
-        # #     return config
-        # curr_timestamp = time()
-        # if curr_timestamp > self.end_timestamp:
-        #     return config
-        # if client_id not in self.client_data_percs:
-        #     self.client_data_percs[client_id] = [0.0] # Clients start with 10% of the data (otherwise called with 0 samples)
-        # prev_data_perc = self.client_data_percs[client_id][-1]
-        # start_timestamp = self.end_timestamp - self.total_train_time
-        # data_perc = ( (time() - start_timestamp) / self.total_train_time ) * 0.9 + 0.1 # Linearly increase the data percentage from 10% to 100% over the total_train_time
-        # config['data_percentage'] = data_perc
-        # config['prev_data_percentage'] = prev_data_perc
-        # config['data_loading_strategy'] = self.data_loading_strategy
-        # if self.data_loading_strategy == 'fixed_nr':
-        #     config['n_last_samples_for_data_loading_fit'] = self.n_last_samples_for_data_loading_fit
-        # self.client_data_percs[client_id].append(data_perc)
         return config
 
     def disconnect_all_clients(self, timeout: Optional[float]) -> None:
@@ -549,72 +442,6 @@ def _handle_finished_future_after_fit(
 
     if time() < end_timestamp:
         log(DEBUG, f"Yippie! Starting the client {clientProxy.cid} again \U0001f973")
-        # iter = server.client_iters[int(clientProxy.cid)] + 1
-        # server.client_iters[int(clientProxy.cid)] = iter
-        # new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid, iter=iter))
         new_ins = FitIns(server.parameters, server.get_config_for_client_fit(clientProxy.cid))
         ftr = executor.submit(fit_client, client=clientProxy, ins=new_ins, timeout=None, group_id=0)
         ftr.add_done_callback(lambda ftr: _handle_finished_future_after_fit(self, ftr, server, executor, end_timestamp, history, timeout))
-
-
-############################### FOR EVALUATION ####################################
-
-# def evaluate_clients(
-#     client_instructions: List[Tuple[ClientProxy, EvaluateIns]],
-#     max_workers: Optional[int],
-#     timeout: Optional[float],
-# ) -> EvaluateResultsAndFailures:
-#     """Evaluate parameters concurrently on all selected clients."""
-#     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-#         submitted_fs = {
-#             executor.submit(evaluate_client, client_proxy, ins, timeout)
-#             for client_proxy, ins in client_instructions
-#         }
-#         finished_fs, _ = concurrent.futures.wait(
-#             fs=submitted_fs,
-#             timeout=None,  # Handled in the respective communication stack
-#         )
-
-#     # Gather results
-#     results: List[Tuple[ClientProxy, EvaluateRes]] = []
-#     failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]] = []
-#     for future in finished_fs:
-#         _handle_finished_future_after_evaluate(
-#             future=future, results=results, failures=failures
-#         )
-#     return results, failures
-
-
-# def evaluate_client(
-#     client: ClientProxy,
-#     ins: EvaluateIns,
-#     timeout: Optional[float],
-# ) -> Tuple[ClientProxy, EvaluateRes]:
-#     """Evaluate parameters on a single client."""
-#     evaluate_res = client.evaluate(ins, timeout=timeout)
-#     return client, evaluate_res
-
-
-# def _handle_finished_future_after_evaluate(
-#     future: concurrent.futures.Future,  # type: ignore
-#     results: List[Tuple[ClientProxy, EvaluateRes]],
-#     failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
-# ) -> None:
-#     """Convert finished future into either a result or a failure."""
-#     # Check if there was an exception
-#     failure = future.exception()
-#     if failure is not None:
-#         failures.append(failure)
-#         return
-
-#     # Successfully received a result from a client
-#     result: Tuple[ClientProxy, EvaluateRes] = future.result()
-#     _, res = result
-
-#     # Check result status code
-#     if res.status.code == Code.OK:
-#         results.append(result)
-#         return
-
-#     # Not successful, client returned a result where the status code is not OK
-#     failures.append(result)

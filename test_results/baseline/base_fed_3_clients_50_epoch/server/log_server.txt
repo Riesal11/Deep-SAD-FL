@@ -1,0 +1,65 @@
+2025-04-09 15:57:38,935 - root - INFO - Log file is ../log/log.txt
+2025-04-09 15:57:38,935 - root - INFO - Computation device: cpu
+2025-04-09 15:57:38,935 - root - INFO - Federated mode: server
+2025-04-09 15:57:38,935 - flwr - WARNING - DEPRECATED FEATURE: flwr.server.start_server() is deprecated.
+	Instead, use the `flower-superlink` CLI command to start a SuperLink as shown below:
+
+		$ flower-superlink --insecure
+
+	To view usage and all available options, run:
+
+		$ flower-superlink --help
+
+	Using `start_server()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2025-04-09 15:57:38,936 - flwr - INFO - Starting Flower server, config: num_rounds=3, no round_timeout
+2025-04-09 15:57:38,954 - flwr - INFO - Flower ECE: gRPC server running (3 rounds), SSL is disabled
+2025-04-09 15:57:38,954 - flwr - INFO - [INIT]
+2025-04-09 15:57:38,954 - flwr - INFO - Requesting initial parameters from one random client
+2025-04-09 15:58:33,668 - flwr - INFO - Received initial parameters from one random client
+2025-04-09 15:58:33,668 - flwr - INFO - Starting evaluation of initial global parameters
+2025-04-09 15:58:33,668 - flwr - INFO - Evaluation returned no results (`None`)
+2025-04-09 15:58:33,669 - flwr - INFO - 
+2025-04-09 15:58:33,669 - flwr - INFO - [ROUND 1]
+2025-04-09 16:00:39,527 - flwr - INFO - configure_fit: strategy sampled 3 clients (out of 3)
+2025-04-09 17:17:26,811 - flwr - INFO - aggregate_fit: received 3 results and 0 failures
+2025-04-09 17:17:26,858 - flwr - WARNING - No fit_metrics_aggregation_fn provided
+2025-04-09 17:17:26,862 - flwr - INFO - configure_evaluate: strategy sampled 3 clients (out of 3)
+2025-04-09 17:18:14,893 - flwr - INFO - aggregate_evaluate: received 3 results and 0 failures
+2025-04-09 17:18:14,894 - flwr - WARNING - No evaluate_metrics_aggregation_fn provided
+2025-04-09 17:18:14,894 - flwr - INFO - 
+2025-04-09 17:18:14,894 - flwr - INFO - [ROUND 2]
+2025-04-09 17:18:14,896 - flwr - INFO - configure_fit: strategy sampled 3 clients (out of 3)
+2025-04-09 18:35:15,907 - flwr - INFO - aggregate_fit: received 3 results and 0 failures
+2025-04-09 18:35:15,963 - flwr - INFO - configure_evaluate: strategy sampled 3 clients (out of 3)
+2025-04-09 18:36:03,740 - flwr - INFO - aggregate_evaluate: received 3 results and 0 failures
+2025-04-09 18:36:03,741 - flwr - INFO - 
+2025-04-09 18:36:03,741 - flwr - INFO - [ROUND 3]
+2025-04-09 18:36:03,742 - flwr - INFO - configure_fit: strategy sampled 3 clients (out of 3)
+2025-04-09 19:51:51,725 - flwr - INFO - aggregate_fit: received 3 results and 0 failures
+2025-04-09 19:51:51,774 - flwr - INFO - configure_evaluate: strategy sampled 3 clients (out of 3)
+2025-04-09 19:52:40,885 - flwr - INFO - aggregate_evaluate: received 3 results and 0 failures
+2025-04-09 19:52:40,888 - flwr - INFO - 
+2025-04-09 19:52:40,889 - flwr - INFO - [SUMMARY]
+2025-04-09 19:52:40,889 - flwr - INFO - Run finished 3 round(s) in 14047.80s
+2025-04-09 19:52:40,893 - flwr - INFO - 	History (loss, distributed):
+2025-04-09 19:52:40,893 - flwr - INFO - 		round 1: 11901.673828125
+2025-04-09 19:52:40,893 - flwr - INFO - 		round 2: 51242.575520833336
+2025-04-09 19:52:40,893 - flwr - INFO - 		round 3: 150668.42708333334
+2025-04-09 19:52:40,894 - flwr - INFO - 
+2025-04-09 19:52:40,973 - grpc._server - ERROR - Exception iterating responses: 
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.12/site-packages/grpc/_server.py", line 654, in _take_response_from_response_iterator
+    return next(response_iterator), True
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/flower_service_servicer.py", line 119, in Join
+    ins_wrapper: InsWrapper = next(ins_wrapper_iterator)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_bridge.py", line 166, in ins_wrapper_iterator
+    self._raise_if_closed()
+  File "/opt/conda/lib/python3.12/site-packages/flwr/server/superlink/fleet/grpc_bidi/grpc_bridge.py", line 82, in _raise_if_closed
+    raise GrpcBridgeClosed()
+flwr.server.superlink.fleet.grpc_bidi.grpc_bridge.GrpcBridgeClosed

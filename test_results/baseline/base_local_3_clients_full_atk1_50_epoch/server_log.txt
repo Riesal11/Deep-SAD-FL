@@ -1,0 +1,52 @@
+2025-04-16 09:12:57,495 - root - INFO - Log file is ../log/log.txt
+2025-04-16 09:12:57,495 - root - INFO - Computation device: cpu
+2025-04-16 09:12:57,495 - root - INFO - Federated mode: server
+2025-04-16 09:12:57,495 - flwr - WARNING - DEPRECATED FEATURE: flwr.server.start_server() is deprecated.
+	Instead, use the `flower-superlink` CLI command to start a SuperLink as shown below:
+
+		$ flower-superlink --insecure
+
+	To view usage and all available options, run:
+
+		$ flower-superlink --help
+
+	Using `start_server()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2025-04-16 09:12:57,496 - flwr - INFO - Starting Flower server, config: num_rounds=3, no round_timeout
+2025-04-16 09:12:57,521 - flwr - INFO - Flower ECE: gRPC server running (3 rounds), SSL is disabled
+2025-04-16 09:12:57,522 - flwr - INFO - [INIT]
+2025-04-16 09:12:57,522 - flwr - INFO - Requesting initial parameters from one random client
+2025-04-16 09:13:35,434 - flwr - INFO - Received initial parameters from one random client
+2025-04-16 09:13:35,434 - flwr - INFO - Starting evaluation of initial global parameters
+2025-04-16 09:13:35,434 - flwr - INFO - Evaluation returned no results (`None`)
+2025-04-16 09:13:35,434 - flwr - INFO - 
+2025-04-16 09:13:35,435 - flwr - INFO - [ROUND 1]
+2025-04-16 09:14:13,892 - flwr - INFO - configure_fit: strategy sampled 3 clients (out of 3)
+2025-04-16 09:50:53,589 - flwr - INFO - aggregate_fit: received 3 results and 0 failures
+2025-04-16 09:50:53,621 - flwr - WARNING - No fit_metrics_aggregation_fn provided
+2025-04-16 09:50:53,624 - flwr - INFO - configure_evaluate: strategy sampled 3 clients (out of 3)
+2025-04-16 09:51:10,603 - flwr - INFO - aggregate_evaluate: received 3 results and 0 failures
+2025-04-16 09:51:10,604 - flwr - WARNING - No evaluate_metrics_aggregation_fn provided
+2025-04-16 09:51:10,604 - flwr - INFO - 
+2025-04-16 09:51:10,604 - flwr - INFO - [ROUND 2]
+2025-04-16 09:51:10,605 - flwr - INFO - configure_fit: strategy sampled 3 clients (out of 3)
+2025-04-16 10:28:42,273 - flwr - INFO - aggregate_fit: received 3 results and 0 failures
+2025-04-16 10:28:42,304 - flwr - INFO - configure_evaluate: strategy sampled 3 clients (out of 3)
+2025-04-16 10:28:59,751 - flwr - INFO - aggregate_evaluate: received 3 results and 0 failures
+2025-04-16 10:28:59,752 - flwr - INFO - 
+2025-04-16 10:28:59,752 - flwr - INFO - [ROUND 3]
+2025-04-16 10:28:59,752 - flwr - INFO - configure_fit: strategy sampled 3 clients (out of 3)
+2025-04-16 11:04:11,191 - flwr - INFO - aggregate_fit: received 3 results and 0 failures
+2025-04-16 11:04:11,205 - flwr - INFO - configure_evaluate: strategy sampled 3 clients (out of 3)
+2025-04-16 11:04:27,781 - flwr - INFO - aggregate_evaluate: received 3 results and 0 failures
+2025-04-16 11:04:27,782 - flwr - INFO - 
+2025-04-16 11:04:27,782 - flwr - INFO - [SUMMARY]
+2025-04-16 11:04:27,783 - flwr - INFO - Run finished 3 round(s) in 6652.61s
+2025-04-16 11:04:27,784 - flwr - INFO - 	History (loss, distributed):
+2025-04-16 11:04:27,784 - flwr - INFO - 		round 1: 0.04713189431553496
+2025-04-16 11:04:27,784 - flwr - INFO - 		round 2: 0.9768465122901413
+2025-04-16 11:04:27,784 - flwr - INFO - 		round 3: 1.438775770693773
+2025-04-16 11:04:27,784 - flwr - INFO - 

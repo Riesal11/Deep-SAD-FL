@@ -1,0 +1,380 @@
+2025-04-03 15:56:59,308 - root - INFO - Log file is ../log/log.txt
+2025-04-03 15:56:59,309 - root - INFO - Computation device: cpu
+2025-04-03 15:56:59,310 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-03 15:56:59,334 - root - INFO - loading dataset...
+2025-04-03 15:57:04,937 - root - INFO - Dataset size: 355747
+2025-04-03 15:57:04,948 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:57:05,485 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-03 15:57:05,486 - root - INFO - 199341 unlabeled normal samples in the trainset
+2025-04-03 15:57:05,486 - root - INFO - 10491 unlabeled outlier samples in the trainset
+2025-04-03 15:57:05,487 - root - INFO - 2119 labeled outlier samples in the trainset
+2025-04-03 15:57:09,829 - root - INFO - Dataset size: 355747
+2025-04-03 15:57:09,838 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-03 15:57:10,455 - root - INFO - 132895 normal samples in the testset
+2025-04-03 15:57:10,456 - root - INFO - 9405 outlier samples in the testset
+2025-04-03 15:57:10,467 - root - INFO - Federated mode: server
+2025-04-03 15:57:10,467 - flwr - WARNING - DEPRECATED FEATURE: flwr.server.start_server() is deprecated.
+	Instead, use the `flower-superlink` CLI command to start a SuperLink as shown below:
+
+		$ flower-superlink --insecure
+
+	To view usage and all available options, run:
+
+		$ flower-superlink --help
+
+	Using `start_server()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2025-04-03 15:57:10,469 - flwr - WARNING - Both server and strategy were provided, ignoring strategy
+2025-04-03 15:57:10,469 - flwr - INFO - Starting Flower server, config: num_rounds=10, no round_timeout
+2025-04-03 15:57:10,495 - flwr - INFO - Flower ECE: gRPC server running (10 rounds), SSL is disabled
+2025-04-03 15:57:10,495 - flwr - INFO - SERVER: fit...
+2025-04-03 15:57:10,496 - flwr - INFO - Initializing global parameters
+2025-04-03 15:57:10,496 - flwr - INFO - Requesting initial parameters from one random client
+2025-04-03 15:57:10,497 - flwr - INFO - Sampling 1 clients, min None
+2025-04-03 15:57:10,497 - flwr - INFO - MANAGER: Min num free clients: 1
+2025-04-03 15:57:10,498 - flwr - INFO - MANAGER: wait_for_free 24.0 hours
+2025-04-03 15:58:13,266 - flwr - INFO - Registering client with id: 0102cce564594a928574b7a433876ad2
+2025-04-03 15:58:13,268 - flwr - INFO - Registering client with id: 9d18e86272bb492aac159d6e43b1a37c
+2025-04-03 15:58:13,268 - flwr - INFO - MANAGER: Client set to free: 0102cce564594a928574b7a433876ad2
+2025-04-03 15:58:13,269 - flwr - INFO - MANAGER: available cids: ['0102cce564594a928574b7a433876ad2']
+2025-04-03 15:58:13,269 - flwr - INFO - MANAGER: Client set to free: 9d18e86272bb492aac159d6e43b1a37c
+2025-04-03 15:58:13,271 - flwr - INFO - MANAGER: Client set to busy: 0102cce564594a928574b7a433876ad2
+2025-04-03 15:58:21,746 - flwr - INFO - Received initial parameters from one random client
+2025-04-03 15:58:21,747 - flwr - INFO - MANAGER: Client set to free: 0102cce564594a928574b7a433876ad2
+2025-04-03 15:58:21,747 - flwr - INFO - Evaluating initial parameters
+2025-04-03 15:58:21,751 - root - INFO - Using full dataset for testing...
+2025-04-03 15:58:21,753 - root - INFO - Initializing center c...
+2025-04-03 15:58:25,865 - root - INFO - Center c initialized. c = tensor([-0.1000, -0.1000, -0.1000, -0.1000,  0.1000,  0.1000,  0.1000,  0.1000])
+2025-04-03 15:58:25,866 - root - INFO - Starting testing...
+2025-04-03 15:58:30,526 - root - INFO - Test Loss: 0.293752
+2025-04-03 15:58:30,581 - root - INFO - Anomaly scores range from 0.025357786566019058 to 0.07307036221027374
+2025-04-03 15:58:30,582 - root - INFO - Best Threshold 0.03454893082380295 with the F1-score 0.1169680482210487
+2025-04-03 15:58:30,582 - root - INFO - Precision 0.06211898016997167
+2025-04-03 15:58:30,583 - root - INFO - Recall 0.9994530537830447
+2025-04-03 15:58:30,583 - root - INFO - Precision of the normal class 0.9897959183673469
+2025-04-03 15:58:30,583 - root - INFO - Recall of the normal class 0.0035035336327189108
+2025-04-03 15:58:30,584 - root - INFO - F1-score of the normal class 0.006982352164889087
+2025-04-03 15:58:30,585 - root - INFO - Test PR-AUC: 3.19%
+2025-04-03 15:58:30,585 - root - INFO - Test ROC-AUC: 1.21%
+2025-04-03 15:58:30,585 - root - INFO - Test Time: 4.350s
+2025-04-03 15:58:30,585 - root - INFO - Finished testing.
+2025-04-03 15:58:30,644 - flwr - INFO - FL starting
+2025-04-03 15:58:30,645 - flwr - INFO - SERVER: fit_round...
+2025-04-03 15:58:30,645 - flwr - INFO - Sampling 2 clients, min 1
+2025-04-03 15:58:30,646 - flwr - INFO - MANAGER: Min num free clients: 1
+2025-04-03 15:58:30,646 - flwr - INFO - MANAGER: wait_for_free 24.0 hours
+2025-04-03 15:58:30,647 - flwr - INFO - MANAGER: available cids: ['9d18e86272bb492aac159d6e43b1a37c', '0102cce564594a928574b7a433876ad2']
+2025-04-03 15:58:30,647 - flwr - INFO - MANAGER: Client set to busy: 0102cce564594a928574b7a433876ad2
+2025-04-03 15:58:30,647 - flwr - INFO - MANAGER: Client set to busy: 9d18e86272bb492aac159d6e43b1a37c
+2025-04-03 15:58:30,648 - flwr - INFO - SERVER: fit_clients...
+2025-04-03 15:58:30,649 - flwr - INFO - SERVER: fit_client...
+2025-04-03 15:58:30,650 - flwr - INFO - SERVER: fit_client...
+2025-04-03 15:58:30,650 - flwr - INFO - TOTAL TRAIN TIME 1800s
+2025-04-03 15:59:30,652 - root - INFO - Using full dataset for testing...
+2025-04-03 15:59:30,652 - root - INFO - Starting testing...
+2025-04-03 16:00:15,205 - root - INFO - Test Loss: 0.293752
+2025-04-03 16:00:15,253 - root - INFO - Anomaly scores range from 0.025357786566019058 to 0.07307036221027374
+2025-04-03 16:00:15,253 - root - INFO - Best Threshold 0.03454893082380295 with the F1-score 0.1169680482210487
+2025-04-03 16:00:15,253 - root - INFO - Precision 0.06211898016997167
+2025-04-03 16:00:15,254 - root - INFO - Recall 0.9994530537830447
+2025-04-03 16:00:15,254 - root - INFO - Precision of the normal class 0.9897959183673469
+2025-04-03 16:00:15,254 - root - INFO - Recall of the normal class 0.0035035336327189108
+2025-04-03 16:00:15,254 - root - INFO - F1-score of the normal class 0.006982352164889087
+2025-04-03 16:00:15,255 - root - INFO - Test PR-AUC: 3.19%
+2025-04-03 16:00:15,255 - root - INFO - Test ROC-AUC: 1.21%
+2025-04-03 16:00:15,255 - root - INFO - Test Time: 44.249s
+2025-04-03 16:00:15,256 - root - INFO - Finished testing.
+2025-04-03 16:00:15,311 - flwr - INFO - Centralized evaluation: loss 0.29375236427575013, f1=0.1169680482210487
+2025-04-03 16:00:15,312 - flwr - INFO - SERVER: test4
+2025-04-03 16:01:15,311 - root - INFO - Using full dataset for testing...
+2025-04-03 16:01:15,312 - root - INFO - Starting testing...
+2025-04-03 16:01:54,230 - root - INFO - Test Loss: 0.293752
+2025-04-03 16:01:54,272 - root - INFO - Anomaly scores range from 0.025357786566019058 to 0.07307036221027374
+2025-04-03 16:01:54,280 - root - INFO - Best Threshold 0.03454893082380295 with the F1-score 0.1169680482210487
+2025-04-03 16:01:54,280 - root - INFO - Precision 0.06211898016997167
+2025-04-03 16:01:54,280 - root - INFO - Recall 0.9994530537830447
+2025-04-03 16:01:54,280 - root - INFO - Precision of the normal class 0.9897959183673469
+2025-04-03 16:01:54,280 - root - INFO - Recall of the normal class 0.0035035336327189108
+2025-04-03 16:01:54,281 - root - INFO - F1-score of the normal class 0.006982352164889087
+2025-04-03 16:01:54,281 - root - INFO - Test PR-AUC: 3.19%
+2025-04-03 16:01:54,282 - root - INFO - Test ROC-AUC: 1.21%
+2025-04-03 16:01:54,282 - root - INFO - Test Time: 38.616s
+2025-04-03 16:01:54,282 - root - INFO - Finished testing.
+2025-04-03 16:01:54,342 - flwr - INFO - Centralized evaluation: loss 0.29375236427575013, f1=0.1169680482210487
+2025-04-03 16:01:54,342 - flwr - INFO - SERVER: test4
+2025-04-03 16:02:54,342 - root - INFO - Using full dataset for testing...
+2025-04-03 16:02:54,343 - root - INFO - Starting testing...
+2025-04-03 16:03:32,465 - root - INFO - Test Loss: 0.293752
+2025-04-03 16:03:32,511 - root - INFO - Anomaly scores range from 0.025357786566019058 to 0.07307036221027374
+2025-04-03 16:03:32,516 - root - INFO - Best Threshold 0.03454893082380295 with the F1-score 0.1169680482210487
+2025-04-03 16:03:32,516 - root - INFO - Precision 0.06211898016997167
+2025-04-03 16:03:32,517 - root - INFO - Recall 0.9994530537830447
+2025-04-03 16:03:32,517 - root - INFO - Precision of the normal class 0.9897959183673469
+2025-04-03 16:03:32,517 - root - INFO - Recall of the normal class 0.0035035336327189108
+2025-04-03 16:03:32,517 - root - INFO - F1-score of the normal class 0.006982352164889087
+2025-04-03 16:03:32,518 - root - INFO - Test PR-AUC: 3.19%
+2025-04-03 16:03:32,518 - root - INFO - Test ROC-AUC: 1.21%
+2025-04-03 16:03:32,519 - root - INFO - Test Time: 37.754s
+2025-04-03 16:03:32,519 - root - INFO - Finished testing.
+2025-04-03 16:03:32,578 - flwr - INFO - Centralized evaluation: loss 0.29375236427575013, f1=0.1169680482210487
+2025-04-03 16:03:32,579 - flwr - INFO - SERVER: test4
+2025-04-03 16:04:32,578 - root - INFO - Using full dataset for testing...
+2025-04-03 16:04:32,579 - root - INFO - Starting testing...
+2025-04-03 16:05:08,443 - root - INFO - Test Loss: 0.293752
+2025-04-03 16:05:08,494 - root - INFO - Anomaly scores range from 0.025357786566019058 to 0.07307036221027374
+2025-04-03 16:05:08,495 - root - INFO - Best Threshold 0.03454893082380295 with the F1-score 0.1169680482210487
+2025-04-03 16:05:08,495 - root - INFO - Precision 0.06211898016997167
+2025-04-03 16:05:08,495 - root - INFO - Recall 0.9994530537830447
+2025-04-03 16:05:08,495 - root - INFO - Precision of the normal class 0.9897959183673469
+2025-04-03 16:05:08,495 - root - INFO - Recall of the normal class 0.0035035336327189108
+2025-04-03 16:05:08,496 - root - INFO - F1-score of the normal class 0.006982352164889087
+2025-04-03 16:05:08,497 - root - INFO - Test PR-AUC: 3.19%
+2025-04-03 16:05:08,497 - root - INFO - Test ROC-AUC: 1.21%
+2025-04-03 16:05:08,497 - root - INFO - Test Time: 35.568s
+2025-04-03 16:05:08,497 - root - INFO - Finished testing.
+2025-04-03 16:05:08,554 - flwr - INFO - Centralized evaluation: loss 0.29375236427575013, f1=0.1169680482210487
+2025-04-03 16:05:08,555 - flwr - INFO - SERVER: test4
+2025-04-03 16:05:28,952 - flwr - INFO - SERVER: get_config_for_client_fit: 0102cce564594a928574b7a433876ad2
+2025-04-03 16:05:28,952 - flwr - INFO - SERVER: fit_client...
+2025-04-03 16:05:31,265 - flwr - INFO - SERVER: get_config_for_client_fit: 9d18e86272bb492aac159d6e43b1a37c
+2025-04-03 16:05:31,266 - flwr - INFO - SERVER: fit_client...
+2025-04-03 16:06:08,558 - root - INFO - Using full dataset for testing...
+2025-04-03 16:06:08,559 - root - INFO - Starting testing...
+2025-04-03 16:06:55,654 - root - INFO - Test Loss: 0.081796
+2025-04-03 16:06:55,702 - root - INFO - Anomaly scores range from 3.181833562848624e-06 to 0.8667621612548828
+2025-04-03 16:06:55,709 - root - INFO - Best Threshold 0.2115159034729004 with the F1-score 0.9978575986872094
+2025-04-03 16:06:55,709 - root - INFO - Precision 0.9979485776805251
+2025-04-03 16:06:55,710 - root - INFO - Recall 0.9977666362807657
+2025-04-03 16:06:55,710 - root - INFO - Precision of the normal class 0.9998525162533108
+2025-04-03 16:06:55,710 - root - INFO - Recall of the normal class 0.9998645541121371
+2025-04-03 16:06:55,710 - root - INFO - F1-score of the normal class 0.9998585351464914
+2025-04-03 16:06:55,712 - root - INFO - Test PR-AUC: 99.92%
+2025-04-03 16:06:55,713 - root - INFO - Test ROC-AUC: 99.97%
+2025-04-03 16:06:55,713 - root - INFO - Test Time: 46.667s
+2025-04-03 16:06:55,713 - root - INFO - Finished testing.
+2025-04-03 16:06:55,771 - flwr - INFO - Centralized evaluation: loss 0.08179576987118595, f1=0.9978575986872094
+2025-04-03 16:06:55,771 - flwr - INFO - SERVER: test4
+2025-04-03 16:07:55,771 - root - INFO - Using full dataset for testing...
+2025-04-03 16:07:55,772 - root - INFO - Starting testing...
+2025-04-03 16:08:35,578 - root - INFO - Test Loss: 0.081796
+2025-04-03 16:08:35,622 - root - INFO - Anomaly scores range from 3.181833562848624e-06 to 0.8667621612548828
+2025-04-03 16:08:35,626 - root - INFO - Best Threshold 0.2115159034729004 with the F1-score 0.9978575986872094
+2025-04-03 16:08:35,626 - root - INFO - Precision 0.9979485776805251
+2025-04-03 16:08:35,626 - root - INFO - Recall 0.9977666362807657
+2025-04-03 16:08:35,627 - root - INFO - Precision of the normal class 0.9998525162533108
+2025-04-03 16:08:35,627 - root - INFO - Recall of the normal class 0.9998645541121371
+2025-04-03 16:08:35,627 - root - INFO - F1-score of the normal class 0.9998585351464914
+2025-04-03 16:08:35,628 - root - INFO - Test PR-AUC: 99.92%
+2025-04-03 16:08:35,629 - root - INFO - Test ROC-AUC: 99.97%
+2025-04-03 16:08:35,629 - root - INFO - Test Time: 39.453s
+2025-04-03 16:08:35,629 - root - INFO - Finished testing.
+2025-04-03 16:08:35,688 - flwr - INFO - Centralized evaluation: loss 0.08179576987118595, f1=0.9978575986872094
+2025-04-03 16:08:35,688 - flwr - INFO - SERVER: test4
+2025-04-03 16:09:35,688 - root - INFO - Using full dataset for testing...
+2025-04-03 16:09:35,689 - root - INFO - Starting testing...
+2025-04-03 16:10:16,965 - root - INFO - Test Loss: 0.081796
+2025-04-03 16:10:17,016 - root - INFO - Anomaly scores range from 3.181833562848624e-06 to 0.8667621612548828
+2025-04-03 16:10:17,021 - root - INFO - Best Threshold 0.2115159034729004 with the F1-score 0.9978575986872094
+2025-04-03 16:10:17,022 - root - INFO - Precision 0.9979485776805251
+2025-04-03 16:10:17,022 - root - INFO - Recall 0.9977666362807657
+2025-04-03 16:10:17,022 - root - INFO - Precision of the normal class 0.9998525162533108
+2025-04-03 16:10:17,022 - root - INFO - Recall of the normal class 0.9998645541121371
+2025-04-03 16:10:17,022 - root - INFO - F1-score of the normal class 0.9998585351464914
+2025-04-03 16:10:17,024 - root - INFO - Test PR-AUC: 99.92%
+2025-04-03 16:10:17,024 - root - INFO - Test ROC-AUC: 99.97%
+2025-04-03 16:10:17,025 - root - INFO - Test Time: 40.925s
+2025-04-03 16:10:17,025 - root - INFO - Finished testing.
+2025-04-03 16:10:17,084 - flwr - INFO - Centralized evaluation: loss 0.08179576987118595, f1=0.9978575986872094
+2025-04-03 16:10:17,084 - flwr - INFO - SERVER: test4
+2025-04-03 16:11:17,084 - root - INFO - Using full dataset for testing...
+2025-04-03 16:11:17,084 - root - INFO - Starting testing...
+2025-04-03 16:12:00,250 - root - INFO - Test Loss: 0.081796
+2025-04-03 16:12:00,296 - root - INFO - Anomaly scores range from 3.181833562848624e-06 to 0.8667621612548828
+2025-04-03 16:12:00,297 - root - INFO - Best Threshold 0.2115159034729004 with the F1-score 0.9978575986872094
+2025-04-03 16:12:00,297 - root - INFO - Precision 0.9979485776805251
+2025-04-03 16:12:00,308 - root - INFO - Recall 0.9977666362807657
+2025-04-03 16:12:00,308 - root - INFO - Precision of the normal class 0.9998525162533108
+2025-04-03 16:12:00,309 - root - INFO - Recall of the normal class 0.9998645541121371
+2025-04-03 16:12:00,309 - root - INFO - F1-score of the normal class 0.9998585351464914
+2025-04-03 16:12:00,310 - root - INFO - Test PR-AUC: 99.92%
+2025-04-03 16:12:00,311 - root - INFO - Test ROC-AUC: 99.97%
+2025-04-03 16:12:00,311 - root - INFO - Test Time: 42.826s
+2025-04-03 16:12:00,311 - root - INFO - Finished testing.
+2025-04-03 16:12:00,370 - flwr - INFO - Centralized evaluation: loss 0.08179576987118595, f1=0.9978575986872094
+2025-04-03 16:12:00,371 - flwr - INFO - SERVER: test4
+2025-04-03 16:12:49,547 - flwr - INFO - SERVER: get_config_for_client_fit: 0102cce564594a928574b7a433876ad2
+2025-04-03 16:12:49,547 - flwr - INFO - SERVER: fit_client...
+2025-04-03 16:12:51,753 - flwr - INFO - SERVER: get_config_for_client_fit: 9d18e86272bb492aac159d6e43b1a37c
+2025-04-03 16:12:51,754 - flwr - INFO - SERVER: fit_client...
+2025-04-03 16:13:00,370 - root - INFO - Using full dataset for testing...
+2025-04-03 16:13:00,371 - root - INFO - Starting testing...
+2025-04-03 16:13:39,099 - root - INFO - Test Loss: 0.059503
+2025-04-03 16:13:39,148 - root - INFO - Anomaly scores range from 9.392435913468944e-07 to 0.8233509659767151
+2025-04-03 16:13:39,148 - root - INFO - Best Threshold 0.12658566236495972 with the F1-score 0.9988835471302604
+2025-04-03 16:13:39,148 - root - INFO - Precision 0.9986787552963688
+2025-04-03 16:13:39,149 - root - INFO - Recall 0.9990884229717412
+2025-04-03 16:13:39,149 - root - INFO - Precision of the normal class 0.9999398001968534
+2025-04-03 16:13:39,149 - root - INFO - Recall of the normal class 0.999912712650044
+2025-04-03 16:13:39,149 - root - INFO - F1-score of the normal class 0.9999262562400013
+2025-04-03 16:13:39,151 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 16:13:39,151 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 16:13:39,152 - root - INFO - Test Time: 38.384s
+2025-04-03 16:13:39,152 - root - INFO - Finished testing.
+2025-04-03 16:13:39,219 - flwr - INFO - Centralized evaluation: loss 0.05950302947352983, f1=0.9988835471302604
+2025-04-03 16:13:39,219 - flwr - INFO - SERVER: test4
+2025-04-03 16:14:39,219 - root - INFO - Using full dataset for testing...
+2025-04-03 16:14:39,220 - root - INFO - Starting testing...
+2025-04-03 16:15:17,192 - root - INFO - Test Loss: 0.059503
+2025-04-03 16:15:17,244 - root - INFO - Anomaly scores range from 9.392435913468944e-07 to 0.8233509659767151
+2025-04-03 16:15:17,244 - root - INFO - Best Threshold 0.12658566236495972 with the F1-score 0.9988835471302604
+2025-04-03 16:15:17,245 - root - INFO - Precision 0.9986787552963688
+2025-04-03 16:15:17,245 - root - INFO - Recall 0.9990884229717412
+2025-04-03 16:15:17,245 - root - INFO - Precision of the normal class 0.9999398001968534
+2025-04-03 16:15:17,245 - root - INFO - Recall of the normal class 0.999912712650044
+2025-04-03 16:15:17,245 - root - INFO - F1-score of the normal class 0.9999262562400013
+2025-04-03 16:15:17,247 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 16:15:17,248 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 16:15:17,248 - root - INFO - Test Time: 37.637s
+2025-04-03 16:15:17,248 - root - INFO - Finished testing.
+2025-04-03 16:15:17,304 - flwr - INFO - Centralized evaluation: loss 0.05950302947352983, f1=0.9988835471302604
+2025-04-03 16:15:17,304 - flwr - INFO - SERVER: test4
+2025-04-03 16:16:17,303 - root - INFO - Using full dataset for testing...
+2025-04-03 16:16:17,304 - root - INFO - Starting testing...
+2025-04-03 16:17:01,262 - root - INFO - Test Loss: 0.059503
+2025-04-03 16:17:01,310 - root - INFO - Anomaly scores range from 9.392435913468944e-07 to 0.8233509659767151
+2025-04-03 16:17:01,311 - root - INFO - Best Threshold 0.12658566236495972 with the F1-score 0.9988835471302604
+2025-04-03 16:17:01,311 - root - INFO - Precision 0.9986787552963688
+2025-04-03 16:17:01,311 - root - INFO - Recall 0.9990884229717412
+2025-04-03 16:17:01,312 - root - INFO - Precision of the normal class 0.9999398001968534
+2025-04-03 16:17:01,312 - root - INFO - Recall of the normal class 0.999912712650044
+2025-04-03 16:17:01,312 - root - INFO - F1-score of the normal class 0.9999262562400013
+2025-04-03 16:17:01,314 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 16:17:01,314 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 16:17:01,315 - root - INFO - Test Time: 43.609s
+2025-04-03 16:17:01,315 - root - INFO - Finished testing.
+2025-04-03 16:17:01,370 - flwr - INFO - Centralized evaluation: loss 0.05950302947352983, f1=0.9988835471302604
+2025-04-03 16:17:01,370 - flwr - INFO - SERVER: test4
+2025-04-03 16:18:01,371 - root - INFO - Using full dataset for testing...
+2025-04-03 16:18:01,372 - root - INFO - Starting testing...
+2025-04-03 16:18:43,131 - root - INFO - Test Loss: 0.059503
+2025-04-03 16:18:43,184 - root - INFO - Anomaly scores range from 9.392435913468944e-07 to 0.8233509659767151
+2025-04-03 16:18:43,191 - root - INFO - Best Threshold 0.12658566236495972 with the F1-score 0.9988835471302604
+2025-04-03 16:18:43,191 - root - INFO - Precision 0.9986787552963688
+2025-04-03 16:18:43,192 - root - INFO - Recall 0.9990884229717412
+2025-04-03 16:18:43,192 - root - INFO - Precision of the normal class 0.9999398001968534
+2025-04-03 16:18:43,192 - root - INFO - Recall of the normal class 0.999912712650044
+2025-04-03 16:18:43,192 - root - INFO - F1-score of the normal class 0.9999262562400013
+2025-04-03 16:18:43,194 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 16:18:43,195 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 16:18:43,195 - root - INFO - Test Time: 41.396s
+2025-04-03 16:18:43,195 - root - INFO - Finished testing.
+2025-04-03 16:18:43,243 - flwr - INFO - Centralized evaluation: loss 0.05950302947352983, f1=0.9988835471302604
+2025-04-03 16:18:43,244 - flwr - INFO - SERVER: test4
+2025-04-03 16:19:43,243 - root - INFO - Using full dataset for testing...
+2025-04-03 16:19:43,243 - root - INFO - Starting testing...
+2025-04-03 16:20:22,223 - root - INFO - Test Loss: 0.059503
+2025-04-03 16:20:22,267 - root - INFO - Anomaly scores range from 9.392435913468944e-07 to 0.8233509659767151
+2025-04-03 16:20:22,268 - root - INFO - Best Threshold 0.12658566236495972 with the F1-score 0.9988835471302604
+2025-04-03 16:20:22,268 - root - INFO - Precision 0.9986787552963688
+2025-04-03 16:20:22,268 - root - INFO - Recall 0.9990884229717412
+2025-04-03 16:20:22,268 - root - INFO - Precision of the normal class 0.9999398001968534
+2025-04-03 16:20:22,269 - root - INFO - Recall of the normal class 0.999912712650044
+2025-04-03 16:20:22,269 - root - INFO - F1-score of the normal class 0.9999262562400013
+2025-04-03 16:20:22,271 - root - INFO - Test PR-AUC: 99.90%
+2025-04-03 16:20:22,272 - root - INFO - Test ROC-AUC: 99.99%
+2025-04-03 16:20:22,273 - root - INFO - Test Time: 38.615s
+2025-04-03 16:20:22,273 - root - INFO - Finished testing.
+2025-04-03 16:20:22,339 - flwr - INFO - Centralized evaluation: loss 0.05950302947352983, f1=0.9988835471302604
+2025-04-03 16:20:22,339 - flwr - INFO - SERVER: test4
+2025-04-03 16:20:43,680 - flwr - INFO - SERVER: get_config_for_client_fit: 0102cce564594a928574b7a433876ad2
+2025-04-03 16:20:43,681 - flwr - INFO - SERVER: fit_client...
+2025-04-03 16:20:47,695 - flwr - INFO - SERVER: get_config_for_client_fit: 9d18e86272bb492aac159d6e43b1a37c
+2025-04-03 16:20:47,696 - flwr - INFO - SERVER: fit_client...
+2025-04-03 16:21:22,338 - root - INFO - Using full dataset for testing...
+2025-04-03 16:21:22,339 - root - INFO - Starting testing...
+2025-04-03 16:21:59,261 - root - INFO - Test Loss: 0.059914
+2025-04-03 16:21:59,319 - root - INFO - Anomaly scores range from 4.31390344601823e-06 to 0.8725776076316833
+2025-04-03 16:21:59,319 - root - INFO - Best Threshold 0.12745630741119385 with the F1-score 0.9987927932031979
+2025-04-03 16:21:59,320 - root - INFO - Precision 0.9982698174202067
+2025-04-03 16:21:59,320 - root - INFO - Recall 0.9993163172288059
+2025-04-03 16:21:59,320 - root - INFO - Precision of the normal class 0.9999548482449513
+2025-04-03 16:21:59,320 - root - INFO - Recall of the normal class 0.9998856234724713
+2025-04-03 16:21:59,320 - root - INFO - F1-score of the normal class 0.9999202346605984
+2025-04-03 16:21:59,323 - root - INFO - Test PR-AUC: 99.97%
+2025-04-03 16:21:59,323 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 16:21:59,324 - root - INFO - Test Time: 36.564s
+2025-04-03 16:21:59,324 - root - INFO - Finished testing.
+2025-04-03 16:21:59,372 - flwr - INFO - Centralized evaluation: loss 0.0599137529899761, f1=0.9987927932031979
+2025-04-03 16:21:59,372 - flwr - INFO - SERVER: test4
+2025-04-03 16:22:59,371 - root - INFO - Using full dataset for testing...
+2025-04-03 16:22:59,371 - root - INFO - Starting testing...
+2025-04-03 16:23:44,616 - root - INFO - Test Loss: 0.059914
+2025-04-03 16:23:44,659 - root - INFO - Anomaly scores range from 4.31390344601823e-06 to 0.8725776076316833
+2025-04-03 16:23:44,662 - root - INFO - Best Threshold 0.12745630741119385 with the F1-score 0.9987927932031979
+2025-04-03 16:23:44,662 - root - INFO - Precision 0.9982698174202067
+2025-04-03 16:23:44,662 - root - INFO - Recall 0.9993163172288059
+2025-04-03 16:23:44,662 - root - INFO - Precision of the normal class 0.9999548482449513
+2025-04-03 16:23:44,663 - root - INFO - Recall of the normal class 0.9998856234724713
+2025-04-03 16:23:44,663 - root - INFO - F1-score of the normal class 0.9999202346605984
+2025-04-03 16:23:44,665 - root - INFO - Test PR-AUC: 99.97%
+2025-04-03 16:23:44,665 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 16:23:44,666 - root - INFO - Test Time: 44.634s
+2025-04-03 16:23:44,666 - root - INFO - Finished testing.
+2025-04-03 16:23:44,728 - flwr - INFO - Centralized evaluation: loss 0.0599137529899761, f1=0.9987927932031979
+2025-04-03 16:23:44,728 - flwr - INFO - SERVER: test4
+2025-04-03 16:24:44,727 - root - INFO - Using full dataset for testing...
+2025-04-03 16:24:44,728 - root - INFO - Starting testing...
+2025-04-03 16:25:28,514 - root - INFO - Test Loss: 0.059914
+2025-04-03 16:25:28,558 - root - INFO - Anomaly scores range from 4.31390344601823e-06 to 0.8725776076316833
+2025-04-03 16:25:28,559 - root - INFO - Best Threshold 0.12745630741119385 with the F1-score 0.9987927932031979
+2025-04-03 16:25:28,559 - root - INFO - Precision 0.9982698174202067
+2025-04-03 16:25:28,559 - root - INFO - Recall 0.9993163172288059
+2025-04-03 16:25:28,559 - root - INFO - Precision of the normal class 0.9999548482449513
+2025-04-03 16:25:28,560 - root - INFO - Recall of the normal class 0.9998856234724713
+2025-04-03 16:25:28,560 - root - INFO - F1-score of the normal class 0.9999202346605984
+2025-04-03 16:25:28,562 - root - INFO - Test PR-AUC: 99.97%
+2025-04-03 16:25:28,562 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 16:25:28,562 - root - INFO - Test Time: 43.385s
+2025-04-03 16:25:28,563 - root - INFO - Finished testing.
+2025-04-03 16:25:28,613 - flwr - INFO - Centralized evaluation: loss 0.0599137529899761, f1=0.9987927932031979
+2025-04-03 16:25:28,613 - flwr - INFO - SERVER: test4
+2025-04-03 16:26:28,612 - root - INFO - Using full dataset for testing...
+2025-04-03 16:26:28,613 - root - INFO - Starting testing...
+2025-04-03 16:27:11,033 - root - INFO - Test Loss: 0.059914
+2025-04-03 16:27:11,088 - root - INFO - Anomaly scores range from 4.31390344601823e-06 to 0.8725776076316833
+2025-04-03 16:27:11,088 - root - INFO - Best Threshold 0.12745630741119385 with the F1-score 0.9987927932031979
+2025-04-03 16:27:11,088 - root - INFO - Precision 0.9982698174202067
+2025-04-03 16:27:11,088 - root - INFO - Recall 0.9993163172288059
+2025-04-03 16:27:11,089 - root - INFO - Precision of the normal class 0.9999548482449513
+2025-04-03 16:27:11,089 - root - INFO - Recall of the normal class 0.9998856234724713
+2025-04-03 16:27:11,089 - root - INFO - F1-score of the normal class 0.9999202346605984
+2025-04-03 16:27:11,091 - root - INFO - Test PR-AUC: 99.97%
+2025-04-03 16:27:11,092 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 16:27:11,092 - root - INFO - Test Time: 42.041s
+2025-04-03 16:27:11,092 - root - INFO - Finished testing.
+2025-04-03 16:27:11,148 - flwr - INFO - Centralized evaluation: loss 0.0599137529899761, f1=0.9987927932031979
+2025-04-03 16:27:11,149 - flwr - INFO - SERVER: test4
+2025-04-03 16:28:11,148 - root - INFO - Using full dataset for testing...
+2025-04-03 16:28:11,149 - root - INFO - Starting testing...
+2025-04-03 16:28:37,576 - root - INFO - Test Loss: 0.059914
+2025-04-03 16:28:37,618 - root - INFO - Anomaly scores range from 4.31390344601823e-06 to 0.8725776076316833
+2025-04-03 16:28:37,618 - root - INFO - Best Threshold 0.12745630741119385 with the F1-score 0.9987927932031979
+2025-04-03 16:28:37,618 - root - INFO - Precision 0.9982698174202067
+2025-04-03 16:28:37,619 - root - INFO - Recall 0.9993163172288059
+2025-04-03 16:28:37,619 - root - INFO - Precision of the normal class 0.9999548482449513
+2025-04-03 16:28:37,619 - root - INFO - Recall of the normal class 0.9998856234724713
+2025-04-03 16:28:37,620 - root - INFO - F1-score of the normal class 0.9999202346605984
+2025-04-03 16:28:37,622 - root - INFO - Test PR-AUC: 99.97%
+2025-04-03 16:28:37,622 - root - INFO - Test ROC-AUC: 99.98%
+2025-04-03 16:28:37,623 - root - INFO - Test Time: 26.099s
+2025-04-03 16:28:37,623 - root - INFO - Finished testing.
+2025-04-03 16:28:37,676 - flwr - INFO - Centralized evaluation: loss 0.0599137529899761, f1=0.9987927932031979
+2025-04-03 16:28:37,677 - flwr - INFO - SERVER: test4
+2025-04-03 16:28:37,677 - flwr - INFO - SERVER: test5
+2025-04-03 16:28:38,332 - flwr - INFO - FL finished
+2025-04-03 16:28:38,332 - flwr - INFO - SERVER: save_model...
+2025-04-03 16:28:38,333 - flwr - INFO - Model saved to models/model_async_2025-04-03-16-28-38.pkl
+2025-04-03 16:28:38,334 - flwr - INFO - FL finished in 1807.6876225471497

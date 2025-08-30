@@ -1,28 +1,31 @@
 # Deep SAD: A Method for Deep Semi-Supervised Anomaly Detection
 Original framework: https://github.com/lukasruff/Deep-SAD-PyTorch
 Deep SAD FL: Federated Learning enabled 
+Adapted framework by veronikaBek: https://github.com/veronikaBek/Deep-SAD-FL
 
+The original framwork was changed and received the following additional capabilities:
+1) Docker setup and docker-compose files (`root`).
+2) Asynchronous model aggregation (`src/flower_async/`)
+3) Backup mechanisms using `Kafka` (`src/data_distributor` and `main.py`)
+4) Dynamic data utilization (datasets can change between rounds due to data streams) (`src/data_distributor` and `main.py`)
+5) centralized model evaluation on server (`src/flower_async/async_server`)
+6) Dataset partitioner helper (`src/data_distributor/partitioner.py`)
+7) Graph generation scripts (`src/graphs/`)
 
-## Installation
-This code is written in `Python 3.7` and requires the packages listed in `requirements.txt`.
+## Initial Documentation by veronikaBek
+For local setup and documentation, check the documentation by veronikaBek. Note: There is no guarantee that everything still applies/works.
+
+## Local Installation
+This code is written in `Python 3.7` and has been adapted to run in `Python 3.12` and requires the packages listed in `requirements.txt`.
 
 Clone the repository to your machine and directory of choice:
 ```
-https://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@github.com/veronikaBek/Deep-SAD-FL.git
+https://github.com/Riesal11/Deep-SAD-FL.git
 ```
 
-To run the code, we recommend setting up a virtual environment, e.g. using `virtualenv` or `conda`:
+To run the code locally, we recommend using `conda`:
 
-### `virtualenv`
-```
-# pip install virtualenv
-cd <path-to-Deep-SAD-PyTorch-directory>
-virtualenv myenv
-source myenv/bin/activate
-pip install -r requirements.txt
-```
-
-### `conda`
+#### `conda`
 ```
 cd <path-to-Deep-SAD-PyTorch-directory>
 conda create --name myenv
@@ -30,175 +33,194 @@ source activate myenv
 while read requirement; do conda install -n myenv --yes $requirement; done < requirements.txt
 ```
 
-
-## Running experiments
-The original framwork wwas changed and received the following additional capabilities:
-1) Addtional iIOT dataset: https://www.cse.wustl.edu/~jain/iiot2/index.html
-2) Hypertuning with RayTune for the iIOT dataset
-3) Different modes for categorical features for the iIOT dataset: 
-  a) Categorical features are removed from the dataset
-  b) Categorical Embeddings
-  c) Categorical features are treated as numerical features
-4) Federated client and server modes
-  
-### Deep SAD
-You can run Deep SAD experiments using the `main.py` script.
-You must specify the seed value.
-
-```
-cd <path-to-Deep-SAD-PyTorch-directory>
-
-# activate virtual environment
-source myenv/bin/activate  # or 'source activate myenv' for conda
-
-# create folders for experimental output
-mkdir log/DeepSAD
-mkdir log/DeepSAD/iiot_test
-
-# change to source directory
-cd src
-
-# run experiment
-python main.py --xp_path ../log/DeepSAD/mnist_test --data_path ../data --seed 1;
-```
-
-Default settings:
-1) iIOt dataset
-2) full dataset
-3) categorical features are removed
-4) Ratio of labeled normal samples in the training set: 0
-5) Ration of labeled outlier samples in the training set: 0.01
-6) Ration of outlier samples in the unlabled data in the training set : 0.05
-7) No pretraining with the autoencoder
-8) lr = 0.001
-9) epochs = 50
-10) lr_milestone = 25
-11) batch size = 128
-12) weight decay =0.5e-6
-
-
-Have a look into `main.py` for all possible arguments and options.
-
-
-## Running the hyperparmeter tuning with the Raytune
-
-```
-python main.py --hp_tune True --seed 1;
-```
-
-In addtion you can specify:
-1) ration of labeled and unlabeled samples (--ratio_known_normal, --ratio_known_outlier, --ratio_pollution)
-2) dataset size (--dataset_size, e.g --dataset_size 10000). If -1 then full dataset is used
-3) if you want to use a specifc subset of the dataset, you can specify the starting index and the ending index is defined as starting index+dataset size
-(--fl_dataset_index, e.g --fl_dataset_index 10)
-4) Mode for categorical features (--net_name, you can choose from:
-              iiot_no_cat - cat features are excluded, 
-              iiot_emb - embeddings for cat features, 
-              iiot_no_emb - cat features are not pre-prcoessed, treated like num features
-5) n_epochs, lr_milestone, weight_decay, pretrain, optimizer_name
-  
-  
-## Running centralized training:
-
-```
-python main.py --seed 1;
-```
-In addtion you can specify:
-1) ration of labeled and unlabeled samples (--ratio_known_normal, --ratio_known_outlier, --ratio_pollution)
-2) dataset size (--dataset_size, e.g --dataset_size 10000). If -1 then full dataset is used
-3) if you want to use a specifc subset of the dataset, you can specify the starting index and the ending index is defined as starting index+dataset size
-(--fl_dataset_index, e.g --fl_dataset_index 10)
-4) Mode for categorical features (--net_name, you can choose from:
-              iiot_no_cat - cat features are excluded, 
-              iiot_emb - embeddings for cat features, 
-              iiot_no_emb - cat features are not pre-prcoessed, treated like num features
-5) Number of the neurons in the first hidden layer (--h1, e.g --h1 16). The second layer will be set to h1/2 and the outputlayer to h1/4
-6) lr, batch_size, n_epochs, lr_milestone, weight_decay, pretrain, optimizer_name
-
-
-  
-## Running federated training:
+### Running experiments
 
 First start the server instance in one terminal
 ```
-python main.py --fl_mode server;
+python main.py --fl_mode server --server_ip_address [::]:8080
 ```
-In addtion you can specify number of rounds (--fl_num_rounds, eg --fl_num_rounds 3)
-
 
 Then, start a new terminal for each client (min 2 clients)
 ```
-python main.py --fl_mode client --seed 1;
-python main.py --fl_mode client --seed 3;
+python main.py --fl_mode client --seed 1 --server_ip_address localhost:8080;
+python main.py --fl_mode client --seed 2 --server_ip_address localhost:8080
 ```
 
-In addtion, for each client you can specify:
-1) ration of labeled and unlabeled samples (--ratio_known_normal, --ratio_known_outlier, --ratio_pollution)
-2) dataset size (--dataset_size, e.g --dataset_size 10000). If -1 then full dataset is used
-3) if you want to use a specifc subset of the dataset, you can specify the starting index and the ending index is defined as starting index+dataset size
-(--fl_dataset_index, e.g --fl_dataset_index 10)
-4) Mode for categorical features (--net_name, you can choose from:
-              iiot_no_cat - cat features are excluded, 
-              iiot_emb - embeddings for cat features, 
-              iiot_no_emb - cat features are not pre-prcoessed, treated like num features
-5) Number of the neurons in the first hidden layer (--h1, e.g --h1 16). The second layer will be set to h1/2 and the outputlayer to h1/4
-6) lr, batch_size, n_epochs, lr_milestone, weight_decay, pretrain, optimizer_name
+Have a look into `main.py` for all possible run arguments and options. As this has not been run locally for quite some time (as the new docker setup is used), it is not guaranteed to work out of the box.
 
+## Branches
 
+For each type of experiment, the is a branch called experiment/{setup}. The master branch is the final setup including async behaviour and backup clients.
+If you want to use the experiment with all attack types, look for ...all_types branches.
+The working baseline setup, as used by veronikaBek, can be found in experiment/baseline.
 
 ## Docker
 
-To build the image, in the application root folder, execute
+NOTE: Because the image includes the code to run the application, you first need to adapt the server ip address. Look for all occurences of `<server_ip>` and change it accordingly.
+
+To build the client image, in the application root folder, execute
 ```
-docker build -t riesal11/deep-sad-fl .
+docker build -t {DOCKER_USER}/deep-sad-fl .
 
-docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl:final -f .\Dockerfile.client .
-docker buildx build --platform=linux/amd64,linux/arm64 -t riesal11/deep-sad-fl-backup -f .\Dockerfile.backup .
+docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl:final -f .\Dockerfile.client .
+docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl-backup -f .\Dockerfile.backup .
 
-# image tags for experiments: init, async, stream, final
+# image tags for deep-sad-fl: base, final. NOTE: if you want to build the base tag, switch to the experiment/baseline branch first
+# image tags for deep-sad-fl-backup: final
+
 ```
 To run the the container
 ```
-docker run -t -d -p 3000:3000 riesal11/deep-sad-fl:{TAG}
-docker run -t -d -p 3003:3003 riesal11/deep-sad-fl-backup:{TAG}
+docker run -t -d -p 3000:3000 {DOCKER_USER}/deep-sad-fl:{TAG}
+docker run -t -d -p 3003:3003 {DOCKER_USER}/deep-sad-fl-backup:{TAG}
 
 
 on RPi:
-sudo docker run -e SEED=3 -e PORT=3000 --mount type=bind,src=./data/3_client_setup/client_3,dst=/app/data --mount type=bind,src=./log/3_client_setup/client_3,dst=/app/log -t -d -p 3000:3000 riesal11/deep-sad-fl:{TAG}
+sudo docker run -e SEED=3 -e PORT=3000 --mount type=bind,src=./data/3_client_setup/client_3,dst=/app/data --mount type=bind,src=./log/3_client_setup/client_3,dst=/app/log -t -d -p 3000:3000 {DOCKER_USER}/deep-sad-fl:{TAG}
 ```
+
+This will automatically start the main.py with respective arguments (as defined by the docker-entrypoint files)
 
 
 To push the image to the docker hub
 ```
-docker push riesal11/deep-sad-fl
-docker push riesal11/deep-sad-fl:{TAG}
-docker push riesal11/deep-sad-fl-backup:{TAG}
+docker push {DOCKER_USER}/deep-sad-fl
+docker push {DOCKER_USER}/deep-sad-fl:{TAG}
+docker push {DOCKER_USER}/deep-sad-fl-backup:{TAG}
 ```
 
 From the client machines, pull the image
 ```
-docker pull riesal11/deep-sad-fl
-docker pull riesal11/deep-sad-fl:{TAG}
-docker pull riesal11/deep-sad-fl-backup:{TAG}
+docker pull {DOCKER_USER}/deep-sad-fl
+docker pull {DOCKER_USER}/deep-sad-fl:{TAG}
+docker pull {DOCKER_USER}/deep-sad-fl-backup:{TAG}
 ```
 
 ### docker-compose
 
-Using actual setup (server + 1 backup client + data distributor)
+Docker needs some environment variables due to the different initial datasets, so place `CLIENT_ID`, `BACKUP_CLIENT_ID`, `CLIENTS` inside root `.env` file, e.g
+```
+CLIENT_ID=1
+BACKUP_CLIENT_ID=1
+CLIENTS=3
+```
+
+Using server setup (server + 1 backup client + data distributor)
 ```
 docker-compose up -d --build
 ```
-Starting a client
+If additional client needed (server + 1 client + 1 backup client + data distributor)
+```
+docker-compose -f .\docker-compose-server-client.yaml up -d
+```
+Starting only a client
 ```
 docker-compose -f .\docker-compose-client.yaml up -d
 ```
-needs .env file with CLIENTS and CLIENT_ID -> e.g CLIENTS=2, CLIENT_ID=1
-due to the different initial datasets
-
-Starting a server
+Starting only the backup client
+```
+docker-compose -f .\docker-compose-backup-client.yaml up -d
+```
+Starting only the server
 ```
 docker-compose -f .\docker-compose-server.yaml up -d
 ```
+Starting only the distributor
+```
+docker-compose -f .\docker-compose-server.yaml up -d
+```
+Using a local setup with 2 clients
+```
+docker-compose -f .\docker-compose-full-local-2.yaml up -d
+```
+Using a local setup with 3 clients
+```
+docker-compose -f .\docker-compose-full-local-3.yaml up -d
+```
 
+## Experiment result files
+
+After running an experiment, the server and clients have their respective logs and model results stored in `log/{CLIENTS}_client_setup/`. Use them to copy it to the `test_results` folder for future usage in graphs.
+
+## Graphs
+
+Additional graphs created from our experiments are saved in `src/graphs/`. The scripts to create the graphs can also be found in there. They always use data from our experiments, which are saved in `test-results/` (you have to manually add them and change graph scripts to use the correct path).
+
+## Example 
+
+1) download dataset to `data/full_dataset`
+
+2) Create data and log folders
+
+e.g `log/3_client_setup` folder with empty `backup_1`, `client_1`, `client_2`, `client_3`, `server` folders
+
+3) Create datasets
+
+```
+python .\src\data_distributor\partitioner.py
+```
+
+4) Create client image 
+
+```
+docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl-client:{TAG} -f .\Dockerfile.client .
+```
+5) Create backup client image 
+
+```
+docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl-backup:{TAG} -f .\Dockerfile.backup .
+```
+
+6) Create data and log folders 
+
+7) copy the respective partitioned datasets to the client 
+
+8) Pull image
+
+client 2 (laptop): 
+```
+docker pull {DOCKER_USER}/deep-sad-fl-backup
+docker pull {DOCKER_USER}/deep-sad-fl:final
+```
+client 3 (rpi):
+```
+sudo docker pull {DOCKER_USER}/deep-sad-fl:final
+```
+9) Start server + client 1 compose 
+
+```
+docker-compose -f .\docker-compose-server-client.yaml up -d --build
+```
+
+10) Start clients depending on if it is the final setup or base setup
+
+FOR FINAL: Start Clients
+
+client 2 (laptop): 
+```
+docker-compose -f .\docker-compose-client.yaml up -d
+docker-compose -f .\docker-compose-backup-client.yaml up -d
+```
+client 3 (rpi):
+```
+sudo docker run -e SEED=3 -e PORT=3000 --mount type=bind,src=./data/3_client_setup/client_3,dst=/app/data --mount type=bind,src=./log/3_client_setup/client_3,dst=/app/log -t -d -p 3000:3000 {DOCKER_USER}/deep-sad-fl:{TAG}
+```
+OR
+
+FOR BASE: Start Clients
+```
+docker run -t -d -p 8080:8080 {DOCKER_USER}/deep-sad-fl:base (server)
+docker run -t -d -p 3000:3000 {DOCKER_USER}/deep-sad-fl:base	(client 1)
+docker run -t -d -p 3001:3001 {DOCKER_USER}/deep-sad-fl:base	(client 2)
+docker run -t -d -p 3002:3002 {DOCKER_USER}/deep-sad-fl:base	(client 3)
+```
+
+Since in the base branch, you have to manually start the program, in the respective containers, run:
+```
+python main.py --fl_mode server --server_ip_address [::]:8080
+python main.py --fl_mode client --seed 1 --server_ip_address {SERVER_IP}:8080
+python main.py --fl_mode client --seed 2 --server_ip_address {SERVER_IP}:8080
+python main.py --fl_mode client --seed 3 --server_ip_address {SERVER_IP}:8080
+```
 ## License
 MIT

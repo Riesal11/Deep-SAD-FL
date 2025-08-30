@@ -1,0 +1,4 @@
+Startup Time (s),Avg Train Time per Round (s),Avg Test Time per Round (s),Avg Idle Time per Round (s),Total Train Time (s),Total Test Time (s),Total Idle Time (s),Idle Time (%),Client
+69.0,223.54,2.05,770.68,670.63,6.15,3853.39,85.06,client1
+112.55,323.69,2.74,709.94,971.06,8.22,3549.69,78.38,client2
+246.05,1491.79,14.61,0.09,4475.38,43.82,0.45,0.01,client3

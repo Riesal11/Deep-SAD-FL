@@ -1,7 +1,4 @@
-# version: '3'
-
-# include:
-#   - docker-compose-distributor.yaml
+version: '3'
 
 services:
   server:
@@ -17,8 +14,7 @@ services:
     ports:
       - "8080:8080"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-server.sh
+
   client_1:
     container_name: deep-sad-fl-client-1
     build:
@@ -35,8 +31,7 @@ services:
     ports:
       - "3000:3000"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
+
   client_2:
     container_name: deep-sad-fl-client-2
     build:
@@ -53,8 +48,7 @@ services:
     ports:
       - "3001:3001"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
+
   client_3:
     container_name: deep-sad-fl-client-3
     build:
@@ -71,8 +65,7 @@ services:
     ports:
       - "3002:3002"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
+
   backup_client_1:
     container_name: deep-sad-fl-backup-1
     build:
@@ -89,8 +82,7 @@ services:
     ports:
       - "3003:3003"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
+
   backup_client_2:
     container_name: deep-sad-fl-backup-2
     build:
@@ -107,8 +99,7 @@ services:
     ports:
       - "3004:3004"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
+
 
   zookeeper:
     image: bitnami/zookeeper:3.9.1
@@ -129,7 +120,8 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CFG_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://10.0.0.20:29092
+      # change <server_ip> to actual server ip
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://<server_ip>:29092
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: INTERNAL
       # optional - enable topic auto create

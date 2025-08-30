@@ -308,17 +308,16 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
 
 
         # use kafka:9092 in container or localhost:29092 on host
-        # value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
         producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')),
                                  key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
-                                 bootstrap_servers='10.0.0.20:29092')
+                                 bootstrap_servers='<server_ip>:29092')
         producer.send('distributor', key="new-client", value=str(client_id))
 
         stopFlag_health = Event()
         thread_health = HealthThread(stopFlag_health, producer, client_id)
         thread_health.start()
 
-        consumer = KafkaConsumer(bootstrap_servers='10.0.0.20:29092',
+        consumer = KafkaConsumer(bootstrap_servers='<server_ip>:29092',
             value_deserializer=lambda v: binascii.unhexlify(v).decode('utf-8'),
             key_deserializer=lambda k: binascii.unhexlify(k).decode('utf-8'),
             client_id=client_id,
@@ -374,106 +373,6 @@ def main(hp_tune, fl_mode, fl_num_rounds,fl_dataset_index, dataset_name, dataset
         # async
         fl.server.start_server(server=server, server_address = server_ip_address,strategy=server.strategy,config=config)
         return
-
-
-    ## TODO: REMOVE
-
-    # Load data
-    dataset = load_dataset(dataset_name, data_path,fl_dataset_index,dataset_size,net_name, normal_class, known_outlier_class, n_known_outlier_classes,
-                           ratio_known_normal, ratio_known_outlier, ratio_pollution,
-                           random_state=cfg.settings['seed'])
-
-    # Log random sample of known anomaly classes if more than 1 class
-    if n_known_outlier_classes > 1:
-        logger.info('Known anomaly classes: %s' % (dataset.known_outlier_classes,))
-
-    # Initialize DeepSAD model and set neural network phi
-    deepSAD = DeepSAD(xp_path,cfg.settings['eta'])
-    deepSAD.set_network(net_name, h1=net_h1)
-
-
-    # If specified, load Deep SAD model (center c, network weights, and possibly autoencoder weights)
-    if load_model:
-        deepSAD.load_model(model_path=load_model, load_ae=True, map_location=device)
-        logger.info('Loading model from %s.' % load_model)
-
-    logger.info('Pretraining: %s' % pretrain)
-    if pretrain and net_name != 'iiot_emb':
-        # Log pretraining details
-        logger.info('Pretraining optimizer: %s' % cfg.settings['ae_optimizer_name'])
-        logger.info('Pretraining learning rate: %g' % cfg.settings['ae_lr'])
-        logger.info('Pretraining epochs: %d' % cfg.settings['ae_n_epochs'])
-        logger.info('Pretraining learning rate scheduler milestones: %s' % (cfg.settings['ae_lr_milestone'],))
-        logger.info('Pretraining batch size: %d' % cfg.settings['ae_batch_size'])
-        logger.info('Pretraining weight decay: %g' % cfg.settings['ae_weight_decay'])
-
-        # Pretrain model on dataset (via autoencoder)
-        deepSAD.pretrain(dataset,
-                         h1 = net_h1,
-                         optimizer_name=cfg.settings['ae_optimizer_name'],
-                         lr=cfg.settings['ae_lr'],
-                         n_epochs=cfg.settings['ae_n_epochs'],
-                         lr_milestones=cfg.settings['ae_lr_milestone'],
-                         batch_size=cfg.settings['ae_batch_size'],
-                         weight_decay=cfg.settings['ae_weight_decay'],
-                         device=device,
-                         n_jobs_dataloader=n_jobs_dataloader)
-
-        # Save pretraining results
-        deepSAD.save_ae_results(export_json=xp_path + '/ae_results.json')
-
-    # Log training details
-    logger.info('Training optimizer: %s' % cfg.settings['optimizer_name'])
-    logger.info('Training learning rate: %g' % cfg.settings['lr'])
-    logger.info('Training epochs: %d' % cfg.settings['n_epochs'])
-    logger.info('Training learning rate scheduler milestones: %s' % (cfg.settings['lr_milestone'],))
-    logger.info('Training batch size: %d' % cfg.settings['batch_size'])
-    logger.info('Training weight decay: %g' % cfg.settings['weight_decay'])
-
-    # Train model on dataset
-    deepSAD.train(dataset,
-                  optimizer_name=cfg.settings['optimizer_name'],
-                  lr=cfg.settings['lr'],
-                  n_epochs=cfg.settings['n_epochs'],
-                  lr_milestones=cfg.settings['lr_milestone'],
-                  batch_size=cfg.settings['batch_size'],
-                  weight_decay=cfg.settings['weight_decay'],
-                  device=device,
-                  n_jobs_dataloader=n_jobs_dataloader)
-
-    # Test model
-    deepSAD.test(dataset, device=device, n_jobs_dataloader=n_jobs_dataloader)
-
-    # Save results, model, and configuration
-    deepSAD.save_results(export_json=xp_path + '/results.json')
-    if pretrain == True:
-        deepSAD.save_model(export_model=xp_path + '/model.tar')
-    cfg.save_config(export_json=xp_path + '/config.json')
-
-    # Plot most anomalous and most normal test samples
-    # indices, labels, scores = zip(*deepSAD.results['test_scores'])
-    # indices, labels, scores = np.array(indices), np.array(labels), np.array(scores)
-    # idx_all_sorted = indices[np.argsort(scores)]  # from lowest to highest score
-    # idx_normal_sorted = indices[labels == 0][np.argsort(scores[labels == 0])]  # from lowest to highest score
-
-    # if dataset_name in ('mnist', 'fmnist', 'cifar10'):
-
-    #     if dataset_name in ('mnist', 'fmnist'):
-    #         X_all_low = dataset.test_set.data[idx_all_sorted[:32], ...].unsqueeze(1)
-    #         X_all_high = dataset.test_set.data[idx_all_sorted[-32:], ...].unsqueeze(1)
-    #         X_normal_low = dataset.test_set.data[idx_normal_sorted[:32], ...].unsqueeze(1)
-    #         X_normal_high = dataset.test_set.data[idx_normal_sorted[-32:], ...].unsqueeze(1)
-
-    #     if dataset_name == 'cifar10':
-    #         X_all_low = torch.tensor(np.transpose(dataset.test_set.data[idx_all_sorted[:32], ...], (0,3,1,2)))
-    #         X_all_high = torch.tensor(np.transpose(dataset.test_set.data[idx_all_sorted[-32:], ...], (0,3,1,2)))
-    #         X_normal_low = torch.tensor(np.transpose(dataset.test_set.data[idx_normal_sorted[:32], ...], (0,3,1,2)))
-    #         X_normal_high = torch.tensor(np.transpose(dataset.test_set.data[idx_normal_sorted[-32:], ...], (0,3,1,2)))
-
-    #     plot_images_grid(X_all_low, export_img=xp_path + '/all_low', padding=2)
-    #     plot_images_grid(X_all_high, export_img=xp_path + '/all_high', padding=2)
-    #     plot_images_grid(X_normal_low, export_img=xp_path + '/normals_low', padding=2)
-    #     plot_images_grid(X_normal_high, export_img=xp_path + '/normals_high', padding=2)
 
 
 if __name__ == '__main__':

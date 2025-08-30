@@ -1,0 +1,265 @@
+2025-04-09 15:58:10,624 - root - INFO - Log file is ../log/log.txt
+2025-04-09 15:58:10,624 - root - INFO - Computation device: cpu
+2025-04-09 15:58:10,624 - root - INFO - Data path is ../data
+2025-04-09 15:58:10,626 - root - INFO - Export path is ../log
+2025-04-09 15:58:10,626 - root - INFO - Number of threads: 0
+2025-04-09 15:58:10,627 - root - INFO - Number of dataloader workers: 0
+2025-04-09 15:58:10,627 - root - INFO - Net: iiot_no_cat
+2025-04-09 15:58:10,627 - root - INFO - Dataset: iiot
+2025-04-09 15:58:10,627 - root - INFO - Normal class: 0
+2025-04-09 15:58:10,627 - root - INFO - Ratio of labeled normal train samples: 0.00
+2025-04-09 15:58:10,627 - root - INFO - Ratio of labeled anomalous samples: 0.01
+2025-04-09 15:58:10,628 - root - INFO - Pollution ratio of unlabeled train data: 0.05
+2025-04-09 15:58:10,628 - root - INFO - Known anomaly class: 1
+2025-04-09 15:58:10,628 - root - INFO - Eta-parameter: 1.00
+2025-04-09 15:58:10,635 - root - INFO - Set seed to 2.
+2025-04-09 15:58:10,635 - root - INFO - Federated mode: client
+2025-04-09 15:59:15,487 - root - INFO - Dataset size: 1185753
+2025-04-09 15:59:15,560 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-09 15:59:17,192 - root - INFO - 0 labeled normal samples in the trainset
+2025-04-09 15:59:17,193 - root - INFO - 664468 unlabeled normal samples in the trainset
+2025-04-09 15:59:17,193 - root - INFO - 34972 unlabeled outlier samples in the trainset
+2025-04-09 15:59:17,193 - root - INFO - 7065 labeled outlier samples in the trainset
+2025-04-09 15:59:39,921 - root - INFO - Dataset size: 1185753
+2025-04-09 15:59:39,986 - root - INFO - Classes in the dataset: ['normal' 'DoS']
+2025-04-09 15:59:41,633 - root - INFO - 442980 normal samples in the testset
+2025-04-09 15:59:41,639 - root - INFO - 31322 outlier samples in the testset
+2025-04-09 15:59:41,670 - root - INFO - Network architecture: [38, 32, 16, 8]
+2025-04-09 15:59:41,690 - flwr - WARNING - DEPRECATED FEATURE: flwr.client.start_client() is deprecated.
+	Instead, use the `flower-supernode` CLI command to start a SuperNode as shown below:
+
+		$ flower-supernode --insecure --superlink='<IP>:<PORT>'
+
+	To view all available options, run:
+
+		$ flower-supernode --help
+
+	Using `start_client()` is deprecated.
+
+            This is a deprecated feature. It will be removed
+            entirely in future versions of Flower.
+        
+2025-04-09 16:00:40,271 - flwr - INFO - 
+2025-04-09 16:00:40,272 - flwr - INFO - Received: train message 815d28ed-7b10-497e-8535-308a5d753021
+2025-04-09 16:00:40,301 - root - INFO - Initializing center c...
+2025-04-09 16:00:52,226 - root - INFO - Center c initialized.
+2025-04-09 16:00:52,227 - root - INFO - Starting training...
+2025-04-09 16:01:12,686 - root - INFO - | Epoch: 001/050 | Train Time: 20.456s | Train Loss: 0.066812 |
+2025-04-09 16:01:33,511 - root - INFO - | Epoch: 002/050 | Train Time: 20.825s | Train Loss: 0.062433 |
+2025-04-09 16:01:53,593 - root - INFO - | Epoch: 003/050 | Train Time: 20.081s | Train Loss: 0.060509 |
+2025-04-09 16:02:14,922 - root - INFO - | Epoch: 004/050 | Train Time: 21.330s | Train Loss: 0.059495 |
+2025-04-09 16:02:35,560 - root - INFO - | Epoch: 005/050 | Train Time: 20.637s | Train Loss: 0.060570 |
+2025-04-09 16:02:55,616 - root - INFO - | Epoch: 006/050 | Train Time: 20.056s | Train Loss: 0.059902 |
+2025-04-09 16:03:16,489 - root - INFO - | Epoch: 007/050 | Train Time: 20.872s | Train Loss: 0.060852 |
+2025-04-09 16:03:37,150 - root - INFO - | Epoch: 008/050 | Train Time: 20.661s | Train Loss: 0.059478 |
+2025-04-09 16:03:57,321 - root - INFO - | Epoch: 009/050 | Train Time: 20.170s | Train Loss: 0.059288 |
+2025-04-09 16:04:18,032 - root - INFO - | Epoch: 010/050 | Train Time: 20.711s | Train Loss: 0.059010 |
+2025-04-09 16:04:38,139 - root - INFO - | Epoch: 011/050 | Train Time: 20.107s | Train Loss: 0.059394 |
+2025-04-09 16:04:58,082 - root - INFO - | Epoch: 012/050 | Train Time: 19.943s | Train Loss: 0.059261 |
+2025-04-09 16:05:18,567 - root - INFO - | Epoch: 013/050 | Train Time: 20.485s | Train Loss: 0.058885 |
+2025-04-09 16:05:38,445 - root - INFO - | Epoch: 014/050 | Train Time: 19.877s | Train Loss: 0.060584 |
+2025-04-09 16:05:58,417 - root - INFO - | Epoch: 015/050 | Train Time: 19.972s | Train Loss: 0.059063 |
+2025-04-09 16:06:19,026 - root - INFO - | Epoch: 016/050 | Train Time: 20.608s | Train Loss: 0.059115 |
+2025-04-09 16:06:38,998 - root - INFO - | Epoch: 017/050 | Train Time: 19.972s | Train Loss: 0.057857 |
+2025-04-09 16:06:59,041 - root - INFO - | Epoch: 018/050 | Train Time: 20.043s | Train Loss: 0.057754 |
+2025-04-09 16:07:21,215 - root - INFO - | Epoch: 019/050 | Train Time: 22.174s | Train Loss: 0.058201 |
+2025-04-09 16:07:41,803 - root - INFO - | Epoch: 020/050 | Train Time: 20.587s | Train Loss: 0.057528 |
+2025-04-09 16:08:01,955 - root - INFO - | Epoch: 021/050 | Train Time: 20.152s | Train Loss: 0.057868 |
+2025-04-09 16:08:22,583 - root - INFO - | Epoch: 022/050 | Train Time: 20.627s | Train Loss: 0.057362 |
+2025-04-09 16:08:42,519 - root - INFO - | Epoch: 023/050 | Train Time: 19.936s | Train Loss: 0.057431 |
+2025-04-09 16:09:02,761 - root - INFO - | Epoch: 024/050 | Train Time: 20.242s | Train Loss: 0.057176 |
+2025-04-09 16:09:23,335 - root - INFO - | Epoch: 025/050 | Train Time: 20.573s | Train Loss: 0.056432 |
+2025-04-09 16:09:23,335 - root - INFO -   LR scheduler: new learning rate is 0.0001
+2025-04-09 16:09:43,418 - root - INFO - | Epoch: 026/050 | Train Time: 20.082s | Train Loss: 0.055927 |
+2025-04-09 16:10:03,532 - root - INFO - | Epoch: 027/050 | Train Time: 20.113s | Train Loss: 0.055740 |
+2025-04-09 16:10:24,120 - root - INFO - | Epoch: 028/050 | Train Time: 20.587s | Train Loss: 0.055673 |
+2025-04-09 16:10:44,150 - root - INFO - | Epoch: 029/050 | Train Time: 20.031s | Train Loss: 0.055798 |
+2025-04-09 16:11:04,106 - root - INFO - | Epoch: 030/050 | Train Time: 19.956s | Train Loss: 0.055568 |
+2025-04-09 16:11:24,523 - root - INFO - | Epoch: 031/050 | Train Time: 20.416s | Train Loss: 0.055485 |
+2025-04-09 16:11:44,634 - root - INFO - | Epoch: 032/050 | Train Time: 20.111s | Train Loss: 0.055680 |
+2025-04-09 16:12:04,663 - root - INFO - | Epoch: 033/050 | Train Time: 20.029s | Train Loss: 0.058067 |
+2025-04-09 16:12:25,082 - root - INFO - | Epoch: 034/050 | Train Time: 20.418s | Train Loss: 0.055466 |
+2025-04-09 16:12:45,058 - root - INFO - | Epoch: 035/050 | Train Time: 19.976s | Train Loss: 0.055805 |
+2025-04-09 16:13:06,572 - root - INFO - | Epoch: 036/050 | Train Time: 21.513s | Train Loss: 0.055584 |
+2025-04-09 16:13:27,089 - root - INFO - | Epoch: 037/050 | Train Time: 20.517s | Train Loss: 0.055409 |
+2025-04-09 16:13:47,020 - root - INFO - | Epoch: 038/050 | Train Time: 19.931s | Train Loss: 0.055749 |
+2025-04-09 16:14:06,967 - root - INFO - | Epoch: 039/050 | Train Time: 19.947s | Train Loss: 0.055434 |
+2025-04-09 16:14:27,439 - root - INFO - | Epoch: 040/050 | Train Time: 20.471s | Train Loss: 0.055559 |
+2025-04-09 16:14:47,405 - root - INFO - | Epoch: 041/050 | Train Time: 19.966s | Train Loss: 0.055495 |
+2025-04-09 16:15:07,373 - root - INFO - | Epoch: 042/050 | Train Time: 19.968s | Train Loss: 0.055363 |
+2025-04-09 16:15:27,824 - root - INFO - | Epoch: 043/050 | Train Time: 20.451s | Train Loss: 0.055459 |
+2025-04-09 16:15:47,784 - root - INFO - | Epoch: 044/050 | Train Time: 19.959s | Train Loss: 0.055413 |
+2025-04-09 16:16:07,818 - root - INFO - | Epoch: 045/050 | Train Time: 20.034s | Train Loss: 0.055394 |
+2025-04-09 16:16:29,642 - root - INFO - | Epoch: 046/050 | Train Time: 21.824s | Train Loss: 0.056137 |
+2025-04-09 16:16:50,766 - root - INFO - | Epoch: 047/050 | Train Time: 21.123s | Train Loss: 0.055254 |
+2025-04-09 16:17:13,037 - root - INFO - | Epoch: 048/050 | Train Time: 22.271s | Train Loss: 0.055338 |
+2025-04-09 16:17:34,381 - root - INFO - | Epoch: 049/050 | Train Time: 21.344s | Train Loss: 0.055421 |
+2025-04-09 16:17:54,175 - root - INFO - | Epoch: 050/050 | Train Time: 19.793s | Train Loss: 0.055690 |
+2025-04-09 16:17:54,175 - root - INFO - Training Time: 1021.948s
+2025-04-09 16:17:54,175 - root - INFO - Finished training.
+2025-04-09 16:17:54,178 - flwr - INFO - Sent reply
+2025-04-09 17:17:27,621 - flwr - INFO - 
+2025-04-09 17:17:27,624 - flwr - INFO - Received: evaluate message 0422c8e5-9d2e-45e8-ba43-61521011328e
+2025-04-09 17:17:27,638 - root - INFO - Starting testing...
+2025-04-09 17:17:37,673 - root - INFO - Test Loss: 11901.673889
+2025-04-09 17:17:37,826 - root - INFO - Anomaly scores range from 0.00011929070751648396 to 5645766656.0
+2025-04-09 17:17:37,826 - root - INFO - Best Threshold 0.07168901711702347 with the F1-score 0.7475077225498455
+2025-04-09 17:17:37,826 - root - INFO - Precision 0.8300849770016372
+2025-04-09 17:17:37,826 - root - INFO - Recall 0.6798735712917439
+2025-04-09 17:17:37,827 - root - INFO - Precision of the normal class 0.9776506303382607
+2025-04-09 17:17:37,827 - root - INFO - Recall of the normal class 0.9901598266287417
+2025-04-09 17:17:37,827 - root - INFO - F1-score of the normal class 0.9838654685586365
+2025-04-09 17:17:37,832 - root - INFO - Test PR-AUC: 77.46%
+2025-04-09 17:17:37,832 - root - INFO - Test ROC-AUC: 93.54%
+2025-04-09 17:17:37,832 - root - INFO - Test Time: 8.873s
+2025-04-09 17:17:37,832 - root - INFO - Finished testing.
+2025-04-09 17:17:37,956 - flwr - INFO - Sent reply
+2025-04-09 17:18:15,655 - flwr - INFO - 
+2025-04-09 17:18:15,656 - flwr - INFO - Received: train message 2e904609-2206-48f0-9178-748a7bcbea42
+2025-04-09 17:18:15,675 - root - INFO - Starting training...
+2025-04-09 17:18:35,171 - root - INFO - | Epoch: 001/050 | Train Time: 19.496s | Train Loss: 0.066356 |
+2025-04-09 17:18:55,129 - root - INFO - | Epoch: 002/050 | Train Time: 19.957s | Train Loss: 0.061701 |
+2025-04-09 17:19:14,781 - root - INFO - | Epoch: 003/050 | Train Time: 19.652s | Train Loss: 0.060680 |
+2025-04-09 17:19:34,176 - root - INFO - | Epoch: 004/050 | Train Time: 19.395s | Train Loss: 0.058645 |
+2025-04-09 17:19:54,013 - root - INFO - | Epoch: 005/050 | Train Time: 19.836s | Train Loss: 0.058045 |
+2025-04-09 17:20:13,740 - root - INFO - | Epoch: 006/050 | Train Time: 19.727s | Train Loss: 0.058055 |
+2025-04-09 17:20:33,228 - root - INFO - | Epoch: 007/050 | Train Time: 19.487s | Train Loss: 0.057600 |
+2025-04-09 17:20:53,050 - root - INFO - | Epoch: 008/050 | Train Time: 19.822s | Train Loss: 0.058077 |
+2025-04-09 17:21:12,515 - root - INFO - | Epoch: 009/050 | Train Time: 19.465s | Train Loss: 0.057008 |
+2025-04-09 17:21:31,979 - root - INFO - | Epoch: 010/050 | Train Time: 19.463s | Train Loss: 0.057129 |
+2025-04-09 17:21:51,756 - root - INFO - | Epoch: 011/050 | Train Time: 19.777s | Train Loss: 0.056954 |
+2025-04-09 17:22:11,171 - root - INFO - | Epoch: 012/050 | Train Time: 19.414s | Train Loss: 0.057159 |
+2025-04-09 17:22:30,707 - root - INFO - | Epoch: 013/050 | Train Time: 19.536s | Train Loss: 0.056786 |
+2025-04-09 17:22:50,874 - root - INFO - | Epoch: 014/050 | Train Time: 20.166s | Train Loss: 0.056805 |
+2025-04-09 17:23:10,841 - root - INFO - | Epoch: 015/050 | Train Time: 19.967s | Train Loss: 0.056455 |
+2025-04-09 17:23:30,281 - root - INFO - | Epoch: 016/050 | Train Time: 19.440s | Train Loss: 0.057130 |
+2025-04-09 17:23:50,288 - root - INFO - | Epoch: 017/050 | Train Time: 20.007s | Train Loss: 0.060532 |
+2025-04-09 17:24:09,720 - root - INFO - | Epoch: 018/050 | Train Time: 19.431s | Train Loss: 0.057567 |
+2025-04-09 17:24:29,017 - root - INFO - | Epoch: 019/050 | Train Time: 19.297s | Train Loss: 0.057159 |
+2025-04-09 17:24:48,855 - root - INFO - | Epoch: 020/050 | Train Time: 19.838s | Train Loss: 0.057200 |
+2025-04-09 17:25:08,196 - root - INFO - | Epoch: 021/050 | Train Time: 19.341s | Train Loss: 0.061382 |
+2025-04-09 17:25:28,124 - root - INFO - | Epoch: 022/050 | Train Time: 19.928s | Train Loss: 0.057889 |
+2025-04-09 17:25:47,992 - root - INFO - | Epoch: 023/050 | Train Time: 19.868s | Train Loss: 0.056651 |
+2025-04-09 17:26:07,490 - root - INFO - | Epoch: 024/050 | Train Time: 19.497s | Train Loss: 0.057297 |
+2025-04-09 17:26:26,935 - root - INFO - | Epoch: 025/050 | Train Time: 19.445s | Train Loss: 0.055806 |
+2025-04-09 17:26:26,936 - root - INFO -   LR scheduler: new learning rate is 0.0001
+2025-04-09 17:26:46,393 - root - INFO - | Epoch: 026/050 | Train Time: 19.457s | Train Loss: 0.055555 |
+2025-04-09 17:27:06,456 - root - INFO - | Epoch: 027/050 | Train Time: 20.063s | Train Loss: 0.055549 |
+2025-04-09 17:27:25,872 - root - INFO - | Epoch: 028/050 | Train Time: 19.416s | Train Loss: 0.055452 |
+2025-04-09 17:27:45,212 - root - INFO - | Epoch: 029/050 | Train Time: 19.340s | Train Loss: 0.055356 |
+2025-04-09 17:28:05,028 - root - INFO - | Epoch: 030/050 | Train Time: 19.816s | Train Loss: 0.055345 |
+2025-04-09 17:28:25,025 - root - INFO - | Epoch: 031/050 | Train Time: 19.997s | Train Loss: 0.055748 |
+2025-04-09 17:28:44,361 - root - INFO - | Epoch: 032/050 | Train Time: 19.335s | Train Loss: 0.055311 |
+2025-04-09 17:29:04,441 - root - INFO - | Epoch: 033/050 | Train Time: 20.080s | Train Loss: 0.055531 |
+2025-04-09 17:29:23,888 - root - INFO - | Epoch: 034/050 | Train Time: 19.447s | Train Loss: 0.055482 |
+2025-04-09 17:29:43,292 - root - INFO - | Epoch: 035/050 | Train Time: 19.403s | Train Loss: 0.055249 |
+2025-04-09 17:30:03,335 - root - INFO - | Epoch: 036/050 | Train Time: 20.043s | Train Loss: 0.055284 |
+2025-04-09 17:30:22,852 - root - INFO - | Epoch: 037/050 | Train Time: 19.517s | Train Loss: 0.055624 |
+2025-04-09 17:30:42,287 - root - INFO - | Epoch: 038/050 | Train Time: 19.435s | Train Loss: 0.055218 |
+2025-04-09 17:31:02,205 - root - INFO - | Epoch: 039/050 | Train Time: 19.917s | Train Loss: 0.055099 |
+2025-04-09 17:31:21,710 - root - INFO - | Epoch: 040/050 | Train Time: 19.505s | Train Loss: 0.055550 |
+2025-04-09 17:31:41,144 - root - INFO - | Epoch: 041/050 | Train Time: 19.433s | Train Loss: 0.055223 |
+2025-04-09 17:32:00,963 - root - INFO - | Epoch: 042/050 | Train Time: 19.819s | Train Loss: 0.055290 |
+2025-04-09 17:32:20,448 - root - INFO - | Epoch: 043/050 | Train Time: 19.485s | Train Loss: 0.055330 |
+2025-04-09 17:32:40,680 - root - INFO - | Epoch: 044/050 | Train Time: 20.232s | Train Loss: 0.055427 |
+2025-04-09 17:33:00,595 - root - INFO - | Epoch: 045/050 | Train Time: 19.914s | Train Loss: 0.055195 |
+2025-04-09 17:33:20,102 - root - INFO - | Epoch: 046/050 | Train Time: 19.507s | Train Loss: 0.055432 |
+2025-04-09 17:33:39,477 - root - INFO - | Epoch: 047/050 | Train Time: 19.375s | Train Loss: 0.055179 |
+2025-04-09 17:33:59,322 - root - INFO - | Epoch: 048/050 | Train Time: 19.845s | Train Loss: 0.055270 |
+2025-04-09 17:34:18,677 - root - INFO - | Epoch: 049/050 | Train Time: 19.354s | Train Loss: 0.055358 |
+2025-04-09 17:34:38,467 - root - INFO - | Epoch: 050/050 | Train Time: 19.789s | Train Loss: 0.055299 |
+2025-04-09 17:34:38,467 - root - INFO - Training Time: 982.792s
+2025-04-09 17:34:38,467 - root - INFO - Finished training.
+2025-04-09 17:34:38,470 - flwr - INFO - Sent reply
+2025-04-09 18:35:16,735 - flwr - INFO - 
+2025-04-09 18:35:16,754 - flwr - INFO - Received: evaluate message 75f13b60-70ba-4f19-aa8e-a845597f978c
+2025-04-09 18:35:16,769 - root - INFO - Starting testing...
+2025-04-09 18:35:26,019 - root - INFO - Test Loss: 51242.581766
+2025-04-09 18:35:26,136 - root - INFO - Anomaly scores range from 4.330604133429006e-05 to 24307820544.0
+2025-04-09 18:35:26,136 - root - INFO - Best Threshold 0.1418800950050354 with the F1-score 0.938588367467776
+2025-04-09 18:35:26,136 - root - INFO - Precision 0.8948038789984079
+2025-04-09 18:35:26,136 - root - INFO - Recall 0.9868782325521998
+2025-04-09 18:35:26,136 - root - INFO - Precision of the normal class 0.9990653929329152
+2025-04-09 18:35:26,137 - root - INFO - Recall of the normal class 0.9917964693665628
+2025-04-09 18:35:26,137 - root - INFO - F1-score of the normal class 0.9954176612059991
+2025-04-09 18:35:26,142 - root - INFO - Test PR-AUC: 98.25%
+2025-04-09 18:35:26,142 - root - INFO - Test ROC-AUC: 99.89%
+2025-04-09 18:35:26,143 - root - INFO - Test Time: 8.296s
+2025-04-09 18:35:26,143 - root - INFO - Finished testing.
+2025-04-09 18:35:26,306 - flwr - INFO - Sent reply
+2025-04-09 18:36:04,512 - flwr - INFO - 
+2025-04-09 18:36:04,513 - flwr - INFO - Received: train message 5e4a4cda-7e9e-4165-9ae6-f964cbb420da
+2025-04-09 18:36:04,524 - root - INFO - Starting training...
+2025-04-09 18:36:24,565 - root - INFO - | Epoch: 001/050 | Train Time: 20.039s | Train Loss: 0.060327 |
+2025-04-09 18:36:43,916 - root - INFO - | Epoch: 002/050 | Train Time: 19.351s | Train Loss: 0.057703 |
+2025-04-09 18:37:03,305 - root - INFO - | Epoch: 003/050 | Train Time: 19.389s | Train Loss: 0.065647 |
+2025-04-09 18:37:23,262 - root - INFO - | Epoch: 004/050 | Train Time: 19.957s | Train Loss: 0.056902 |
+2025-04-09 18:37:42,988 - root - INFO - | Epoch: 005/050 | Train Time: 19.726s | Train Loss: 0.057349 |
+2025-04-09 18:38:02,589 - root - INFO - | Epoch: 006/050 | Train Time: 19.600s | Train Loss: 0.060309 |
+2025-04-09 18:38:22,510 - root - INFO - | Epoch: 007/050 | Train Time: 19.921s | Train Loss: 0.056694 |
+2025-04-09 18:38:41,940 - root - INFO - | Epoch: 008/050 | Train Time: 19.430s | Train Loss: 0.056828 |
+2025-04-09 18:39:01,353 - root - INFO - | Epoch: 009/050 | Train Time: 19.413s | Train Loss: 0.057417 |
+2025-04-09 18:39:21,402 - root - INFO - | Epoch: 010/050 | Train Time: 20.049s | Train Loss: 0.056511 |
+2025-04-09 18:39:40,773 - root - INFO - | Epoch: 011/050 | Train Time: 19.370s | Train Loss: 0.057007 |
+2025-04-09 18:40:00,013 - root - INFO - | Epoch: 012/050 | Train Time: 19.240s | Train Loss: 0.056580 |
+2025-04-09 18:40:20,069 - root - INFO - | Epoch: 013/050 | Train Time: 20.055s | Train Loss: 0.056310 |
+2025-04-09 18:40:39,398 - root - INFO - | Epoch: 014/050 | Train Time: 19.329s | Train Loss: 0.056449 |
+2025-04-09 18:40:58,866 - root - INFO - | Epoch: 015/050 | Train Time: 19.468s | Train Loss: 0.056063 |
+2025-04-09 18:41:18,280 - root - INFO - | Epoch: 016/050 | Train Time: 19.414s | Train Loss: 0.055809 |
+2025-04-09 18:41:38,262 - root - INFO - | Epoch: 017/050 | Train Time: 19.982s | Train Loss: 0.056841 |
+2025-04-09 18:41:57,556 - root - INFO - | Epoch: 018/050 | Train Time: 19.294s | Train Loss: 0.056546 |
+2025-04-09 18:42:17,183 - root - INFO - | Epoch: 019/050 | Train Time: 19.626s | Train Loss: 0.056617 |
+2025-04-09 18:42:37,278 - root - INFO - | Epoch: 020/050 | Train Time: 20.095s | Train Loss: 0.056543 |
+2025-04-09 18:42:56,608 - root - INFO - | Epoch: 021/050 | Train Time: 19.329s | Train Loss: 0.056537 |
+2025-04-09 18:43:16,171 - root - INFO - | Epoch: 022/050 | Train Time: 19.563s | Train Loss: 0.056057 |
+2025-04-09 18:43:35,993 - root - INFO - | Epoch: 023/050 | Train Time: 19.822s | Train Loss: 0.056064 |
+2025-04-09 18:43:55,590 - root - INFO - | Epoch: 024/050 | Train Time: 19.597s | Train Loss: 0.056029 |
+2025-04-09 18:44:15,016 - root - INFO - | Epoch: 025/050 | Train Time: 19.425s | Train Loss: 0.055239 |
+2025-04-09 18:44:15,016 - root - INFO -   LR scheduler: new learning rate is 0.0001
+2025-04-09 18:44:34,950 - root - INFO - | Epoch: 026/050 | Train Time: 19.934s | Train Loss: 0.055011 |
+2025-04-09 18:44:54,252 - root - INFO - | Epoch: 027/050 | Train Time: 19.302s | Train Loss: 0.055407 |
+2025-04-09 18:45:13,646 - root - INFO - | Epoch: 028/050 | Train Time: 19.394s | Train Loss: 0.055326 |
+2025-04-09 18:45:33,742 - root - INFO - | Epoch: 029/050 | Train Time: 20.095s | Train Loss: 0.054937 |
+2025-04-09 18:45:53,066 - root - INFO - | Epoch: 030/050 | Train Time: 19.324s | Train Loss: 0.054932 |
+2025-04-09 18:46:12,446 - root - INFO - | Epoch: 031/050 | Train Time: 19.380s | Train Loss: 0.055015 |
+2025-04-09 18:46:32,319 - root - INFO - | Epoch: 032/050 | Train Time: 19.873s | Train Loss: 0.054937 |
+2025-04-09 18:46:51,764 - root - INFO - | Epoch: 033/050 | Train Time: 19.445s | Train Loss: 0.054938 |
+2025-04-09 18:47:11,096 - root - INFO - | Epoch: 034/050 | Train Time: 19.331s | Train Loss: 0.054931 |
+2025-04-09 18:47:35,035 - root - INFO - | Epoch: 035/050 | Train Time: 23.939s | Train Loss: 0.055443 |
+2025-04-09 18:48:01,684 - root - INFO - | Epoch: 036/050 | Train Time: 26.649s | Train Loss: 0.055064 |
+2025-04-09 18:48:26,105 - root - INFO - | Epoch: 037/050 | Train Time: 24.421s | Train Loss: 0.054965 |
+2025-04-09 18:48:48,009 - root - INFO - | Epoch: 038/050 | Train Time: 21.903s | Train Loss: 0.054953 |
+2025-04-09 18:49:09,889 - root - INFO - | Epoch: 039/050 | Train Time: 21.880s | Train Loss: 0.054911 |
+2025-04-09 18:49:35,999 - root - INFO - | Epoch: 040/050 | Train Time: 26.109s | Train Loss: 0.054851 |
+2025-04-09 18:49:55,344 - root - INFO - | Epoch: 041/050 | Train Time: 19.345s | Train Loss: 0.054867 |
+2025-04-09 18:50:15,048 - root - INFO - | Epoch: 042/050 | Train Time: 19.704s | Train Loss: 0.055090 |
+2025-04-09 18:50:34,978 - root - INFO - | Epoch: 043/050 | Train Time: 19.929s | Train Loss: 0.054859 |
+2025-04-09 18:50:54,331 - root - INFO - | Epoch: 044/050 | Train Time: 19.354s | Train Loss: 0.054903 |
+2025-04-09 18:51:13,717 - root - INFO - | Epoch: 045/050 | Train Time: 19.386s | Train Loss: 0.054823 |
+2025-04-09 18:51:33,220 - root - INFO - | Epoch: 046/050 | Train Time: 19.502s | Train Loss: 0.055067 |
+2025-04-09 18:51:53,030 - root - INFO - | Epoch: 047/050 | Train Time: 19.809s | Train Loss: 0.054898 |
+2025-04-09 18:52:12,419 - root - INFO - | Epoch: 048/050 | Train Time: 19.389s | Train Loss: 0.054892 |
+2025-04-09 18:52:31,788 - root - INFO - | Epoch: 049/050 | Train Time: 19.368s | Train Loss: 0.054849 |
+2025-04-09 18:52:51,829 - root - INFO - | Epoch: 050/050 | Train Time: 20.041s | Train Loss: 0.054844 |
+2025-04-09 18:52:51,829 - root - INFO - Training Time: 1007.305s
+2025-04-09 18:52:51,830 - root - INFO - Finished training.
+2025-04-09 18:52:51,832 - flwr - INFO - Sent reply
+2025-04-09 19:51:52,409 - flwr - INFO - 
+2025-04-09 19:51:52,424 - flwr - INFO - Received: evaluate message 369a18c2-8441-4711-b3ed-d9c8dea3e6fb
+2025-04-09 19:51:52,433 - root - INFO - Starting testing...
+2025-04-09 19:52:02,117 - root - INFO - Test Loss: 150668.441518
+2025-04-09 19:52:02,238 - root - INFO - Anomaly scores range from 8.614375133220165e-07 to 71472267264.0
+2025-04-09 19:52:02,239 - root - INFO - Best Threshold 0.5051726698875427 with the F1-score 0.9766704345641799
+2025-04-09 19:52:02,239 - root - INFO - Precision 0.9608018780502873
+2025-04-09 19:52:02,239 - root - INFO - Recall 0.9930719621990933
+2025-04-09 19:52:02,239 - root - INFO - Precision of the normal class 0.9995089697869336
+2025-04-09 19:52:02,239 - root - INFO - Recall of the normal class 0.9971353108492482
+2025-04-09 19:52:02,241 - root - INFO - F1-score of the normal class 0.9983207293865577
+2025-04-09 19:52:02,247 - root - INFO - Test PR-AUC: 99.15%
+2025-04-09 19:52:02,247 - root - INFO - Test ROC-AUC: 99.94%
+2025-04-09 19:52:02,247 - root - INFO - Test Time: 8.722s
+2025-04-09 19:52:02,248 - root - INFO - Finished testing.
+2025-04-09 19:52:02,405 - flwr - INFO - Sent reply
+2025-04-09 19:52:41,494 - flwr - INFO - 
+2025-04-09 19:52:41,496 - flwr - INFO - Received: reconnect message 3769c0a3-1e38-4534-878a-fdd54d7aafb8
+2025-04-09 19:52:41,572 - flwr - INFO - Disconnect and shut down

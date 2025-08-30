@@ -1,11 +1,5 @@
-# redistribution of lost client
-
-# TODO: delete data folder in data_distributor
-
 import time
 import json
-# from bson import json_util
-import csv
 import binascii
 import pandas as pd
 from threading import Timer, Event
@@ -43,7 +37,6 @@ backup_ids = []
 health_dict = {}
 
 # use kafka:9092 in container or localhost:29092 on host
-# value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
 producer = KafkaProducer(value_serializer=lambda v: binascii.hexlify(v.encode('utf-8')), 
                          key_serializer=lambda k: binascii.hexlify(k.encode('utf-8')),
                          bootstrap_servers='kafka:9092')
@@ -132,7 +125,6 @@ class DataThread(Thread):
             filename = "data/data"+self.client_id+"_stream.csv"
 
             # send slowly, currently 100 every 5 sec
-            # test setup -> different intervals?
 
             df = pd.read_csv(filename, skiprows=self.current_index, delimiter="\t", nrows=self.nrows_to_read)
             for index, row in df.iterrows():
@@ -142,15 +134,6 @@ class DataThread(Thread):
             if len(df.index) > 0:
                 self.current_index += len(df.index)
                 print ("current index = " + str(self.current_index))
-
-            # with open(filename, "r") as f:
-            #     reader = csv.reader(f, delimiter="\t")
-            #     for i, line in enumerate(reader, -self.current_index):
-            #         delimiter = ","
-            #         msg = delimiter.join(line)
-            #         producer.send(self.topic_name, key="data", value=msg)
-            #     self.current_index = i+1
-            #     print ("current index = " + str(self.current_index))
 
 class HealthThread(Thread):
     def __init__(self, event, *args):

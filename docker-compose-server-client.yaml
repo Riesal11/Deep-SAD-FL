@@ -1,4 +1,4 @@
-# version: '3'
+version: '3'
 
 # includes server, 1 client, 1 backup and data distributor + kafka
 
@@ -16,17 +16,10 @@ services:
     ports:
       - "8080:8080"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-server.sh
+
   client_1:
     container_name: deep-sad-fl-client-1
     image: riesal11/deep-sad-fl:final
-    # build:
-    #   context: .
-    #   dockerfile: ./Dockerfile.client
-    #   args:
-    #     SEED: 1
-    #     PORT: 3000
     depends_on:
       - kafka
     volumes:
@@ -38,16 +31,10 @@ services:
     environment:
       - SEED=1
       - PORT=3000
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
+
   backup_client_1:
     container_name: deep-sad-fl-backup-1
     image: riesal11/deep-sad-fl-backup
-    # build:
-    #   context: .
-    #   dockerfile: ./Dockerfile.backup
-    #   args:
-    #     PORT: 3002
     depends_on:
       - kafka
       - distributor
@@ -57,8 +44,6 @@ services:
     ports:
       - "3002:3002"
     tty: true
-    # entrypoint:
-    #   - ../docker-entrypoint-client.sh
 
   zookeeper:
     image: bitnami/zookeeper:3.9.1
@@ -79,7 +64,8 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CFG_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://10.0.0.20:29092
+      # change <server_ip> to actual server ip
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://<server_ip>:29092
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: INTERNAL
       # optional - enable topic auto create
