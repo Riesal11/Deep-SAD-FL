@@ -101,6 +101,8 @@ BACKUP_CLIENT_ID=1
 CLIENTS=3
 ```
 
+Prior to using the compose files, you need to create the datasets. For more information check the example run below.
+
 Using server setup (server + 1 backup client + data distributor)
 ```
 docker-compose up -d --build
