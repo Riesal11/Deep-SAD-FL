@@ -142,7 +142,7 @@ After running an experiment, the server and clients have their respective logs a
 
 ## Graphs
 
-Additional graphs created from our experiments are saved in `src/graphs/`. The scripts to create the graphs can also be found in there. They always use data from our experiments, which are saved in `test-results/` (you have to manually add them and change graph scripts to use the correct path).
+Additional graphs created from our experiments are saved in `src/graphs/`. The scripts to create the graphs can also be found in there. They always use data from our experiments, which are saved in `test_results/` (you have to manually add them and change graph scripts to use the correct path).
 
 ## Example Run
 
@@ -150,7 +150,7 @@ This setup uses 3 devices (PC, Laptop, Raspberry Pi). The pc runs server, client
 
 1) download dataset to `data/full_dataset`
 
-2) Create data and log folders
+2) Create data and log folders (will be mounted by compose)
 
 e.g `log/3_client_setup` folder with empty `backup_1`, `backup_2`, `client_1`, `client_2`, `client_3`, `server` folders. same for `data/3_client_setup`.
 
@@ -171,7 +171,7 @@ docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad
 docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl-backup:{TAG} -f .\Dockerfile.backup .
 ```
 
-6) Copy the respective partitioned datasets to the client 
+6) Copy the respective partitioned datasets to the client (will be mounted by compose)
 
 7) Pull image
 
