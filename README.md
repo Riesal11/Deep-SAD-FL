@@ -142,13 +142,15 @@ After running an experiment, the server and clients have their respective logs a
 
 Additional graphs created from our experiments are saved in `src/graphs/`. The scripts to create the graphs can also be found in there. They always use data from our experiments, which are saved in `test-results/` (you have to manually add them and change graph scripts to use the correct path).
 
-## Example 
+## Example Run
+
+This setup uses 3 devices (PC, Laptop, Raspberry Pi). The pc runs server, client 1, backup 1 and data distributor. The laptop runs client 2 and backup 2. The Rpi runs client 3.
 
 1) download dataset to `data/full_dataset`
 
 2) Create data and log folders
 
-e.g `log/3_client_setup` folder with empty `backup_1`, `client_1`, `client_2`, `client_3`, `server` folders
+e.g `log/3_client_setup` folder with empty `backup_1`, `backup_2`, `client_1`, `client_2`, `client_3`, `server` folders. same for `data/3_client_setup`.
 
 3) Create datasets
 
@@ -167,11 +169,9 @@ docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad
 docker buildx build --platform=linux/amd64,linux/arm64 -t {DOCKER_USER}/deep-sad-fl-backup:{TAG} -f .\Dockerfile.backup .
 ```
 
-6) Create data and log folders 
+6) Copy the respective partitioned datasets to the client 
 
-7) copy the respective partitioned datasets to the client 
-
-8) Pull image
+7) Pull image
 
 client 2 (laptop): 
 ```
@@ -182,13 +182,13 @@ client 3 (rpi):
 ```
 sudo docker pull {DOCKER_USER}/deep-sad-fl:final
 ```
-9) Start server + client 1 compose 
+8) Start server + client 1 compose 
 
 ```
 docker-compose -f .\docker-compose-server-client.yaml up -d --build
 ```
 
-10) Start clients depending on if it is the final setup or base setup
+9) Start clients depending on if it is the final setup or base setup
 
 FOR FINAL: Start Clients
 
